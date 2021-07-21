@@ -20,6 +20,9 @@
 % \usetikzlibrary{external}
 % \tikzexternalize[prefix=../figures/tikz/]
 
+% Macros
+\newcommand{\trixi}{Trixi.jl}
+
 
 \begin{document}
 
@@ -28,31 +31,43 @@
 \maketitle
 
 \begin{abstract}
-TODO: abstract (at most 600 characters, written in plain English with no symbol
-nor formula + references etc.) %TODO
+% Abstract: at most 600 characters, written in plain English with no symbol
+% nor formula + references etc.
+We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
+of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
+Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
+that allow satisfying these goals and compare Trixi.jl with an established open
+source Fortran code for hyperbolic PDEs using the same numerical methods.
+We conclude with an assessment of Julia for simulation-focused scientific
+computing, an area that is still dominated by traditional high-performance
+computing languages such as C, C++, and Fortran.
 \end{abstract}
 
 
 \section*{TODO}
 
 \begin{itemize}
-  \item Basic design of Trixi.jl and its capabilities
-  \item PID comparison of Fluxo and Trixi.jl
-  \item Discussion on Julia for numerical simulation science
-  \item Prepare repro repo including scripts for Trixi.jl and Fluxo
+  \item Basic design of \trixi and its capabilities
+  \item PID comparison of Fluxo and \trixi
+  \item Discussion: Julia for numerical simulation science
+  \item Prepare repro repo including scripts for \trixi and Fluxo
   \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward,ranocha2021sbp}
   \item Change title to something like ``Adaptive high-order numerical simulations
-  of hyperbolic PDEs with Trixi.jl: A case study of Julia for scientific computing''?
+  of hyperbolic PDEs with \trixi: A case study of Julia for scientific computing''?
   \item Restructure non-conservative stuff and add MHD benchmarks?
 \end{itemize}
 
 
 \section{Introduction}
 
+\trixi\footnote{https://github.com/trixi-framework/Trixi.jl} provides adaptive
+high-order numerical simulations of hyperbolic partial differential equations (PDEs).
+in Julia \cite{bezanson2017julia}.
+
 TODO %TODO
 
 
-\section{Design of Trixi.jl and overview of its features}
+\section{Design of \trixi and overview of its features}
 
 TODO %TODO
 
@@ -64,16 +79,16 @@ MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
 meshes in three space dimensions for advection diffusion equations. It also
 implements the same kind of modern DG methods based on flux differencing
 to achieve entropy conservation/dissipation or kinetic energy preservation.
-Thus, both Trixi.jl and FLUXO share a common set of features, enabling a reasonable
+Thus, both \trixi and FLUXO share a common set of features, enabling a reasonable
 comparison of their performance.
 
-Here, we compare the serial performance of Trixi.jl and FLUXO when solving a
+Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
 TODO: Andrew, please describe the setups that you used. %TODO
 
 The results of this comparison are visualized in Figure~\ref{fig:PID-Euler}.
-Clearly, Trixi.jl is more than 2x faster than the Fortran code FLUXO
+Clearly, \trixi is more than 2x faster than the Fortran code FLUXO
 while both implement the same numerical methods. This demonstrates the
 suitability of Julia for this kind of simulation-focused scientific computing.
 
@@ -101,11 +116,11 @@ suitability of Julia for this kind of simulation-focused scientific computing.
           \addlegendentry{FLUXO}
 %         \addplot[orange, mark=square*, solid] % TreeMesh, weak form
 %           table [x index=0, y index=1]{../data/pids_euler_weak.dat};
-%           \addlegendentry{\texttt{TreeMesh} (Trixi.jl)}
+%           \addlegendentry{\texttt{TreeMesh} (\trixi)}
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
           table [x index=0, y index=2]{../data/pids_euler_weak.dat};
-          % \addlegendentry{\texttt{StructuredMesh} (Trixi.jl)}
-          \addlegendentry{Trixi.jl}
+          % \addlegendentry{\texttt{StructuredMesh} (\trixi)}
+          \addlegendentry{\trixi}
         \node at (axis cs:13,3.5e-7) {Weak form};
 
         \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
@@ -172,13 +187,15 @@ in Julia make it easier for us to optimize Julia code compared to other language
 we are familiar with (having a diverse team with a strong background in C, C++,
 and Fortran).
 
-Finally, the different mesh types available in Trixi.jl allow further optimizations.
+Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
 be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
 Cartesian \lstinline{TreeMesh} can be ca.\ \SI{10}{\percent}--\SI{25}{\percent}
-more efficient than the curvilinear meshes in Trixi.jl.
+more efficient than the curvilinear meshes in \trixi.
+
+TODO: Plot of this comparison with the \lstinline{TreeMesh}?
 
 
 
