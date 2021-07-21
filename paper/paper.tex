@@ -33,6 +33,8 @@
 \newcommand{\etc}[0]{{etc.\@}\xspace}
 \newcommand{\trixi}{Trixi.jl\xspace}
 
+\newcommand{\todo}[1]{{\color{red}#1}}
+
 
 \begin{document}
 
@@ -54,31 +56,13 @@ computing languages such as C, C++, and Fortran.
 \end{abstract}
 
 
-\section*{TODO}
-
-\begin{itemize}
-  \item Basic design of \trixi and its capabilities
-  \item PID comparison of Fluxo and \trixi
-  \item Discussion: Julia for numerical simulation science
-  \item Prepare repro repo including scripts for \trixi and Fluxo
-  \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward,ranocha2021sbp}
-  \item The title of our talk at JuliaCon is
-  ``Adaptive and extendable numerical simulations with Trixi.jl''.
-  Shall we use something like
-  ``Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl:
-  A case study of Julia for scientific computing'' for this paper?
-  \item Restructure non-conservative stuff and add MHD benchmarks?
-  \item Shall we re-create the schematic overview in tikz?
-\end{itemize}
-
-
 \section{Introduction}
 
 \trixi\footnote{https://github.com/trixi-framework/Trixi.jl} provides adaptive
 high-order numerical simulations of hyperbolic partial differential equations (PDEs).
 in Julia \cite{bezanson2017julia}.
 
-TODO %TODO
+\todo{TODO} %TODO
 
 
 \section{Design of \trixi and overview of its features}
@@ -173,12 +157,107 @@ main loop. In particular, diverse tasks such as input/output operations, adaptiv
 mesh refinement (AMR), and positivity preserving limiting are implemented using
 callbacks.
 
-\subsection{Review of the main design criteria}
+\subsection{Review of the main design choices}
 
-TODO %TODO
+The design of \trixi was guided by extensibility, ease of use, and efficiency
+(in this particular order). Thus, it will likely be possible to make (some parts)
+even faster while sacrificing simplicity. Nevertheless, \trixi is already quite
+fast, even compared to established high-performance open source software,
+as described in details in Section~\ref{sec:performance-comparison}. In this
+section, we focus mostly on the first two goals.
+
+\subsubsection{\trixi is a library}
+
+The most important design decision was to create \trixi as a library. In the
+context of simulation-focused scientific computing, there are a lot of (open
+or closed source) codes that are designed as monolithic applications that can
+simulate a specific setup. They can often be configured in limited amounts by
+compile time options and parameter files. In contrast, users of \trixi do not
+need to compile anything or learn the syntax of parameter files. They just load
+the library and write their simulation setups in Julia. Such scripts describing
+a simulation setup for \trixi are called elixirs. As of version v0.3.43, \trixi
+comes with \ca 200 example elixirs. A basic elixir could look as follows.
+
+\begin{lstlisting}[language = Julia]
+# Load all required libraries
+using Trixi, OrdinaryDiffEq, Plots
+
+# Set up a 2D linear advection problem with
+# advection velocity `a`
+a = (1.0, 1.0)
+equations = LinearScalarAdvectionEquation2D(a)
+
+# Choose an initial condition coming with Trixi.jl
+ic = initial_condition_convergence_test
+
+# Set up a discontinuous Galerkin spectral element
+# method with given polynomial degree and surface
+# flux implemented in Trixi.jl
+solver = DGSEM(polydeg=3,
+               surface_flux=flux_lax_friedrichs)
+
+# Create a uniformely refined mesh with periodic
+# boundary conditions in a square domain
+coordinates_min = (-1.0, -1.0) # lower left
+coordinates_max = ( 1.0,  1.0) # upper right
+mesh = TreeMesh(coordinates_min, coordinates_max,
+                initial_refinement_level=4,
+                n_cells_max=10^5, periodicity=true)
+
+# Create semidiscretization with all spatial
+# discretization-related components
+semi = SemidiscretizationHyperbolic(
+  mesh, equations, ic, solver)
+
+# Create an ODE problem from the semidiscretization
+# with time span from 0.0 to 1.0
+ode = semidiscretize(semi, (0.0, 1.0))
+
+# Evolve the ODE problem in time using `solve` from
+# OrdinaryDiffEq with adaptive time stepping
+sol = solve(ode, RDPK3SpFSAL49(), abstol=1.0e-6,
+  reltol=1.0e-6, save_everystep=false)
+
+# Plot the numerical solution at the final time
+plot(sol)
+\end{lstlisting}
+
+\subsubsection{Functions are pure Julia functions}
+
+Since functions are first-class citizens in Julia, they can be passed around
+and used efficiently. Thus, everything that acts like a function can be used
+in \trixi, \eg, to define initial/boundary conditions. While such a flexibility
+is not too uncommon, two-point numerical fluxes are also just functions with a
+specified signature. Thus, users can write their own numerical fluxes in their
+own code and they will work and be as efficient as if they were implemented
+directly in \trixi.
+
+\subsubsection{Ingredients use common interfaces and can be exchanged}
+
+Abstractions such as the \lstinline{mesh} and the \lstinline{equations} are
+based on a common interface. Using multiple dispatch in Julia,
+
+\todo{TODO} %TODO
+
+\subsubsection{New physics can be specified with minimal effort}
+
+Instead of providing only the very basic discretization ingredients such as
+other open source frameworks for PDEs, \trixi includes also some widely used
+physical parts to make it easier to use.
+
+\todo{TODO} %TODO
+
+\subsubsection{Adding new functionality does not require changing existing code}
+
+\todo{TODO} %TODO
+
+\subsubsection{There is no spooky action at a distance}
+
+\todo{TODO} %TODO
 
 
 \section{Performance comparison with FLUXO}
+\label{sec:performance-comparison}
 
 FLUXO\footnote{\url{https://gitlab.com/project-fluxo/fluxo}} is an open source
 MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
@@ -191,7 +270,7 @@ comparison of their performance.
 Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
-TODO: Andrew, please describe the setups that you used. %TODO
+\todo{TODO: Andrew, please describe the setups that you used} %TODO
 
 The results of this comparison are visualized in Figure~\ref{fig:PID-Euler}.
 Clearly, \trixi is more than 2x faster than the Fortran code FLUXO
@@ -301,13 +380,13 @@ be used. Depending on the relative computational effort of the discretization
 Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
-TODO: Plot of this comparison with the \lstinline{TreeMesh}?
+\todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
 
 
 
 \section{Assessment of Julia for simulation-focused scientific computing}
 
-TODO %TODO
+\todo{TODO} %TODO
 \begin{itemize}
   \item Packages can really be used together at low (or no) cost
   \item Reproducibility
@@ -323,21 +402,38 @@ TODO %TODO
 
 \section{Summary and conclusions}
 
-TODO %TODO
+\todo{TODO} %TODO
 
 
 
 \section*{Acknowledgments}
 
+We would like to thank all other contributors to and users of \trixi for their
+help, encouragement, and discussions.
 Funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation)
 under Germany's Excellence Strategy EXC 2044-390685587, Mathematics Münster:
 Dynamics-Geometry-Structure.
 
-TODO: Add your funding sources (if any) %TODO
+\todo{TODO: Add your funding sources (if any)} %TODO
 
 
 % References
 \input{bib.tex}
+
+
+\todo{ % TODO
+\begin{itemize}
+  \item Prepare repro repo including scripts for \trixi and Fluxo
+  \item Cite \cite{schlottkelakemper2021purely,revels2016forward,ranocha2021sbp}
+  \item The title of our talk at JuliaCon is
+  ``Adaptive and extendable numerical simulations with Trixi.jl''.
+  Shall we use something like
+  ``Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl:
+  A case study of Julia for scientific computing'' for this paper?
+  \item Restructure non-conservative stuff and add MHD benchmarks?
+  \item Shall we re-create the schematic overview in tikz?
+  \item Shall we compare \trixi to other open source frameworks such as MFEM, NGSolve, DealII, DUNE, FENICS, Firedrake, ClawPack, ...?
+\end{itemize}}
 
 
 
@@ -447,6 +543,7 @@ For balancing the both column length at last page use:
 % \vadjust{\vfill\pagebreak}
 
 at appropriate place in your \TeX{} file or in bibliography file.
+
 
 \end{document}
 
