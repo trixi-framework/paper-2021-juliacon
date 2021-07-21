@@ -1,0 +1,147 @@
+
+% JuliaCon proceedings template
+\documentclass{juliacon}
+\setcounter{page}{1}
+
+\begin{document}
+
+\input{header}
+
+\maketitle
+
+\begin{abstract}
+TODO: abstract %TODO
+\end{abstract}
+
+
+\section{Introduction}
+
+TODO %TODO
+\begin{itemize}
+  \item Basic design of Trixi.jl and its capabilities
+  \item PID comparison of Fluxo and Trixi.jl
+  \item Discussion on Julia for numerical simulation science
+  \item Prepare repro repo including scripts for Trixi.jl and Fluxo
+  \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward}
+\end{itemize}
+
+
+
+\clearpage
+\section*{Some guidelines}
+\label{sec:some_guide}
+
+The following notes may help you achieve the best effects with the
+\verb juliacon  class file.
+
+\subsection{Writing Julia code}
+
+A special environment is already defined for Julia code,
+built on top of \textit{listings} and \textit{jlcode}.
+
+\begin{verbatim}
+\begin{lstlisting}[language = Julia]
+using Plots
+
+x = -3.0:0.01:3.0
+y = rand(length(x))
+plot(x, y)
+\end{lstlisting}
+\end{verbatim}
+\begin{lstlisting}[language = Julia]
+using Plots
+
+x = -3.0:0.01:3.0
+y = rand(length(x))
+plot(x, y)
+\end{lstlisting}
+
+\subsection{Double Column Figure and Tables}
+\label{subsub:double_fig_tab}
+For generating the output of figures and tables in double column
+we can use the following coding:
+
+\begin{enumerate}
+\item For Figures:
+\begin{verbatim}
+\begin{figure*}...\end{figure*}
+\end{verbatim}
+\item For landscape figures:
+\begin{verbatim}
+\begin{sidewaysfigure*}...\end{sidewaysfigure*}
+\end{verbatim}
+\item For Tables:
+\begin{verbatim}
+\begin{table*}...\end{table*}
+\end{verbatim}
+\item For landscape tables:
+\begin{verbatim}
+\begin{sidewaystable*}...\end{sidewaystable*}
+\end{verbatim}
+\end{enumerate}
+
+\subsection{Enunciations}
+\label{subsub:enunciation}
+
+The \verb juliacon   class file generates the enunciations with the help of
+the following commands:
+\begin{verbatim}
+\begin{theorem}...\end{theorem}
+\begin{strategy}...\end{strategy}
+\begin{property}...\end{property}
+\begin{proposition}...\end{proposition}
+\begin{lemma}...\end{lemma}
+\begin{example}...\end{example}
+\begin{proof}...\end{proof}
+\begin{definition}...\end{definition}
+\begin{algorithm}...\end{algorithm}
+\begin{remark}...\end{remark}
+\end{verbatim}
+The above-mentioned coding can also include optional arguments
+such as
+\begin{verbatim}
+\begin{theorem}[...]. Example for theorem:
+\begin{theorem}[Generalized Poincare Conjecture]
+Four score and seven ... created equal.
+\end{theorem}
+\end{verbatim}
+
+\begin{theorem}[Generalized Poincare Conjecture]
+Four score and seven years ago our fathers brought forth,
+upon this continent, a new nation, conceived in Liberty,
+ and dedicated to the proposition that all men are
+created equal.
+\end{theorem}
+
+
+\subsection{Balancing column at last page}
+\label{subsub:Balance}
+For balancing the both column length at last page use:
+\begin{verbatim}
+\vadjust{\vfill\pagebreak}
+\end{verbatim}
+
+%\vadjust{\vfill\pagebreak}
+
+at appropriate place in your \TeX{} file or in bibliography file.
+
+\subsection{Handling references}
+\label{subsub:references}
+References are most easily (and correctly) generated using the
+BIBTEX, which is easily invoked via
+\begin{verbatim}
+\bibliographystyle{juliacon}
+\bibliography{ref}
+\end{verbatim}
+When submitting the document source (.tex) file to external
+parties, the ref.bib file should be sent with it.
+Don't forget to cite \cite{bezanson2017julia}.
+
+
+
+% References
+\input{bib.tex}
+
+\end{document}
+
+% Inspired by the International Journal of Computer Applications template

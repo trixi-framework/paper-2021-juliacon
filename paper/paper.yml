@@ -1,0 +1,41 @@
+title: "Adaptive and extendable numerical simulations with Trixi.jl"
+keywords: # max. 10
+  - Julia
+  - Scientific Computing
+  - Numerical Simulations
+  - Conservation Laws
+  - Discontinuous Galerkin Methods
+  - Adaptive Mesh Refinement
+  - Compressible Euler Equations
+  - Ideal Magnetohydrodynamics
+  - Entropy Stability
+  - Shock Capturing
+authors:
+  - name: Hendrik Ranocha
+    orcid: 0000-0002-3456-2277
+    affiliation: 1
+  - name: Michael Schlottke-Lakemper
+    affiliation: 2
+    orcid: 0000-0002-3195-2536
+  - name: Andrew Ross Winters
+    affiliation: 3
+    orcid: 0000-0002-5902-1522
+  - name: Jesse Chan
+    affiliation: 4
+    orcid: 0000-0003-2077-3636
+  - name: Erik Faulhaber
+    affiliation: 2
+  - name: Gregor J. Gassner
+    affiliation: 2
+    orcid: 0000-0002-1752-1158
+affiliations:
+  - name: Applied Mathematics, University of Münster, Germany
+    index: 1
+  - name: Department of Mathematics and Computer Science, University of Cologne, Germany
+    index: 2
+  - name: Department of Mathematics; Computational Mathematics, Linköping University, Sweden
+    index: 3
+  - name: Department of Computational and Applied Mathematics, Rice University, Houston, Texas, US
+    index: 4
+date: 20 July 2020
+bibliography: ref.bib
