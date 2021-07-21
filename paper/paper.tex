@@ -4,7 +4,11 @@
 \setcounter{page}{1}
 
 
-% Physicists rule
+% Mathematics is necessary
+\usepackage{amsmath}
+\allowdisplaybreaks
+
+% Physics rules
 \usepackage{siunitx}
 % \sisetup{output-exponent-marker=\text{e}}
 % \sisetup{tight-spacing=true}
@@ -21,7 +25,13 @@
 % \tikzexternalize[prefix=../figures/tikz/]
 
 % Macros
-\newcommand{\trixi}{Trixi.jl}
+\usepackage{xspace}
+\newcommand{\ca}[0]{{ca.\@}\xspace}
+\newcommand{\cf}[0]{{cf.\@}\xspace}
+\newcommand{\eg}[0]{{e.g.\@}\xspace}
+\newcommand{\ie}[0]{{i.e.\@}\xspace}
+\newcommand{\etc}[0]{{etc.\@}\xspace}
+\newcommand{\trixi}{Trixi.jl\xspace}
 
 
 \begin{document}
@@ -58,6 +68,7 @@ computing languages such as C, C++, and Fortran.
   ``Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl:
   A case study of Julia for scientific computing'' for this paper?
   \item Restructure non-conservative stuff and add MHD benchmarks?
+  \item Shall we re-create the schematic overview in tikz?
 \end{itemize}
 
 
@@ -72,7 +83,62 @@ TODO %TODO
 
 \section{Design of \trixi and overview of its features}
 
+\trixi is designed as a library of high-order methods for hyperbolic PDEs of
+the form
+\begin{equation}
+\label{eq:hcl}
+  \partial_t u(t, x) + \sum_{j=1}^d \partial_{x_j} f^j(u) = s(t, x, u),
+  \quad t \in (0, T), x \in \Omega,
+\end{equation}
+in $d \in \{1, 2, 3\}$ space dimensions. Here, the independent variables are
+time $t$ and space coordinates $x \in \Omega \subset \mathbb{R}^d$. The conserved
+quantities are denoted as $u$, \eg, mass, momentum, and energy for the compressible
+Euler equations of an ideal gas.
+The physical model is specified by the fluxes $f^j$ and the source term $s$.
+In addition, suitable initial and boundary conditions (ICs, BCs) are required.
+\trixi also handles non-conservative source terms containing derivatives of the
+conserved quantities as in the shallow water equations or magnetohydrodynamics
+with divergence cleaning.
+
+\subsection{High-level overview of the structure}
+
+\trixi is based on the method of lines. Thus, a discretization of \eqref{eq:hcl}
+is obtained in two steps. First, a spatial semidiscretization is created. Next,
+the resulting ordinary differential equation (ODE) is solved using a time
+integration method. Currently, \trixi focuses on the spatial semidiscretization
+and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, a part
+of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
+
+\begin{figure*}
+  \includegraphics[width=\linewidth]{../figures/trixi_global_overview}
+  \caption{Schematic overview of the basic components of \trixi and how they
+           interact with each other.}
+  \label{fig:trixi_global_overview}
+\end{figure*}
+
+Figure~\ref{fig:trixi_global_overview} presents an overview of the basic
+components of \trixi. The most important structure is the semidiscretization,
+which bundles all information about the spatial part. The mathematical-physical
+model is determined by the \lstinline{equations}, the \lstinline{initial_condition},
+\lstinline{boundary_conditions}, and possible \lstinline{source_terms}. The
+\lstinline{solver} describes purely numerical parameters determining the specific
+discretization method such as discontinuous Galerkin or finite difference
+methods, kinetic energy preserving or shock capturing approaches. Finally, the
+\lstinline{mesh} has a necessarily hybrid role including information about the
+spatial domain and its discretization.
+
+Adding information about the time span $[0, T]$, a semidiscretization of \trixi
+can be converted into an ODE problem, which can be solved by methods from
+OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
+allows us to provide extended functionality for \trixi without modifying any
+main loop. In particular, diverse tasks such as input/output operations, adaptive
+mesh refinement (AMR), and positivity preserving limiting are implemented using
+callbacks.
+
+\subsection{Main features of \trixi}
+
 TODO %TODO
+
 
 
 \section{Performance comparison with FLUXO}
@@ -195,7 +261,7 @@ For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
 be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
-Cartesian \lstinline{TreeMesh} can be ca.\ \SI{10}{\percent}--\SI{25}{\percent}
+Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
 TODO: Plot of this comparison with the \lstinline{TreeMesh}?
@@ -206,9 +272,13 @@ TODO: Plot of this comparison with the \lstinline{TreeMesh}?
 
 TODO %TODO
 \begin{itemize}
-  \item Some nice features
-  \item Compilation time can be annoying but also allows cool features and performance
-  \item Extendability: Multi-physics with 350 lines of code \cite{schlottkelakemper2021purely}
+  \item Packages can really be used together at low (or no) cost
+  \item Reproducibility
+  \item Good software development practices (CI, tests, version management)
+  \item Relatively easy to integrate existing C libraries (p4est, HDF5)
+  \item more nice features
+  \item Can be extended: Multi-physics with 350 lines of code
+  \item Compilation time can be annoying but also allows cool features and performance \cite{schlottkelakemper2021purely}
   \item MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
 \end{itemize}
 
@@ -227,6 +297,10 @@ under Germany's Excellence Strategy EXC 2044-390685587, Mathematics Münster:
 Dynamics-Geometry-Structure.
 
 TODO: Add your funding sources (if any) %TODO
+
+
+% References
+\input{bib.tex}
 
 
 
@@ -336,9 +410,6 @@ For balancing the both column length at last page use:
 % \vadjust{\vfill\pagebreak}
 
 at appropriate place in your \TeX{} file or in bibliography file.
-
-% References
-\input{bib.tex}
 
 \end{document}
 

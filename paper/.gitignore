@@ -1,5 +1,6 @@
 header.tex
 paper.aux
+paper.auxlock
 paper.bbl
 paper.blg
 paper.fdb_latexmk
