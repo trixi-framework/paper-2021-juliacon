@@ -3,6 +3,20 @@
 \documentclass{juliacon}
 \setcounter{page}{1}
 
+
+% Use multiple images in a single environment
+\usepackage{subcaption}
+
+
+% Plotting in tikz images
+\usepackage{pgfplots}
+% Silence warnings
+\pgfplotsset{compat=1.16}
+% Allow external generation of images to speed up compilation
+% \usetikzlibrary{external}
+% \tikzexternalize[prefix=../figures/tikz/]
+
+
 \begin{document}
 
 \input{header}
@@ -10,7 +24,8 @@
 \maketitle
 
 \begin{abstract}
-TODO: abstract %TODO
+TODO: abstract (at most 600 characters, written in plain English with no symbol
+nor formula + references etc.) %TODO
 \end{abstract}
 
 
@@ -23,13 +38,122 @@ TODO %TODO
   \item Discussion on Julia for numerical simulation science
   \item Prepare repro repo including scripts for Trixi.jl and Fluxo
   \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward}
+  \item Change title to something like ``Adaptive high-order numerical simulations
+  of hyperbolic PDEs with Trixi.jl. A case study of Julia for scientific computing''?
 \end{itemize}
+
+
+\section{Performance comparison with FLUXO}
+
+FLUXO\footnote{\url{https://gitlab.com/project-fluxo/fluxo}} is an open source
+MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
+meshes in three space dimensions for advection diffusion equations. It also
+implements the same kind of modern DG methods based on flux differencing
+to achieve entropy conservation/dissipation or kinetic energy preservation.
+Thus, both Trixi.jl and FLUXO share a common set of features, enabling a reasonable
+comparison of their performance.
+
+Here, we compare the serial performance of Trixi.jl and FLUXO when solving a
+hyperbolic PDE in three space dimensions on curvilinear hex meshes.
+
+TODO: Andrew, please describe the setups that you used.
+
+\begin{figure}
+\centering
+  \begin{subfigure}{\linewidth}
+    \begin{tikzpicture}[
+      font=\footnotesize
+      ]
+      \begin{axis}[
+          xlabel={Polynomial degree},
+          % ylabel={Time per RHS call and DOF (seconds)},
+          ylabel={Time/RHS/DOF {[sec]}},
+          width=\textwidth,
+          legend columns=-1,
+          % legend to name=place_legend_here,
+          legend pos=north west,
+          ymin=0.0,
+          ymax=2.2e-6,
+          grid=major,
+        ]
+        % \addplot[blue, mark=square*, solid]
+        %   table [x index=0, y index=1]{../data/pids_euler_weak.dat};
+        %   \addlegendentry{\texttt{TreeMesh} (Trixi.jl)}
+        \addplot[blue, mark=*, solid]
+          table [x index=0, y index=3]{../data/pids_euler_weak.dat};
+          \addlegendentry{\footnotesize FLUXO}
+        \addplot[red, mark=diamond*, solid]
+          table [x index=0, y index=2]{../data/pids_euler_weak.dat};
+          % \addlegendentry{\texttt{StructuredMesh} (Trixi.jl)}
+          \addlegendentry{\footnotesize Trixi.jl}
+        \node at (axis cs:13,3.5e-7) {Weak form};
+
+        % \addplot[blue, mark=square*, dashed]
+        %   table [x index=0, y index=1]{../data/pids_euler_ranocha.dat};
+        \addplot[blue, mark=*, dashed]
+          table [x index=0, y index=3]{../data/pids_euler_ranocha.dat};
+        \addplot[red, mark=diamond*, dashed]
+          table [x index=0, y index=2]{../data/pids_euler_ranocha.dat};
+        \node [rotate=23] at (axis cs:9,8.2e-7) {Flux differencing};
+        \draw (axis cs:9,9.2e-7) -- (axis cs:7.5,10.2e-7);
+        \draw (axis cs:9,7.2e-7) -- (axis cs:8.5,5.2e-7);
+      \end{axis}
+    \end{tikzpicture}%
+    \caption{Absolute run times.}
+  \end{subfigure}%
+  \\
+  \begin{subfigure}{\linewidth}
+    \begin{tikzpicture}[
+      font=\footnotesize
+      ]
+      \begin{axis}[
+          xlabel={Polynomial degree},
+          % ylabel={Time per RHS call and DOF (relative)},
+          ylabel={Time relative to FLUXO {[-]}},
+          width=\textwidth,
+          ymin=0.0,
+          ymax=1.1,
+          ytick={0,0.25,0.5,0.75,1},
+          grid=major,
+        ]
+        % \addplot[blue, mark=square*, solid]
+        %   table [x index=0, y index=1]{../data/pids_euler_weak_relative.dat};
+        \addplot[red, mark=diamond*, solid]
+          table [x index=0, y index=2]{../data/pids_euler_weak_relative.dat};
+        \addplot[blue, mark=*, solid]
+          table [x index=0, y index=3]{../data/pids_euler_weak_relative.dat};
+
+        % \addplot[blue, mark=square*, dashed]
+        %   table [x index=0, y index=1]{../data/pids_euler_ranocha_relative.dat};
+        \addplot[red, mark=diamond*, dashed]
+          table [x index=0, y index=2]{../data/pids_euler_ranocha_relative.dat};
+        \addplot[blue, mark=*, dashed]
+          table [x index=0, y index=3]{../data/pids_euler_ranocha_relative.dat};
+
+        % \node at (axis cs:10,0.6) {Will be improved soon};
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Run time relative to FLUXO.}
+  \end{subfigure}%
+  \caption{Run time per right-hand side evaluation and degree of freedom for
+           different DG discretizations of the 3D compressible Euler equations.}
+\end{figure}
+
 
 
 
 \clearpage
 \section*{Some guidelines}
 \label{sec:some_guide}
+
+Full paper: 5--10 pages.
+\begin{quote}
+  Compared to an extended abstract, a full paper presents more of the background
+  and context motivating the work. It compares the work to other approaches taken
+  in the field and gives some additional insights on the conference contribution.
+  Use cases back up the work by showing how it can be used.
+\end{quote}
+
 
 The following notes may help you achieve the best effects with the
 \verb juliacon  class file.
