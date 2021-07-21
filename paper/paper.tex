@@ -29,21 +29,26 @@ nor formula + references etc.) %TODO
 \end{abstract}
 
 
-\section{Introduction}
+\section*{TODO}
 
-TODO %TODO
 \begin{itemize}
   \item Basic design of Trixi.jl and its capabilities
   \item PID comparison of Fluxo and Trixi.jl
   \item Discussion on Julia for numerical simulation science
   \item Prepare repro repo including scripts for Trixi.jl and Fluxo
-  \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward}
+  \item Cite \cite{bezanson2017julia,schlottkelakemper2021purely,rackauckas2017differentialequations,revels2016forward,ranocha2021sbp}
   \item Change title to something like ``Adaptive high-order numerical simulations
-  of hyperbolic PDEs with Trixi.jl. A case study of Julia for scientific computing''?
+  of hyperbolic PDEs with Trixi.jl: A case study of Julia for scientific computing''?
+  \item Restructure non-conservative stuff and add MHD benchmarks?
 \end{itemize}
 
 
-\section{Design of Trixi.jl and feature overview}
+\section{Introduction}
+
+TODO %TODO
+
+
+\section{Design of Trixi.jl and overview of its features}
 
 TODO %TODO
 
@@ -186,7 +191,7 @@ Funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation)
 under Germany's Excellence Strategy EXC 2044-390685587, Mathematics Münster:
 Dynamics-Geometry-Structure.
 
-TODO %TODO
+TODO: Add your funding sources (if any) %TODO
 
 
 
@@ -293,23 +298,9 @@ For balancing the both column length at last page use:
 \vadjust{\vfill\pagebreak}
 \end{verbatim}
 
-%\vadjust{\vfill\pagebreak}
+% \vadjust{\vfill\pagebreak}
 
 at appropriate place in your \TeX{} file or in bibliography file.
-
-\subsection{Handling references}
-\label{subsub:references}
-References are most easily (and correctly) generated using the
-BIBTEX, which is easily invoked via
-\begin{verbatim}
-\bibliographystyle{juliacon}
-\bibliography{ref}
-\end{verbatim}
-When submitting the document source (.tex) file to external
-parties, the ref.bib file should be sent with it.
-Don't forget to cite \cite{bezanson2017julia}.
-
-
 
 % References
 \input{bib.tex}
