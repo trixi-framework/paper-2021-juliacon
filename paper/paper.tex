@@ -100,6 +100,44 @@ In addition, suitable initial and boundary conditions (ICs, BCs) are required.
 conserved quantities as in the shallow water equations or magnetohydrodynamics
 with divergence cleaning.
 
+\subsection{Main features of \trixi}
+
+As of version v0.3.47 (July 2021), \trixi comes with the following features.
+\begin{itemize}
+  \item 1D, 2D, and 3D simulations on line/quad/hex meshes
+  \begin{itemize}
+    \item Cartesian and curvilinear meshes
+    \item Conforming and non-conforming meshes
+    \item Structured and unstructured meshes
+    \item Hierarchical quadtree/octree grid with adaptive refinement
+  \end{itemize}
+
+  \item High-order nodal discontinuous Galerkin methods
+  \begin{itemize}
+    \item Kinetic energy preserving and entropy-stable methods
+    \item Entropy-stable shock-capturing
+    \item Positivity-preserving limiting
+  \end{itemize}
+
+  \item Multiple governing equations
+  \begin{itemize}
+    \item Compressible Euler equations (optionally with self-gravity)
+    \item Magnetohydrodynamics equations
+    \item Acoustic perturbation equations
+    \item Hyperbolic diffusion for elliptic problems
+    \item Lattice-Boltzmann equations (D2Q9 and D3Q27 schemes)
+    \item Several scalar conservation laws (advection, Burgers)
+  \end{itemize}
+
+  \item Integration with the Julia package ecosystem and external tools
+  \begin{itemize}
+    \item Time integration methods from OrdinaryDiffEq.jl
+    \item Automatic differentiation with ForwardDiff.jl
+    \item In-situ visualization with Plots.jl
+    \item Postprocessing with ParaView/Visit via Trixi2Vtk.jl
+  \end{itemize}
+\end{itemize}
+
 \subsection{High-level overview of the structure}
 
 \trixi is based on the method of lines. Thus, a discretization of \eqref{eq:hcl}
@@ -109,7 +147,7 @@ integration method. Currently, \trixi focuses on the spatial semidiscretization
 and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, a part
 of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
 
-\begin{figure*}
+\begin{figure*}[htbp]
   \includegraphics[width=\linewidth]{../figures/trixi_global_overview}
   \caption{Schematic overview of the basic components of \trixi and how they
            interact with each other.}
@@ -135,10 +173,9 @@ main loop. In particular, diverse tasks such as input/output operations, adaptiv
 mesh refinement (AMR), and positivity preserving limiting are implemented using
 callbacks.
 
-\subsection{Main features of \trixi}
+\subsection{Review of the main design criteria}
 
 TODO %TODO
-
 
 
 \section{Performance comparison with FLUXO}
