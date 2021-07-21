@@ -58,6 +58,20 @@ hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
 TODO: Andrew, please describe the setups that you used.
 
+The results of this comparison are visualized in Figure~\ref{fig:PID-Euler}.
+Clearly, Trixi.jl is a bit more than 2x faster than the Fortran code FLUXO
+while both implement the same numerical methods. This demonstrates the
+suitability of Julia for this kind of simulation-focused scientific computing.
+
+Note that we do not want to state that Julia is generically faster than Fortran,
+C, or C++. In contrast, we would like to emphasize that Julia can be at least
+as fast as code written in these traditional scientific computing languages.
+We believe that it will be possible to get the same efficiency by rewriting
+FLUXO appropriately. However, the code introspection and profiling tools available
+in Julia make it easier for us to optimize Julia code compared to other languages
+we are familiar with (having a diverse team with a strong background in C, C++,
+and Fortran).
+
 \begin{figure}
 \centering
   \begin{subfigure}{\linewidth}
@@ -137,6 +151,7 @@ TODO: Andrew, please describe the setups that you used.
   \end{subfigure}%
   \caption{Run time per right-hand side evaluation and degree of freedom for
            different DG discretizations of the 3D compressible Euler equations.}
+  \label{fig:PID-Euler}
 \end{figure}
 
 
