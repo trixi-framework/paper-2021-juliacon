@@ -89,6 +89,7 @@ In addition, suitable initial and boundary conditions (ICs, BCs) are required.
 conserved quantities as in the shallow water equations or magnetohydrodynamics
 with divergence cleaning.
 
+
 \subsection{Main features of \trixi}
 
 As of version v0.3.47 (July 2021), \trixi comes with the following features.
@@ -127,6 +128,7 @@ As of version v0.3.47 (July 2021), \trixi comes with the following features.
   \end{itemize}
 \end{itemize}
 
+
 \subsection{High-level overview of the structure}
 
 \trixi is based on the method of lines. Thus, a discretization of \eqref{eq:hcl}
@@ -161,6 +163,7 @@ allows us to provide extended functionality for \trixi without modifying any
 main loop. In particular, diverse tasks such as input/output operations, adaptive
 mesh refinement (AMR), and positivity preserving limiting are implemented using
 callbacks.
+
 
 \subsection{Review of the main design choices}
 
@@ -269,6 +272,13 @@ nature and just-ahead-of-time compiler allow us to implement only the features
 that are strictly necessary. For example, if a user wants to simulate a new
 physics model only on Cartesian grids with smooth solutions, there is no need
 to implement anything for curvilinear coordinates or shock capturing approaches.
+In addition, it allows to extend \trixi step by step with new capabilities.
+For example, there are ongoing efforts to incorporate summation by parts finite
+difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
+discontinuous Galerkin methods on simplices via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi. This becomes feasible since not every
+feature combination needs to be considered and it is totally fine to start with
+simple variants on a subset of the available meshes.
+
 
 
 \section{Performance comparison with FLUXO}
@@ -288,6 +298,9 @@ Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
 \todo{TODO: Andrew, please describe the setups that you used} %TODO
+
+The code and detailed information necessary to reproduce these numerical
+experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
 
 \subsection{Results of the performance comparison}
 
@@ -402,17 +415,81 @@ more efficient than the curvilinear meshes in \trixi.
 \todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
 
 
+
 \section{Assessment of Julia for simulation-focused scientific computing}
+
+Julia was designed from scratch to be useful for numerical computing
+\cite{bezanson2017julia}. Its usefulness has been demonstrated for example for
+optimization \cite{dunning2017jump}, data science including
+big data\footnote{Celeste project: \url{https://github.com/jeff-regier/Celeste.jl},
+see \url{https://juliacomputing.com/case-studies/celeste/} (accessed 2021-07-22)},
+machine learning \cite{innes2018fashionable}, and scientific machine learning
+(SciML) \cite{pal2021opening}. There are also mature libraries for ODE problems
+\cite{rackauckas2017differentialequations}, small scale spectral approximations
+\cite{olver2014practical}, and classical finite element methods \cite{badia2020gridap}.
+In addition, there are some packages dedicated to solve specific time-dependent
+PDEs such as \cite{ramadhan2020oceananigans, constantinou2021geophysicalflows}.
+However, there does not seem to be a general framework of high-order methods
+or hyperbolic PDEs in Julia. Thus, \trixi is an ideal candidate for a case study
+of Julia for simulation-focused scientific computing, an area where codes written
+in classical programming languages such as C and Fortran are still dominant
+\cite{krais2021flexi, parsani2021ssdc}.
+
+\subsection{What works well}
+
+\subsubsection{Julia encourages good software development practices}
+
+Many scientists implementing numerical methods often have no real experience or
+education in software development. Julia and its ecosystem support these
+researches by making it easy to set up unit and regression tests, since a
+testing framework is included in the standard library and default package
+generation setups prepare the file structure accordingly. This allows test
+driven development and continuous integration (CI), which makes code restructuring
+and optimization feasible.
+
+In addition, the package manager encourages a unified form of semantic versioning
+across the Julia ecosystem, which lays the basis for the following three
+observations.
+
+\subsubsection{It is easy to set up reproducible numerical experiments}
+
+The package manager makes it easy to reproduce the exact environment, including
+binary dependencies. We have used this feature for all of our papers based on
+\trixi \cite{schlottkelakemper2021purely, ranocha2021preventing}, including this
+one \cite{ranocha2021adaptiveRepro}.
+This facilitates code sharing and reproducible research in computational science,
+which is arguably important but not mainstream yet \cite{barnes2010publish,
+donoho2010invitation, leveque2013top}.
+
+\subsubsection{External C libraries can be integrated relatively easily}
+
+\cite{byrne2021mpi}
+
+\todo{TODO: p4est \cite{burstedde2011p4est} (HDF5)} %TODO
+
+\subsubsection{Packages can really be used together at low (or no) cost}
+
+\todo{TODO} %TODO
+
+\subsubsection{The code base is simple enough to be useful for students}
+
+\todo{TODO} %TODO
+
+\subsubsection{Existing features can be extended and combined easily}
+
+Multi-physics with 350 lines of code \cite{schlottkelakemper2021purely}
+\todo{TODO} %TODO
+
+\subsubsection{\trixi can be extended from outside}
+
+\todo{TODO} %TODO
+
+
+\subsection{What is still difficult or unknown}
 
 \todo{TODO %TODO
 \begin{itemize}
-  \item Packages can really be used together at low (or no) cost
-  \item Reproducibility
-  \item Good software development practices (CI, tests, version management)
-  \item Relatively easy to integrate existing C libraries (p4est, HDF5)
-  \item more nice features
-  \item Can be extended: Multi-physics with 350 lines of code
-  \item Compilation time can be annoying but also allows cool features and performance \cite{schlottkelakemper2021purely}
+  \item Compilation time can be annoying (serial compiler!) but also allows cool features and performance
   \item MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
 \end{itemize}}
 
@@ -441,6 +518,7 @@ Dynamics-Geometry-Structure.
 
 \todo{ % TODO
 \begin{itemize}
+  \item Full paper: 5--10 pages
   \item Prepare repro repo including scripts for \trixi and Fluxo
   \item Cite \cite{schlottkelakemper2021purely,revels2016forward,ranocha2021sbp}
   \item The title of our talk at JuliaCon is
@@ -451,116 +529,13 @@ Dynamics-Geometry-Structure.
   \item Restructure non-conservative stuff and add MHD benchmarks?
   \item Shall we re-create the schematic overview in tikz?
   \item Shall we compare \trixi to other open source frameworks such as MFEM, NGSolve, DealII, DUNE, FENICS, Firedrake, ClawPack, ...?
-\end{itemize}}
-
-
-
-\clearpage
-\section*{Some guidelines}
-\label{sec:some_guide}
-
-Full paper: 5--10 pages.
+\end{itemize}
 \begin{quote}
   Compared to an extended abstract, a full paper presents more of the background
   and context motivating the work. It compares the work to other approaches taken
   in the field and gives some additional insights on the conference contribution.
   Use cases back up the work by showing how it can be used.
-\end{quote}
-
-
-The following notes may help you achieve the best effects with the
-\verb juliacon  class file.
-
-\subsection{Writing Julia code}
-
-A special environment is already defined for Julia code,
-built on top of \textit{listings} and \textit{jlcode}.
-
-\begin{verbatim}
-\begin{lstlisting}[language = Julia]
-using Plots
-
-x = -3.0:0.01:3.0
-y = rand(length(x))
-plot(x, y)
-\end{lstlisting}
-\end{verbatim}
-\begin{lstlisting}[language = Julia]
-using Plots
-
-x = -3.0:0.01:3.0
-y = rand(length(x))
-plot(x, y)
-\end{lstlisting}
-
-\subsection{Double Column Figure and Tables}
-\label{subsub:double_fig_tab}
-For generating the output of figures and tables in double column
-we can use the following coding:
-
-\begin{enumerate}
-\item For Figures:
-\begin{verbatim}
-\begin{figure*}...\end{figure*}
-\end{verbatim}
-\item For landscape figures:
-\begin{verbatim}
-\begin{sidewaysfigure*}...\end{sidewaysfigure*}
-\end{verbatim}
-\item For Tables:
-\begin{verbatim}
-\begin{table*}...\end{table*}
-\end{verbatim}
-\item For landscape tables:
-\begin{verbatim}
-\begin{sidewaystable*}...\end{sidewaystable*}
-\end{verbatim}
-\end{enumerate}
-
-\subsection{Enunciations}
-\label{subsub:enunciation}
-
-The \verb juliacon   class file generates the enunciations with the help of
-the following commands:
-\begin{verbatim}
-\begin{theorem}...\end{theorem}
-\begin{strategy}...\end{strategy}
-\begin{property}...\end{property}
-\begin{proposition}...\end{proposition}
-\begin{lemma}...\end{lemma}
-\begin{example}...\end{example}
-\begin{proof}...\end{proof}
-\begin{definition}...\end{definition}
-\begin{algorithm}...\end{algorithm}
-\begin{remark}...\end{remark}
-\end{verbatim}
-The above-mentioned coding can also include optional arguments
-such as
-\begin{verbatim}
-\begin{theorem}[...]. Example for theorem:
-\begin{theorem}[Generalized Poincare Conjecture]
-Four score and seven ... created equal.
-\end{theorem}
-\end{verbatim}
-
-\begin{theorem}[Generalized Poincare Conjecture]
-Four score and seven years ago our fathers brought forth,
-upon this continent, a new nation, conceived in Liberty,
- and dedicated to the proposition that all men are
-created equal.
-\end{theorem}
-
-
-\subsection{Balancing column at last page}
-\label{subsub:Balance}
-For balancing the both column length at last page use:
-\begin{verbatim}
-\vadjust{\vfill\pagebreak}
-\end{verbatim}
-
-% \vadjust{\vfill\pagebreak}
-
-at appropriate place in your \TeX{} file or in bibliography file.
+\end{quote}}
 
 
 \end{document}
