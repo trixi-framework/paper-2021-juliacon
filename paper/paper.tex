@@ -62,7 +62,12 @@ computing languages such as C, C++, and Fortran.
 high-order numerical simulations of hyperbolic partial differential equations (PDEs).
 in Julia \cite{bezanson2017julia}.
 
-\todo{TODO} %TODO
+\todo{TODO %TODO
+\begin{itemize}
+  \item Why we created \trixi
+  \item Overview of the paper \etc
+\end{itemize}}
+
 
 
 \section{Design of \trixi and overview of its features}
@@ -228,32 +233,42 @@ Since functions are first-class citizens in Julia, they can be passed around
 and used efficiently. Thus, everything that acts like a function can be used
 in \trixi, \eg, to define initial/boundary conditions. While such a flexibility
 is not too uncommon, two-point numerical fluxes are also just functions with a
-specified signature. Thus, users can write their own numerical fluxes in their
+specified signature. Thus, users can implement numerical fluxes in their
 own code and they will work and be as efficient as if they were implemented
 directly in \trixi.
 
 \subsubsection{Ingredients use common interfaces and can be exchanged}
 
-Abstractions such as the \lstinline{mesh} and the \lstinline{equations} are
-based on a common interface. Using multiple dispatch in Julia,
-
-\todo{TODO} %TODO
+Abstractions such as (variants of) the \lstinline{solver}, the \lstinline{mesh},
+and the \lstinline{equations} are based on a common interface. Using multiple
+dispatch in Julia, internal implementations are specialized accordingly. For
+example, changing the volume terms of the DG discretization from the standard
+weak form to entropy stable and/or shock capturing methods can be achieved by
+passing one additional parameter to the \lstinline{DGSEM} constructor in the
+example above.
 
 \subsubsection{New physics can be specified with minimal effort}
 
 Instead of providing only the very basic discretization ingredients such as
 other open source frameworks for PDEs, \trixi includes also some widely used
-physical parts to make it easier to use.
-
-\todo{TODO} %TODO
-
-\subsubsection{Adding new functionality does not require changing existing code}
-
-\todo{TODO} %TODO
+physical parts to make it easier to use. Nevertheless, users are not restricted
+to the physics models bundled in \trixi. To setup a new type of \lstinline{equations},
+it is only necessary to create an appropriate \lstinline{struct} bundling all
+parameters and implementing pointwise operations such as the calculation of
+the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to Julia's
+design and just-ahead-of-time compiler, these fluxes can be inlined into the
+library functions of \trixi. Thus, the physics can be separated completely from
+the \lstinline{solver} but are still very efficient.
 
 \subsubsection{There is no spooky action at a distance}
 
-\todo{TODO} %TODO
+In traditional monolithic code bases, it is often necessary to implement a new
+feature for all combinations of possible (compile time) options. This effort
+can make it hard to experiment with new ideas. In contrast, Julia's dynamic
+nature and just-ahead-of-time compiler allow us to implement only the features
+that are strictly necessary. For example, if a user wants to simulate a new
+physics model only on Cartesian grids with smooth solutions, there is no need
+to implement anything for curvilinear coordinates or shock capturing approaches.
 
 
 \section{Performance comparison with FLUXO}
@@ -267,10 +282,14 @@ to achieve entropy conservation/dissipation or kinetic energy preservation.
 Thus, both \trixi and FLUXO share a common set of features, enabling a reasonable
 comparison of their performance.
 
+\subsection{Description of the setup}
+
 Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
 \todo{TODO: Andrew, please describe the setups that you used} %TODO
+
+\subsection{Results of the performance comparison}
 
 The results of this comparison are visualized in Figure~\ref{fig:PID-Euler}.
 Clearly, \trixi is more than 2x faster than the Fortran code FLUXO
@@ -383,10 +402,9 @@ more efficient than the curvilinear meshes in \trixi.
 \todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
 
 
-
 \section{Assessment of Julia for simulation-focused scientific computing}
 
-\todo{TODO} %TODO
+\todo{TODO %TODO
 \begin{itemize}
   \item Packages can really be used together at low (or no) cost
   \item Reproducibility
@@ -396,7 +414,7 @@ more efficient than the curvilinear meshes in \trixi.
   \item Can be extended: Multi-physics with 350 lines of code
   \item Compilation time can be annoying but also allows cool features and performance \cite{schlottkelakemper2021purely}
   \item MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
-\end{itemize}
+\end{itemize}}
 
 
 
