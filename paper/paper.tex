@@ -62,7 +62,7 @@ computing languages such as C, C++, and Fortran.
 high-order numerical simulations of hyperbolic partial differential equations (PDEs).
 in Julia \cite{bezanson2017julia}.
 
-\todo{TODO %TODO
+\todo{TODO %TODO Introduction
 \begin{itemize}
   \item Why we created \trixi
   \item Overview of the paper \etc
@@ -297,7 +297,7 @@ comparison of their performance.
 Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
-\todo{TODO: Andrew, please describe the setups that you used} %TODO
+\todo{TODO: Andrew, please describe the setups that you used} %TODO Andrew
 
 The code and detailed information necessary to reproduce these numerical
 experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
@@ -463,41 +463,99 @@ donoho2010invitation, leveque2013top}.
 
 \subsubsection{External C libraries can be integrated relatively easily}
 
-\cite{byrne2021mpi}
+We have written a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
+of the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
+it is relatively easy to do so in Julia and the package manager in combination
+with BinaryBuilder.jl makes it convenient to distribute the necessary binaries.
+In particular, users do not have to compile C libraries on their own system
+and the binaries are available on all major platforms including Linux, Mac OS,
+and Windows.
 
-\todo{TODO: p4est \cite{burstedde2011p4est} (HDF5)} %TODO
+Similarly, there is no need to compile HDF5 on a user system due to the
+availability of HDF5.jl. There is still work to be done how to improve the
+experience in combination with MPI on high performance computing (HPC) clusters,
+but some promising approaches exist \cite{byrne2021mpi}.
 
 \subsubsection{Packages can really be used together at low (or no) cost}
 
-\todo{TODO} %TODO
+Due to Julia's package manager, the cost of using external dependencies is low
+enough to not be a problem. Traditionally, many scientific simulation codes tend
+to reduce the number of external dependencies as much as possible due to the
+complexity of handling different versions and making everything work together.
+Such an approach often leads to a lot of code duplication. For example, many
+CFD codes implement their own time integration methods, arguing that the spatial
+part is much more complex. While this is often true, it is still more efficient
+in terms of human workload to be able to reuse existing implementations. This
+allows expert on time integration methods to develop specialized algorithms and
+implement them in open source software while practitioners or researchers focusing
+on spatial semidiscretizations ca benefit immediately by changing only one line
+of code. For example, optimized time integration methods were developed in
+\cite{ranocha2021optimized} and implemented in OrdinaryDiffEq.jl. Thus, they
+can be used with \trixi by changing a single line of code. In contrast, researchers
+working without external dependencies would need to use a day or two to digest
+all the details and implement the methods in their own codes, making it much
+less likely that they will do this and benefit from recent algorithmic developments.
+
+An additional example is given by automatic differentiation. Due to dispatch,
+it is conveniently possible to use forward mode automatic differentiation
+\cite{revels2016forward} to compute Jacobians of semidiscretizations of nonlinear
+conservation laws with \trixi or to differentiate through a complete simulation
+including time integration methods from OrdinaryDiffEq.jl.
 
 \subsubsection{The code base is simple enough to be useful for students}
 
-\todo{TODO} %TODO
+Due to the package manager, \trixi and all related ODE and visualization tools
+can be installed with a single command, reducing the overhead of exploring the
+code. In addition, Julia's expressiveness and the ability to work with a restricted
+subset of all possible features have enabled more than 18 students to use \trixi
+for their coursework or theses. In our experience, the time required to get
+started with traditional monolithic code bases is so long that students either
+choose to build their own implementations specialized on their tasks or can only
+work on toy problems since the remaining time is rather restricted.
 
 \subsubsection{Existing features can be extended and combined easily}
 
-Multi-physics with 350 lines of code \cite{schlottkelakemper2021purely}
-\todo{TODO} %TODO
-
-\subsubsection{\trixi can be extended from outside}
-
-\todo{TODO} %TODO
+Due to Julia's high-level programming approach, dynamic typing, and multiple
+dispatch, it is easy to combine existing functionality efficiently. For example,
+the single-physics solvers for hyperbolic PDEs of \trixi were extended to
+a multi-physics setup for the compressible Euler equations with self-gravity
+with roughly 350 lines of code \cite{schlottkelakemper2021purely}.
+In addition, \trixi can be extended from the outside without modifying the main
+source code, which makes it easy to set up new simulation approaches and analyze
+existing ones, \eg by fluctuation simulations \cite{ranocha2021preventing}.
 
 
 \subsection{What is still difficult or unknown}
 
-\todo{TODO %TODO
-\begin{itemize}
-  \item Compilation time can be annoying (serial compiler!) but also allows cool features and performance
-  \item MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
-\end{itemize}}
+\subsubsection{Compilation times can be annoying}
 
+Since Julia uses a serial just-ahead-of-time compiler that does currently not cache
+code between different Julia sessions, the initial compilation time can be
+annoying. For example, the time to finish the first simulation in a fresh Julia
+session and plot the results on a notebook can take between 30 seconds and a
+minute. Having compiled the code, the second simulation and plot take less than
+0.05 seconds. Thus, switching to Julia requires adapting the workflow compared
+to other languages such as keeping a REPL session active for a longer time and
+using packages such as Revise.jl\footnote{\url{https://github.com/timholy/Revise.jl}}.
+This is particularly problematic in HPC environments. There are tools such as
+PackageCompiler.jl\footnote{\url{https://github.com/JuliaLang/PackageCompiler.jl}}
+that can help with these tasks but a good workflow usable for development and
+deployment still has to be found.
+
+\subsubsection{MPI-based parallel simulations need to be established}
+
+MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
+
+\todo{TODO: Michael, could you please write something here? You are much more
+experienced with MPI and HPC} %TODO Michael
 
 
 \section{Summary and conclusions}
 
-\todo{TODO} %TODO
+\todo{TODO %TODO Summary
+\begin{itemize}
+  \item Learning a new programming language has some overhead but it pays off
+\end{itemize}}
 
 
 
@@ -509,7 +567,7 @@ Funded by the Deutsche Forschungsgemeinschaft (DFG, German Research Foundation)
 under Germany's Excellence Strategy EXC 2044-390685587, Mathematics Münster:
 Dynamics-Geometry-Structure.
 
-\todo{TODO: Add your funding sources (if any)} %TODO
+\todo{TODO: Add your funding sources that need to be here (if any)} %TODO Funding
 
 
 % References
