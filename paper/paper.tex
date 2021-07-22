@@ -437,6 +437,18 @@ in classical programming languages such as C and Fortran are still dominant
 
 \subsection{What works well}
 
+\subsubsection{Julia is fast}
+
+As demonstrated in Section~\ref{sec:performance-comparison}, there is no reason
+why Julia should be generically slower than traditional high-performance programming
+languages such as C, C++, and Fortran. A minor exception of this rule is that
+Julia is build on LLVM, which does not perform the same optimizations as most
+optimizing C/C++/Fortran compilers in use nowadays. In particular, LLVM does
+not use fused multiply add (FMA) instructions by default while GCC and Intel
+compilers do. Thus, one needs to opt-in to these optimizations explicitly in
+Julia. Luckily, that is relatively easy to do due to Julia's code manipulation
+techniques which enable the macro \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
+
 \subsubsection{Julia encourages good software development practices}
 
 Many scientists implementing numerical methods often have no real experience or
