@@ -92,9 +92,10 @@ with divergence cleaning.
 
 \subsection{Main features of \trixi}
 
-As of version v0.3.47 (July 2021), \trixi comes with the following features.
+% TODO: Update Trixi version
+As of version v0.3.50 (July 2021), \trixi comes with the following features.
 \begin{itemize}
-  \item 1D, 2D, and 3D simulations on line/quad/hex meshes
+  \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
   \begin{itemize}
     \item Cartesian and curvilinear meshes
     \item Conforming and non-conforming meshes
@@ -102,7 +103,7 @@ As of version v0.3.47 (July 2021), \trixi comes with the following features.
     \item Hierarchical quadtree/octree grid with adaptive refinement
   \end{itemize}
 
-  \item High-order nodal discontinuous Galerkin methods
+  \item High-order nodal and modal discontinuous Galerkin methods
   \begin{itemize}
     \item Kinetic energy preserving and entropy-stable methods
     \item Entropy-stable shock-capturing
@@ -275,7 +276,7 @@ to implement anything for curvilinear coordinates or shock capturing approaches.
 In addition, it allows to extend \trixi step by step with new capabilities.
 For example, there are ongoing efforts to incorporate summation by parts finite
 difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
-discontinuous Galerkin methods on simplices via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi. This becomes feasible since not every
+more discontinuous Galerkin methods on simplices via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi. This becomes feasible since not every
 feature combination needs to be considered and it is totally fine to start with
 simple variants on a subset of the available meshes.
 
