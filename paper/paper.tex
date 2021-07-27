@@ -299,7 +299,13 @@ comparison of their performance.
 Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hex meshes.
 
-\todo{TODO: Andrew, please describe the setups that you used} %TODO Andrew
+\todo{TODO: Andrew, could you please describe the setups that you used? %TODO Andrew
+\begin{itemize}
+  \item Physical setup
+  \item Numerical methods/parameters
+  \item Software versions, compiler \etc
+  \item Hardware
+\end{itemize}}
 
 The code and detailed information necessary to reproduce these numerical
 experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
@@ -415,6 +421,8 @@ Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
 \todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
+
+\todo{TODO: Add MHD results?}
 
 
 
@@ -569,6 +577,9 @@ experienced with MPI and HPC} %TODO Michael
 
 \todo{TODO %TODO Summary
 \begin{itemize}
+  \item Julia is suited for simulation-focused scientific computing but some
+        things need to be improved/demonstrated for HPC
+  \item Julia allows us to do some cool stuff in \trixi
   \item Learning a new programming language has some overhead but it pays off
 \end{itemize}}
 
@@ -592,7 +603,7 @@ Dynamics-Geometry-Structure.
 \todo{ % TODO
 \begin{itemize}
   \item Full paper: 5--10 pages
-  \item Prepare repro repo including scripts for \trixi and Fluxo
+  \item Prepare repro repo including scripts for \trixi and FLUXO
   \item The title of our talk at JuliaCon is
   ``Adaptive and extendable numerical simulations with Trixi.jl''.
   Shall we use something like
