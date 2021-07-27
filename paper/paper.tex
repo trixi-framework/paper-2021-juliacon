@@ -101,9 +101,11 @@ As of version v0.3.50 (July 2021), \trixi comes with the following features.
     \item Conforming and non-conforming meshes
     \item Structured and unstructured meshes
     \item Hierarchical quadtree/octree grid with adaptive refinement
+    \item Forests of qudtrees/octrees with \texttt{p4est} \cite{burstedde2011p4est}
+          via P4est.jl\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
   \end{itemize}
 
-  \item High-order nodal and modal discontinuous Galerkin methods
+  \item High-order discontinuous Galerkin methods
   \begin{itemize}
     \item Kinetic energy preserving and entropy-stable methods
     \item Entropy-stable shock-capturing
@@ -236,7 +238,8 @@ plot(sol)
 
 Since functions are first-class citizens in Julia, they can be passed around
 and used efficiently. Thus, everything that acts like a function can be used
-in \trixi, \eg, to define initial/boundary conditions. While such a flexibility
+in \trixi, \eg, to define initial/boundary conditions. While the flexibility
+to change initial/boundary conditions
 is not too uncommon, two-point numerical fluxes are also just functions with a
 specified signature. Thus, users can implement numerical fluxes in their
 own code and they will work and be as efficient as if they were implemented
@@ -281,6 +284,8 @@ more discontinuous Galerkin methods on simplices via StartUpDG.jl\footnote{\url{
 feature combination needs to be considered and it is totally fine to start with
 simple variants on a subset of the available meshes.
 
+\todo{TODO: Mention multiple dispatch} %TODO
+
 
 
 \section{Performance comparison with FLUXO}
@@ -293,6 +298,10 @@ implements the same kind of modern DG methods based on flux differencing
 to achieve entropy conservation/dissipation or kinetic energy preservation.
 Thus, both \trixi and FLUXO share a common set of features, enabling a reasonable
 comparison of their performance.
+
+\todo{TODO: Be careful how to formulate this, be more neutral} %TODO
+
+\todo{TODO: Point out that both codes have features the other ones does not} %TODO
 
 \subsection{Description of the setup}
 
@@ -484,7 +493,7 @@ This facilitates code sharing and reproducible research in computational science
 which is arguably important but not mainstream yet \cite{barnes2010publish,
 donoho2010invitation, leveque2013top}.
 
-\subsubsection{External C libraries can be integrated relatively easily}
+\subsubsection{External libraries can be integrated relatively easily}
 
 We have written a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
 of the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
@@ -498,6 +507,8 @@ Similarly, there is no need to compile HDF5 on a user system due to the
 availability of HDF5.jl. There is still work to be done how to improve the
 experience in combination with MPI on high performance computing (HPC) clusters,
 but some promising approaches exist \cite{byrne2021mpi}.
+
+\todo{TODO: Mention also Fortran libraries/codes (KROME, HOHQMesh)} %TODO
 
 \subsubsection{Packages can really be used together at low (or no) cost}
 
@@ -611,8 +622,29 @@ Dynamics-Geometry-Structure.
   A case study of Julia for scientific computing'' for this paper?
   \item Restructure non-conservative stuff and add MHD benchmarks
   \item Shall we re-create the schematic overview in tikz?
-  \item Shall we compare \trixi to other open source frameworks such as MFEM, NGSolve, DealII, DUNE, FENICS, Firedrake, ClawPack, ...?
+  \item Shall we compare \trixi (in terms of structure, not performance!)
+        to other open source frameworks such as MFEM,
+        NGSolve, DealII, DUNE, FENICS, Firedrake, ClawPack, ...? Definitely not
+        explicitly to not make people angry, but maybe implicitly without
+        mentioning their names?
+        \begin{itemize}
+          \item Everything in Julia, not a two language problem!
+          \item Other things? Gregor will think about it!
+        \end{itemize}
   \item Are there other aspects we should discuss?
+  \item Check affiliations
+  \item Maybe include some cool pictures? Give a flavor of the kind of simulations
+        you can do with \trixi? Pictures trigger people! For example after the
+        list of main features?
+  \item Summary of community, collaborators, and users: GitHub statistics, contributors,
+        Vikram and Chandrashekar, Steven Frankel and Philipp Öffner (maybe), ...
+        Related to the relatively large number of students!
+        $\to$ Jesse will make a PR!
+  \item A simple example where we really use multiple dispatch?
+        \begin{itemize}
+          \item Just pass functions around
+          \item Dispatch on parameters of DG struct
+        \end{itemize}
 \end{itemize}
 \begin{quote}
   Compared to an extended abstract, a full paper presents more of the background
