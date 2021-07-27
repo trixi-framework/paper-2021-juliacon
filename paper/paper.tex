@@ -266,7 +266,9 @@ parameters and implementing pointwise operations such as the calculation of
 the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to Julia's
 design and just-ahead-of-time compiler, these fluxes can be inlined into the
 library functions of \trixi. Thus, the physics can be separated completely from
-the \lstinline{solver} but are still very efficient.
+the \lstinline{solver} but are still very efficient. In particular, this allows
+to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
+difference methods, and variants of finite volume methods.
 
 \subsubsection{There is no spooky action at a distance}
 
@@ -295,11 +297,11 @@ meshes in three space dimensions for advection diffusion equations. It also
 implements the same kind of modern DG methods based on flux differencing
 to achieve entropy conservation/dissipation or kinetic energy preservation.
 At the same time, both codes also have features the other one does not, \eg
-parabolic equations and MPI in FLUXO or multiple mesh types in \trixi.
-Nevertheless, both \trixi and FLUXO share a common set of features, enabling a
-reasonable comparison of their performance.
+parabolic equations and MPI in FLUXO or multiple mesh types and more physics setups
+in \trixi. Nevertheless, both \trixi and FLUXO share a common set of features,
+enabling a reasonable comparison of their performance.
 
-\todo{TODO: Be careful how to formulate this, be more neutral} %TODO
+\todo{TODO: Be careful how to formulate this, be neutral and avoid making people angry} %TODO
 
 \subsection{Description of the setup}
 
@@ -497,14 +499,15 @@ We have written a Julia wrapper\footnote{\url{https://github.com/trixi-framework
 of the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
 it is relatively easy to do so in Julia and the package manager in combination
 with BinaryBuilder.jl makes it convenient to distribute the necessary binaries.
-In particular, users do not have to compile C libraries on their own system
+In particular, users do not have to compile libraries on their own system
 and the binaries are available on all major platforms including Linux, Mac OS,
 and Windows.
 
 Similarly, there is no need to compile HDF5 on a user system due to the
-availability of HDF5.jl. There is still work to be done how to improve the
-experience in combination with MPI on high performance computing (HPC) clusters,
-but some promising approaches exist \cite{byrne2021mpi}.
+availability of HDF5.jl\footnote{\url{https://github.com/JuliaIO/HDF5.jl}}.
+There is still work to be done how to improve the experience in combination
+with MPI on high performance computing (HPC) clusters, but some promising
+approaches exist \cite{byrne2021mpi}.
 
 It is also possible to wrap Fortran libraries/tools in Julia. For example, we
 have created the wrappers KROME.jl\footnote{\url{https://github.com/trixi-framework/KROME.jl}}
@@ -538,6 +541,24 @@ it is conveniently possible to use forward mode automatic differentiation
 \cite{revels2016forward} to compute Jacobians of semidiscretizations of nonlinear
 conservation laws with \trixi or to differentiate through a complete simulation
 including time integration methods from OrdinaryDiffEq.jl.
+
+\subsubsection{Julia solves the two-language problem}
+
+Many libraries for simulation-focused scientific computing are written in
+languages such as C, C++, or Fortran to get decent performance. On top of these
+low-level details, high-level wrappers are often provided to make it easier
+for users to apply the algorithms for their problems. In contrast, \trixi is
+written completely in Julia.
+
+Such a difference between the programming languages used in the front- and
+back-ends lead to a well-known barrier between user and developers of a library.
+Julia was designed from the beginning to make it possible to write both simple
+high-level code and highly efficient compute kernels, thereby solving the
+two-language problem --- at least to a large extend. Highly efficient low-level
+code will of course still look different from simple high-level code, but the
+barrier between them is much smaller. In particular, this makes it easier for
+users to contribute to a package and act as developers. This also contributes
+to the following observation.
 
 \subsubsection{The code base is simple enough to be useful for students}
 
@@ -636,6 +657,7 @@ Dynamics-Geometry-Structure.
         \end{itemize}
   \item Are there other aspects we should discuss?
   \item Check affiliations
+  \item Check order of authors
   \item Maybe include some cool pictures? Give a flavor of the kind of simulations
         you can do with \trixi? Pictures trigger people! For example after the
         list of main features?
