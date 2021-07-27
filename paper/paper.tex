@@ -92,7 +92,7 @@ with divergence cleaning.
 
 \subsection{Main features of \trixi}
 
-% TODO: Update Trixi version
+% TODO: Update Trixi version below
 As of version v0.3.50 (July 2021), \trixi comes with the following features.
 \begin{itemize}
   \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
@@ -184,8 +184,9 @@ simulate a specific setup. They can often be configured in limited amounts by
 compile time options and parameter files. In contrast, users of \trixi do not
 need to compile anything or learn the syntax of parameter files. They just load
 the library and write their simulation setups in Julia. Such scripts describing
-a simulation setup for \trixi are called elixirs. As of version v0.3.43, \trixi
+a simulation setup for \trixi are called elixirs. As of version v0.3.50, \trixi
 comes with \ca 200 example elixirs. A basic elixir could look as follows.
+% TODO: Update Trixi version above
 
 \begin{lstlisting}[language = Julia]
 # Load all required libraries
@@ -598,7 +599,6 @@ Dynamics-Geometry-Structure.
   ``Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl:
   A case study of Julia for scientific computing'' for this paper?
   \item Restructure non-conservative stuff and add MHD benchmarks
-  \item Add new features (Jesse's mesh and solver) to the list and update version, numer of examples, features, \etc
   \item Shall we re-create the schematic overview in tikz?
   \item Shall we compare \trixi to other open source frameworks such as MFEM, NGSolve, DealII, DUNE, FENICS, Firedrake, ClawPack, ...?
   \item Are there other aspects we should discuss?
