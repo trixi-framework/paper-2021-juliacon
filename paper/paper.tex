@@ -59,7 +59,7 @@ computing languages such as C, C++, and Fortran.
 \section{Introduction}
 
 \trixi\footnote{https://github.com/trixi-framework/Trixi.jl} provides adaptive
-high-order numerical simulations of hyperbolic partial differential equations (PDEs).
+high-order numerical simulations of hyperbolic partial differential equations (PDEs)
 in Julia \cite{bezanson2017julia}.
 
 \todo{TODO %TODO Introduction
@@ -630,13 +630,36 @@ on anybodies toes...} %TODO Michael
 
 \section{Summary and conclusions}
 
-\todo{TODO %TODO Summary
-\begin{itemize}
-  \item Julia is suited for simulation-focused scientific computing but some
-        things need to be improved/demonstrated for HPC
-  \item Julia allows us to do some cool stuff in \trixi
-  \item Learning a new programming language has some overhead but it pays off
-\end{itemize}}
+We have presented \trixi, a Julia library for adaptive high-order numerical
+simulations of hyperbolic PDEs. As researchers in numerical analysis and
+scientific computing, our goals were to create a framework that is extendable,
+easy to use, and fast (in this particular order). Making use of Julia's strengths,
+we have been successful based on recent publications making use of \trixi,
+the number of students and researchers working with \trixi, and serial performance
+comparisons with established Fortran codes. Having worked on \trixi for a bit
+more than one year allows us to give an assessment of Julia for simulation-focused
+scientific computing.
+
+Based on our experience, we consider Julia to be suitable for simulation-focused
+scientific computing, in particular for hyperbolic PDEs, computational fluid
+dynamics, and related problems --- at least on the scale of shared memory
+parallelism. The scalability of high-order methods for hyperbolic PDEs written
+in Julia to high performance computing applications still needs to be demonstrated.
+However, we do not expect unsolvable problems there since Julia is not generically
+slower than traditional compiled HPC programming languages. Nevertheless, it
+appears to be more complicated to scale Julia to HPC while still keeping the
+code as simple, clean, and flexible as it is now.
+
+Learning a new programming language requires of course some effort and needs some
+time. Nevertheless, it pays off in our experience and we do not want to miss the
+nice features of \trixi enabled by Julia and its ecosystem. Thus, while there is
+of course no need to switch to Julia if people are satisfied with their existing
+tools, we encourage researchers to try out Julia and stay for a while. The Julia
+community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org/}}
+or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
+experienced users. Making use of existing learning material and asking questions
+appears to be important since a new programming style is necessary to make full
+use of all of Julia's strengths.
 
 
 
@@ -659,11 +682,6 @@ Dynamics-Geometry-Structure.
 \begin{itemize}
   \item Full paper: 5--10 pages
   \item Prepare repro repo including scripts for \trixi and FLUXO
-  \item The title of our talk at JuliaCon is
-  ``Adaptive and extendable numerical simulations with Trixi.jl''.
-  Shall we use something like
-  ``Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl:
-  A case study of Julia for scientific computing'' for this paper?
   \item Restructure non-conservative stuff and add MHD benchmarks
   \item Shall we re-create the schematic overview in tikz?
   \item Shall we compare \trixi (in terms of structure, not performance!)
@@ -672,8 +690,7 @@ Dynamics-Geometry-Structure.
         explicitly to not make people angry, but maybe implicitly without
         mentioning their names?
         \begin{itemize}
-          \item Everything in Julia, not a two language problem!
-          \item Other things? Gregor will think about it!
+          \item Gregor will think about it!
         \end{itemize}
   \item Are there other aspects we should discuss?
   \item Check affiliations
