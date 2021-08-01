@@ -1,3 +1,5 @@
+% Allow breaking URLs at hyphens
+\PassOptionsToPackage{hyphens}{url}
 
 % JuliaCon proceedings template
 \documentclass{juliacon}
@@ -58,19 +60,40 @@ computing languages such as C, C++, and Fortran.
 
 \section{Introduction}
 
-\trixi\footnote{https://github.com/trixi-framework/Trixi.jl} provides adaptive
+We are broadly interested in simulation-focused scientific computing, in particular
+in hyperbolic partial differential equations (PDEs), computational fluid dynamics (CFD),
+and related problems. The focus of our research ranges from specific applications
+in CFD over general multi-physics coupling strategies to the required high-order
+numerical methods themselves. In addition, we are academics and involved in teaching
+students in these areas of science. Thus, we would like to have a code that is
+\begin{enumerate}
+  \item extendable to be useful for research and development
+  \item easy to apply/understand to be useful for students/collaborators
+  \item fast enough to be useful not only for small toy problems
+\end{enumerate}
+Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia/}} and want to have all these features in a single code.
+Roughly one year of collaborative work has resulted in the current version of
+\trixi\footnote{https://github.com/trixi-framework/Trixi.jl}, providing adaptive
 high-order numerical simulations of hyperbolic partial differential equations (PDEs)
-in Julia \cite{bezanson2017julia}.
+in Julia \cite{bezanson2017julia}. Starting as an experiment, we have been able
+to reach more and more of our goals with \trixi.
 
-\todo{TODO %TODO Introduction
-\begin{itemize}
-  \item Why we created \trixi
-  \item Overview of the paper \etc
-\end{itemize}}
+\todo{TODO: Jesse wants to write about the \trixi community} %TODO: Jesse
+
+In this article, we present an overview of the main features and design decisions
+of \trixi in Section~\ref{sec:design-of-trixi}, laying the ground for an extendable
+and easy-to-use framework of high-order methods for hyperbolic PDEs. Next, we
+compare the serial performance with an established HPC Fortran code in
+Section~\ref{sec:performance-comparison}, demonstrating that Julia is not generically
+slower than traditional HPC languages (and can even be faster in this particular case).
+Thereafter, we present an assessment of Julia for simulation-focused scientific
+computing based on our experience with \trixi in Section~\ref{sec:assessment-of-julia}.
+Finally, we summary our findings and conclusions in Section~\ref{sec:summary}.
 
 
 
 \section{Design of \trixi and overview of its features}
+\label{sec:design-of-trixi}
 
 \trixi is designed as a library of high-order methods for hyperbolic PDEs of
 the form
@@ -439,6 +462,7 @@ more efficient than the curvilinear meshes in \trixi.
 
 
 \section{Assessment of Julia for simulation-focused scientific computing}
+\label{sec:assessment-of-julia}
 
 Julia was designed from scratch to be useful for numerical computing
 \cite{bezanson2017julia}. Its usefulness has been demonstrated for example for
@@ -629,6 +653,7 @@ on anybodies toes...} %TODO Michael
 
 
 \section{Summary and conclusions}
+\label{sec:summary}
 
 We have presented \trixi, a Julia library for adaptive high-order numerical
 simulations of hyperbolic PDEs. As researchers in numerical analysis and
