@@ -105,7 +105,7 @@ As of version v0.3.50 (July 2021), \trixi comes with the following features.
           via P4est.jl\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
   \end{itemize}
 
-  \item High-order discontinuous Galerkin methods
+  \item High-order matrix-free discontinuous Galerkin methods
   \begin{itemize}
     \item Kinetic energy preserving and entropy-stable methods
     \item Entropy-stable shock-capturing
@@ -253,7 +253,10 @@ dispatch in Julia, internal implementations are specialized accordingly. For
 example, changing the volume terms of the DG discretization from the standard
 weak form to entropy stable and/or shock capturing methods can be achieved by
 passing one additional parameter to the \lstinline{DGSEM} constructor in the
-example above.
+example above. Moreover, there is no hidden global state and multiple instances
+of similar structures can be instantiated simultaneously. In particular, multiple
+semidiscretizations (in possibly different spatial dimensions) can be created
+and used in the same code.
 
 \subsubsection{New physics can be specified with minimal effort}
 
@@ -479,6 +482,13 @@ generation setups prepare the file structure accordingly. This allows test
 driven development and continuous integration (CI), which makes code restructuring
 and optimization feasible.
 
+Julia itself and most packages are developed on GitHub. The community provides
+a lot of tools for using corresponding CI setups, preparing and publishing
+documentation\footnote{\url{https://github.com/JuliaDocs/Documenter.jl}},
+and related tasks. This setup also encourages other good software development
+practices that we use in \trixi such as mandatory code review before pull requests
+are merged.
+
 In addition, the package manager encourages a unified form of semantic versioning
 across the Julia ecosystem, which lays the basis for the following three
 observations.
@@ -581,6 +591,15 @@ with roughly 350 lines of code \cite{schlottkelakemper2021purely}.
 In addition, \trixi can be extended from the outside without modifying the main
 source code, which makes it easy to set up new simulation approaches and analyze
 existing ones, \eg by fluctuation simulations \cite{ranocha2021preventing}.
+
+\subsubsection{Julia is free}
+
+Julia itself is released under the MIT license and ships some GPL-licensed
+third-party software (that can optionally be disabled for commercial purposes).
+Many packages in the Julia ecosystem follow this approach and are freely available
+under the permissive MIT license, including \trixi. This allows using Julia
+without needing to pay for commercial software. In particular, students can
+work with the software on their private computers without restrictions.
 
 
 \subsection{What is still difficult or unknown}
