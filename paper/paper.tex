@@ -116,7 +116,12 @@ with divergence cleaning.
 \subsection{Main features of \trixi}
 
 % TODO: Update Trixi version below
-As of version v0.3.50 (July 2021), \trixi comes with the following features.
+As of version v0.3.50 (July 2021), \trixi concentrates mainly on discontinuous
+Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
+In particular, it has a focus on entropy-conservative and -dissipative methods
+\cite{tadmor1987numerical, lefloch2002fully, fisher2013discretely,
+ranocha2018comparison, chen2017entropy}. Currently, \trixi comes with the
+following features.
 \begin{itemize}
   \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
   \begin{itemize}
