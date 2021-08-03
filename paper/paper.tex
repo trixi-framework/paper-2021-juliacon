@@ -159,6 +159,43 @@ following features.
   \end{itemize}
 \end{itemize}
 
+Some of the main features of \trixi are demonstrated in the following figures.
+Figure~\ref{fig:kelvin_helmholtzs} demonstrates entropy-dissipative shock-capturing
+methods with adaptive mesh refinement applied to a classical Kelvin-Helmholtz
+flow instability problem.
+
+\begin{figure}[htbp]
+  \begin{subfigure}{0.53\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
+    \caption{Density at time $t = 2$.}
+  \end{subfigure}%
+  \hspace*{\fill}
+  \begin{subfigure}{0.47\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t2}
+    \caption{Mesh at time $t = 2$.}
+  \end{subfigure}%
+  \\
+  \begin{subfigure}{0.53\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t3}
+    \caption{Density at time $t = 3$.}
+  \end{subfigure}%
+  \hspace*{\fill}
+  \begin{subfigure}{0.47\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t3}
+    \caption{Mesh at time $t = 3$.}
+  \end{subfigure}%
+  \caption{Numerical solutions of a Kelvin-Helmholtz instability using
+           entropy-dissipative shock-capturing methods and adaptive mesh
+           refinement for the compressible Euler equations.}
+  \label{fig:kelvin_helmholtzs}
+\end{figure}
+
+\todo{TODO: Andrew, add gingerbread man example for acoustics} %TODO: Andrew
+
+The detailed physical setups and numerical parameters as well as all code
+necessary to reproduce these figures are available in the reproducibility
+repository for this article \cite{ranocha2021adaptiveRepro}.
+
 
 \subsection{High-level overview of the structure}
 
