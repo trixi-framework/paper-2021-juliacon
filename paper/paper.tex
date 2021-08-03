@@ -100,7 +100,7 @@ the form
 \begin{equation}
 \label{eq:hcl}
   \partial_t u(t, x) + \sum_{j=1}^d \partial_{x_j} f^j(u) = s(t, x, u),
-  \quad t \in (0, T),
+  \quad t \in (0, T), x \in \Omega, 
 \end{equation}
 in $d \in \{1, 2, 3\}$ space dimensions. Here, the independent variables are
 time $t$ and space coordinates $x \in \Omega \subset \mathbb{R}^d$. The conserved
@@ -442,11 +442,17 @@ suitability of Julia for this kind of simulation-focused scientific computing.
 Note that we do not want to state that Julia is generically faster than Fortran,
 C, or C++. In contrast, we would like to emphasize that Julia can be at least
 as fast as code written in these traditional scientific computing languages.
-We believe that it will be possible to get the same efficiency by rewriting
-FLUXO appropriately. However, the code introspection and profiling tools available
-in Julia make it easier for us to optimize Julia code compared to other languages
-we are familiar with (having a diverse team with a strong background in C, C++,
-and Fortran). \todo{from Jesse: what does this mean?}
+%We believe that it will be possible to get the same efficiency by rewriting
+%FLUXO appropriately. 
+Together, the members of our team have strong backgrounds in C, C++, and 
+Fortran. Nevertheless, our Julia code is faster than the established HPC Fortran 
+code FLUXO for this example. The reason is not that Fortran or Julia are generically 
+faster; in contrast, we expect to be able to achieve similar performance from either 
+language. Instead, \trixi owes its performance optimizations in part to the code 
+introspection and profiling tools available in Julia. Similar tools used to optimize the 
+performance in other languages are usually not as easy to use as their Julia 
+equivalents (if they exist at all).
+
 
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
