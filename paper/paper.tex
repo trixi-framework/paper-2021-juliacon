@@ -75,7 +75,7 @@ code that is
 Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia/}} 
 and wish to include all these features within a single code.
 Roughly one year of collaborative work has resulted in the current version of
-\trixi\footnote{https://github.com/trixi-framework/Trixi.jl}, providing adaptive
+\trixi\footnote{\url{https://github.com/trixi-framework/Trixi.jl}}, providing adaptive
 high-order numerical simulations of hyperbolic partial differential equations (PDEs)
 in Julia \cite{bezanson2017julia}. Starting as an experiment, we have been able
 to reach more and more of our goals with \trixi.
@@ -565,7 +565,7 @@ to reduce the number of external dependencies as much as possible due to the
 complexity of handling different versions and making everything work together.
 Such an approach typically leads to significant code duplication. For example, many
 CFD codes implement their own time integration methods, arguing that the spatial
-part is much more complex \todo{should we cite something for this?}. While this is often true, it is still more efficient
+part is much more complex. While this is often true, it is still more efficient
 in terms of human workload to be able to reuse existing implementations. This
 allows expert on time integration methods to develop specialized algorithms and
 implement them in open source software while practitioners or researchers focusing
