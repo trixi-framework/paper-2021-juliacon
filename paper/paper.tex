@@ -116,7 +116,12 @@ with divergence cleaning.
 \subsection{Main features of \trixi}
 
 % TODO: Update Trixi version below
-As of version v0.3.50 (July 2021), \trixi comes with the following features.
+As of version v0.3.50 (July 2021), \trixi concentrates mainly on discontinuous
+Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
+In particular, it has a focus on entropy-conservative and -dissipative methods
+\cite{tadmor1987numerical, lefloch2002fully, fisher2013discretely,
+ranocha2018comparison, chen2017entropy}. Currently, \trixi comes with the
+following features.
 \begin{itemize}
   \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
   \begin{itemize}
@@ -138,7 +143,8 @@ As of version v0.3.50 (July 2021), \trixi comes with the following features.
   \item Multiple governing equations
   \begin{itemize}
     \item Compressible Euler equations (optionally with self-gravity)
-    \item Magnetohydrodynamics equations
+    \item Magnetohydrodynamics (MHD) equations
+    \item Multicomponent compressible Euler and MHD equations
     \item Acoustic perturbation equations
     \item Hyperbolic diffusion for elliptic problems
     \item Lattice-Boltzmann equations (D2Q9 and D3Q27 schemes)
@@ -153,6 +159,43 @@ As of version v0.3.50 (July 2021), \trixi comes with the following features.
     \item Postprocessing with ParaView/Visit via Trixi2Vtk.jl
   \end{itemize}
 \end{itemize}
+
+Some of the main features of \trixi are demonstrated in the following figures.
+Figure~\ref{fig:kelvin_helmholtzs} demonstrates entropy-dissipative shock-capturing
+methods with adaptive mesh refinement applied to a classical Kelvin-Helmholtz
+flow instability problem.
+
+\begin{figure}[htbp]
+  \begin{subfigure}{0.53\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
+    \caption{Density at time $t = 2$.}
+  \end{subfigure}%
+  \hspace*{\fill}
+  \begin{subfigure}{0.47\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t2}
+    \caption{Mesh at time $t = 2$.}
+  \end{subfigure}%
+  \\
+  \begin{subfigure}{0.53\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t3}
+    \caption{Density at time $t = 3$.}
+  \end{subfigure}%
+  \hspace*{\fill}
+  \begin{subfigure}{0.47\linewidth}
+    \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t3}
+    \caption{Mesh at time $t = 3$.}
+  \end{subfigure}%
+  \caption{Numerical solutions of a Kelvin-Helmholtz instability using
+           entropy-dissipative shock-capturing methods and adaptive mesh
+           refinement for the compressible Euler equations.}
+  \label{fig:kelvin_helmholtzs}
+\end{figure}
+
+\todo{TODO: Andrew, add gingerbread man example for acoustics} %TODO: Andrew
+
+The detailed physical setups and numerical parameters as well as all code
+necessary to reproduce these figures are available in the reproducibility
+repository for this article \cite{ranocha2021adaptiveRepro}.
 
 
 \subsection{High-level overview of the structure}
