@@ -116,7 +116,7 @@ with divergence cleaning.
 \subsection{Main features of \trixi}
 
 % TODO: Update Trixi version below
-As of version v0.3.50 (July 2021), \trixi concentrates mainly on discontinuous
+As of version v0.3.53 (August 2021), \trixi concentrates mainly on discontinuous
 Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
 In particular, it has a focus on entropy-conservative and -dissipative methods
 \cite{tadmor1987numerical, lefloch2002fully, fisher2013discretely,
@@ -252,8 +252,9 @@ simulate a specific setup. These codes can often be configured to a limited exte
 by specifying compile time options or editing parameter files. In contrast, users of 
 \trixi do not need to compile anything or learn parameter file syntax. Instead, they can
 just load the library and write their simulation setups in Julia. Scripts which describe
-a simulation setup for \trixi are referred to as ``elixirs''. As of version v0.3.50, \trixi
-comes with \ca 200 example elixirs. A basic elixir might look as follows:
+a simulation setup for \trixi are referred to as ``elixirs''. As of version
+v0.3.53 (August 2021), \trixi comes with \ca 200 example elixirs. A basic elixir
+might look as follows:
 % TODO: Update Trixi version above
 
 \begin{lstlisting}[language = Julia]
