@@ -106,5 +106,5 @@ plot(pd["rho"])
 plot!(title="", colorbar_title="", size=(650, 500); fontsizes...)
 savefig(joinpath(figdir, "kelvin_helmholtz_density_t" * string(round(Int, last(tspan))) * ".pdf"))
 
-plot(getmesh(pd), xlabel="\$x\$", ylabel="\$y\$", size=(580, 500), linewidth=2; fontsizes...)
+plot(getmesh(pd), xlabel="\$x\$", ylabel="\$y\$", size=(580, 500), linewidth=2, grid=false; fontsizes...)
 savefig(joinpath(figdir, "kelvin_helmholtz_mesh_t" * string(round(Int, last(tspan))) * ".pdf"))

@@ -1,7 +1,7 @@
-# Kelvin-Helmholtz instability
+# Colliding supersonic flows
 
 The files in this folder can be used to reproduce the numerical experiment
-simulating a Kelvin-Helmholtz instability with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
+simulating colliding supersonic flows with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 All results were obtained with Julia v1.6.2 on a computer running Kubuntu 20.04.
 
 To reproduce the numerical experiments and the figure shown in the paper, proceed
@@ -14,10 +14,10 @@ as follows.
   ```julia
   julia> using Trixi
 
-  julia> trixi_include("elixir_euler_kelvin_helmholtz_instability_amr.jl", tspan=(0.0, 2.0))
+  julia> trixi_include("elixir_euler_colliding_flow_amr.jl", tspan=(0.0, 15.0))
   [output of the simulation]
 
-  julia> trixi_include("elixir_euler_kelvin_helmholtz_instability_amr.jl", tspan=(0.0, 3.0))
+  julia> trixi_include("elixir_euler_colliding_flow_amr.jl", tspan=(0.0, 25.0))
   [output of the simulation]
   ```
 
