@@ -481,7 +481,8 @@ suitability of Julia for this kind of simulation-focused scientific computing.
     \caption{Run time relative to FLUXO.}
   \end{subfigure}%
   \caption{Run time per right-hand side evaluation and degree of freedom for
-           different DG discretizations of the 3D compressible Euler equations.}
+           different DG discretizations of the 3D compressible Euler equations
+           in FLUXO (Fortran) and \trixi (Julia).}
   \label{fig:PID-Euler}
 \end{figure}
 
@@ -508,7 +509,42 @@ be used. Depending on the relative computational effort of the discretization
 Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
-\todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
+\todo{TODO: Keep the plot of this comparison with the \lstinline{TreeMesh}?}
+
+\begin{figure}
+\centering
+  \begin{subfigure}{\linewidth}
+    \begin{tikzpicture}[
+      font=\footnotesize
+      ]
+      \begin{axis}[
+          xlabel={Polynomial degree},
+          % ylabel={Time per RHS call and DOF (relative)},
+          ylabel={Relative run time {[-]}},
+          width=\textwidth,
+          height=0.66\textwidth,
+          legend columns=-1,
+          legend pos=south west,
+          ymin=0.0,
+          ymax=1.1,
+          ytick={0, 0.2, 0.4, 0.5, 0.6, 0.8, 1},
+          grid=major,
+        ]
+        \addplot[orange, mark=*, solid] % TreeMesh, weak form
+          table [x index=0, y index=1]{../data/pids_euler_weak_cartesian.dat};
+          \addlegendentry{Weak form}
+
+        \addplot[orange, mark=*, dashed] % TreeMesh, flux differencing
+          table [x index=0, y index=1]{../data/pids_euler_ranocha_cartesian.dat};
+          \addlegendentry{Flux differencing}
+      \end{axis}
+    \end{tikzpicture}
+  \end{subfigure}%
+  \caption{Run time per right-hand side evaluation and degree of freedom for
+           different DG discretizations of the 3D compressible Euler equations
+           in FLUXO (Fortran) and \trixi (Julia).}
+  \label{fig:PID-TreeMesh}
+\end{figure}
 
 \todo{TODO: Add MHD results?}
 
