@@ -102,8 +102,7 @@ figdir = joinpath(dirname(@__DIR__), "figures")
 fontsizes = (xtickfontsize=18, ytickfontsize=18, xguidefontsize=20, yguidefontsize=20, legendfontsize=18)
 
 pd = PlotData2D(sol)
-plot(pd["rho"])
-plot!(title="", colorbar_title="", size=(650, 500); fontsizes...)
+plot(pd["rho"], title="", colorbar_title="", size=(650, 500), clim=(0.47, 2.3); fontsizes...)
 savefig(joinpath(figdir, "kelvin_helmholtz_density_t" * string(round(Int, last(tspan))) * ".pdf"))
 
 plot(getmesh(pd), xlabel="\$x\$", ylabel="\$y\$", size=(580, 500), linewidth=2, grid=false; fontsizes...)

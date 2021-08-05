@@ -76,14 +76,14 @@ Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02
 and wish to include all these features within a single code.
 Roughly one year of collaborative work has resulted in the current version of
 \trixi\footnote{\url{https://github.com/trixi-framework/Trixi.jl}}, providing adaptive
-high-order numerical simulations of hyperbolic partial differential equations (PDEs)
+high-order numerical simulations of hyperbolic PDEs
 in Julia \cite{bezanson2017julia}. Starting as an experiment, we have been able
 to reach more and more of our goals with \trixi.
 
 In this article, we present an overview of the main features and design decisions
 of \trixi in Section~\ref{sec:design-of-trixi}, laying the ground for an extendable
 and easy-to-use framework of high-order methods for hyperbolic PDEs. Next, we
-compare the serial performance with an established HPC Fortran code in
+compare the serial performance with an established high-performance computing (HPC) Fortran code in
 Section~\ref{sec:performance-comparison}, demonstrating that Julia is not generically
 slower than traditional HPC languages (and can even be faster in this particular case).
 Thereafter, we present an assessment of Julia for simulation-focused scientific
@@ -136,7 +136,7 @@ following features.
   \item High-order matrix-free discontinuous Galerkin methods
   \begin{itemize}
     \item Kinetic energy preserving and entropy-stable methods
-    \item Entropy-stable shock-capturing
+    \item Entropy-stable shock capturing
     \item Positivity-preserving limiting
   \end{itemize}
 
@@ -156,7 +156,7 @@ following features.
     \item Time integration methods from OrdinaryDiffEq.jl
     \item Automatic differentiation with ForwardDiff.jl
     \item In-situ visualization with Plots.jl
-    \item Postprocessing with ParaView/Visit via Trixi2Vtk.jl
+    \item Postprocessing with ParaView/Visit via Trixi2Vtk.jl\footnote{\url{https://github.com/trixi-framework/Trixi2Vtk.jl}}
   \end{itemize}
 \end{itemize}
 
@@ -221,7 +221,7 @@ model is determined by the \lstinline{equations}, the \lstinline{initial_conditi
 \lstinline{boundary_conditions}, and possible \lstinline{source_terms}. The
 \lstinline{solver} describes purely numerical parameters determining the specific
 discretization method such as discontinuous Galerkin or finite difference
-methods, kinetic energy preserving or shock capturing approaches. Finally, the
+methods, kinetic energy preserving or shock-capturing approaches. Finally, the
 \lstinline{mesh} has a necessarily hybrid role including information about the
 spatial domain and its discretization.
 
@@ -238,7 +238,7 @@ callbacks.
 
 The design of \trixi was guided by extensibility, ease of use, and efficiency
 (in this particular order). Thus, it is likely possible to make (some parts) even 
-faster at the cost of simplicity and readibility. Nevertheless, \trixi is already quite
+faster at the cost of simplicity and readability. Nevertheless, \trixi is already quite
 fast, even compared to established high-performance open source software,
 as described in detail in Section~\ref{sec:performance-comparison}. In this
 section, we focus mostly on the first two goals.
@@ -318,7 +318,7 @@ Abstractions such as (variants of) the \lstinline{solver}, the \lstinline{mesh},
 and the \lstinline{equations} use a common interface. Utilizing multiple
 dispatch in Julia, internal implementations are specialized accordingly. For
 example, changing the volume terms of the DG discretization from the standard
-weak form to entropy stable and/or shock capturing methods can be achieved by
+weak form to entropy-stable and/or shock-capturing methods can be achieved by
 passing one additional parameter to the \lstinline{DGSEM} constructor in the
 example above. Moreover, there is no hidden global state. This means that multiple instances
 of similar structures can be instantiated simultaneously. In particular, multiple
@@ -350,7 +350,7 @@ can make it difficult to experiment with new ideas. In contrast, Julia's dynamic
 nature, multiple dispatch, and just-ahead-of-time compilation allow us to implement only the features
 that are strictly necessary. For example, if a user wants to simulate a new
 physics model only on Cartesian grids with smooth solutions, there is no need
-to implement anything for curvilinear coordinates or shock capturing approaches.
+to implement anything for curvilinear coordinates or shock-capturing approaches.
 In addition, it allows a user to extend \trixi step by step with new capabilities.
 For example, there are ongoing efforts to incorporate summation by parts finite
 difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
@@ -369,7 +369,7 @@ MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
 meshes in three space dimensions for advection diffusion equations. It also
 implements the same kind of modern DG methods based on flux differencing
 to achieve entropy conservation/dissipation or kinetic energy preservation.
-At the same time, both codes also have features the other one does not, \eg
+At the same time, both codes also have features the other one does not, \eg,
 parabolic equations and MPI in FLUXO or multiple mesh types and more physics setups
 in \trixi. Nevertheless, both \trixi and FLUXO share a common set of features,
 enabling a reasonable comparison of their performance.
@@ -757,15 +757,16 @@ under Germany's Excellence Strategy EXC 2044-390685587, Mathematics Münster:
 Dynamics-Geometry-Structure.
 Andrew Winters was funded through Vetenskapsr{\aa}det, Sweden grant
 agreement 2020-03642 VR.
+Jesse Chan acknowledges support from the US National Science Foundation under
+awards DMS-1719818 and DMS-1943186.
+
+\todo{TODO: Gregor, add your funding sources that need to be here} %TODO Gregor
 
 The performance computations were enabled by resources provided by the Swedish National
 Infrastructure for Computing (SNIC) at Tetralith partially funded by the Swedish
 Research Council through grant agreement no. 2018-05973.
 
-\todo{TODO: Add your funding sources that need to be here (if any)} %TODO Funding
 
-Jesse Chan acknowledges support from the US National Science Foundation under 
-awards DMS-1719818 and DMS-1943186. 
 % References
 \input{bib.tex}
 
@@ -775,7 +776,6 @@ awards DMS-1719818 and DMS-1943186.
   \item Full paper: 5--10 pages
   \item Prepare repro repo including scripts for \trixi and FLUXO
   \item Rerun Euler benchmarks and add MHD benchmarks
-  \item Shall we re-create the schematic overview in tikz?
   \item Gregor: Other aspects of other codes that we like more in \trixi?
   \item Are there other aspects we should discuss?
   \item Check affiliations
