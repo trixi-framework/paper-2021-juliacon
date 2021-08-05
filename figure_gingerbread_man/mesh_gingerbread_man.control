@@ -1,9 +1,9 @@
 \begin{CONTROL_INPUT}
 
    \begin{RUN_PARAMETERS}
-      mesh file name   = Examples/2D/GingerbreadMan/GingerbreadManMesh.mesh
-      plot file name   = Examples/2D/GingerbreadMan/GingerbreadManPlot.tec
-      stats file name  = Examples/2D/GingerbreadMan/Stats.txt
+      mesh file name   = out/mesh_gingerbread_man.mesh
+      plot file name   = out/mesh_gingerbread_man.tec
+      stats file name  = none
       mesh file format = ISM-v2
       polynomial order = 6
       plot file format = sem
