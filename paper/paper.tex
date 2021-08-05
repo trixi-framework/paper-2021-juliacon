@@ -551,6 +551,80 @@ suitability of Julia for this kind of simulation-focused scientific computing.
   \label{fig:PID-Euler}
 \end{figure}
 
+\begin{figure}[!ht]
+\centering
+  \begin{subfigure}{\linewidth}
+    \begin{tikzpicture}[
+      font=\footnotesize
+      ]
+      \begin{axis}[
+          xlabel={Polynomial degree},
+          ylabel={Time/RHS/DOF {[sec]}},
+          width=\textwidth,
+          height=0.66\textwidth,
+          legend columns=-1,
+          % legend to name=place_legend_here,
+          legend pos=north west,
+          ymin=0.0,
+          ymax=2.0e-6,
+          grid=major,
+        ]
+        \addplot[blue, mark=*, solid] % FLUXO, weak form
+          table [x index=0, y index=2]{../new_pid_data/pids_mhd_weak.dat};
+          \addlegendentry{FLUXO}
+        \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
+          table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak.dat};
+          \addlegendentry{\trixi}
+        \node at (axis cs:13,3.5e-7) {Weak form};
+
+        \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
+          table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor.dat};
+        \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
+          table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor.dat};
+        \node [rotate=15] at (axis cs:9,8.2e-7) {Flux differencing};
+        \draw (axis cs:9,9.2e-7) -- (axis cs:8.5,10.2e-7);
+        \draw (axis cs:9,7.2e-7) -- (axis cs:8.5,5.2e-7);
+      \end{axis}
+    \end{tikzpicture}%
+    \caption{Absolute run times.}
+  \end{subfigure}%
+  \\
+  \begin{subfigure}{\linewidth}
+    \begin{tikzpicture}[
+      font=\footnotesize
+      ]
+      \begin{axis}[
+          xlabel={Polynomial degree},
+          ylabel={Time relative to FLUXO {[-]}},
+          width=\textwidth,
+          height=0.66\textwidth,
+          legend columns=-1,
+          legend pos=south west,
+          ymin=0.0,
+          ymax=1.1,
+          ytick={0, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1},
+          grid=major,
+        ]
+        \addplot[blue, mark=*, solid, forget plot] % FLUXO, weak form
+          table [x index=0, y index=2]{../new_pid_data/pids_mhd_weak_relative.dat};
+        \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
+          table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak_relative.dat};
+          \addlegendentry{Weak form}
+
+        \addplot[blue, mark=*, dashed, forget plot] % FLUXO, flux differencing
+          table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor_relative.dat};
+        \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
+          table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor_relative.dat};
+          \addlegendentry{Flux differencing}
+      \end{axis}
+    \end{tikzpicture}
+    \caption{Run time relative to FLUXO.}
+  \end{subfigure}%
+  \caption{Run time per right-hand side evaluation and degree of freedom for
+           different DG discretizations of the 3D ideal MHD equations.}
+  \label{fig:PID-MHD}
+\end{figure}
+
 Note that we do not want to state that Julia is generically faster than Fortran,
 C, or C++. In contrast, we would like to emphasize that Julia can be at least
 as fast as code written in these traditional scientific computing languages.
@@ -577,6 +651,8 @@ more efficient than the curvilinear meshes in \trixi.
 \todo{add Intel discussion}
 
 \todo{alter slightly with MHD results}
+
+\todo{Trixi runs need redone due to further improvements}
 
 
 
