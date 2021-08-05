@@ -3,8 +3,10 @@
 The files in this folder can be used to reproduce the numerical experiment
 simulating Acoustic wave scattering on a gingerbread man mesh
 with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
-The provided mesh file `mesh_gingerbread_man.mesh` was created
-with [HOHQMesh.jl](https://github.com/trixi-framework/HOHQMesh.jl).
+The provided control file `mesh_gingerbread_man.control` is used by
+[HOHQMesh.jl](https://github.com/trixi-framework/HOHQMesh.jl) to generate the
+unstrucutred quad mesh file for this simulation. Once generated, the mesh file
+`mesh_gingerbread_man.mesh` is placed in the `out` folder.
 All results were obtained with Julia v1.6.2 on a computer running macOS Big Sur 11.5.
 
 To reproduce the numerical experiments and the figure shown in the paper, proceed
