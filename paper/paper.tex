@@ -486,6 +486,8 @@ suitability of Julia for this kind of simulation-focused scientific computing.
   \label{fig:PID-Euler}
 \end{figure}
 
+\todo{TODO: Add MHD results}
+
 Note that we do not want to state that Julia is generically faster than Fortran,
 C, or C++. In contrast, we would like to emphasize that Julia can be at least
 as fast as code written in these traditional scientific computing languages.
@@ -508,8 +510,6 @@ be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
 Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
-
-\todo{TODO: Add MHD results?}
 
 
 
@@ -554,8 +554,8 @@ Many scientists implementing numerical methods often have no real experience or
 education in software development. Julia and its ecosystem support these
 researchers by making it easy to set up unit and regression tests, since a
 testing framework is included in the standard library and default package
-generation setups prepare the file structure accordingly. This allows test
-driven development and continuous integration (CI), which makes code restructuring
+generation setups prepare the file structure accordingly. This allows test-driven
+development and continuous integration (CI), which makes code restructuring
 and optimization straightforward.
 
 Julia itself and most packages are developed on GitHub. The community provides
@@ -593,7 +593,7 @@ and Windows.
 Similarly, there is no need to compile HDF5 on a user system due to the
 availability of HDF5.jl\footnote{\url{https://github.com/JuliaIO/HDF5.jl}}.
 There is still work to be done how to improve the experience in combination
-with MPI on high performance computing (HPC) clusters, but some promising
+with MPI on HPC clusters, but some promising
 approaches exist \cite{byrne2021mpi}.
 
 It is also possible to wrap Fortran libraries/tools in Julia. For example, we
@@ -615,7 +615,7 @@ part is much more complex. While this is often true, it is still more efficient
 in terms of human workload to be able to reuse existing implementations. This
 allows experts on time integration methods to develop specialized algorithms and
 implement them in open source software while practitioners or researchers focusing
-on spatial semidiscretizations ca benefit immediately by changing only one line
+on spatial semidiscretizations can benefit immediately by changing only one line
 of code. For example, optimized time integration methods were developed in
 \cite{ranocha2021optimized} and implemented in OrdinaryDiffEq.jl. These methods
 can be used with \trixi by changing a single line of code. In contrast, researchers
@@ -673,7 +673,7 @@ a multi-physics setup for the compressible Euler equations with self-gravity
 with roughly 350 lines of code \cite{schlottkelakemper2021purely}.
 In addition, \trixi can be extended from the outside without modifying the main
 source code, which makes it easy to set up new simulation approaches and analyze
-existing ones, \eg by fluctuation simulations \cite{ranocha2021preventing}.
+existing ones, \eg, by fluctuation simulations \cite{ranocha2021preventing}.
 
 \subsubsection{Julia is free}
 
@@ -728,7 +728,7 @@ Based on our experience, we consider Julia to be suitable for simulation-focused
 scientific computing, in particular for hyperbolic PDEs, computational fluid
 dynamics, and related problems --- at least on the scale of shared memory
 parallelism. The scalability of high-order methods for hyperbolic PDEs written
-in Julia to high performance computing applications still needs to be demonstrated.
+in Julia to high-performance computing applications still needs to be demonstrated.
 However, we do not expect this to remain an unsolvable problem since Julia is not 
 generically slower than traditional compiled HPC programming languages. Nevertheless, 
 it appears to be more complicated to scale Julia to HPC while still keeping the
