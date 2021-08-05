@@ -21,7 +21,7 @@ equations = AcousticPerturbationEquations2D(v_mean_global=(0.0, -0.5), c_mean_gl
 solver = DGSEM(polydeg=6, surface_flux=flux_lax_friedrichs)
 
 # Create unstructured quadrilateral mesh from a file
-mesh_file = joinpath(@__DIR__, "out/mesh_gingerbread_man.mesh")
+mesh_file = joinpath(@__DIR__, "out", "mesh_gingerbread_man.mesh")
 mesh = UnstructuredMesh2D(mesh_file)
 
 # Setup the initial and boundary conditions

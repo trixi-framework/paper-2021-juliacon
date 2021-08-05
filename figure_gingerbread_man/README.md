@@ -1,7 +1,7 @@
 # Acoustic wave scattering on a gingerbread man
 
 The files in this folder can be used to reproduce the numerical experiment
-simulating Acoustic wave scattering on a gingerbread man mesh
+simulating acoustic wave scattering on a gingerbread man mesh
 with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 The provided control file `mesh_gingerbread_man.control` is used by
 [HOHQMesh.jl](https://github.com/trixi-framework/HOHQMesh.jl) to generate the
