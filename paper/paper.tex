@@ -445,7 +445,7 @@ We ran each configuration of a particular physical setup, polynomial degree, and
 for each code five times, taking the smallest value from each in the comparison results.
 
 To assess the performance of the two codes we vary the polynomial degree (polydeg) in the range $[3,15]$.
-This corresponds to considering DG approximations of (increasing) high-order spatial accuracy, from fourth up to sixteenth order.
+This corresponds to considering DG approximations of (increasing) spatial accuracy, from fourth up to sixteenth order.
 The metric we use to analyze and compare FLUXO and \trixi simulations is a performance index (PID) that
 measures the time required to advance a single degree of freedom (DOF) from one stage of the explicit Runge-Kutta
 time integration scheme to the next. It is computed as
@@ -453,6 +453,7 @@ time integration scheme to the next. It is computed as
 \label{eqn:pid}
 \text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot\#\text{elements}\cdot(\text{polydeg}+1)^3}.
 \end{equation}
+In other words, the PID acts as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
 
 The code and detailed information necessary to reproduce these numerical
 experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
@@ -464,7 +465,7 @@ Clearly, \trixi is more than 2x faster than the Fortran code FLUXO
 while both implement the same numerical methods. This demonstrates the
 suitability of Julia for this kind of simulation-focused scientific computing.
 
-\begin{figure}
+\begin{figure}[!ht]
 \centering
   \begin{subfigure}{\linewidth}
     \begin{tikzpicture}[
@@ -480,29 +481,29 @@ suitability of Julia for this kind of simulation-focused scientific computing.
           % legend to name=place_legend_here,
           legend pos=north west,
           ymin=0.0,
-          ymax=2.2e-6,
+          ymax=2.0e-6,
           grid=major,
         ]
         \addplot[blue, mark=*, solid] % FLUXO, weak form
-          table [x index=0, y index=3]{../data/pids_euler_weak.dat};
+          table [x index=0, y index=2]{../new_pid_data/pids_euler_weak.dat};
           \addlegendentry{FLUXO}
 %         \addplot[orange, mark=square*, solid] % TreeMesh, weak form
 %           table [x index=0, y index=1]{../data/pids_euler_weak.dat};
 %           \addlegendentry{\texttt{TreeMesh} (\trixi)}
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=2]{../data/pids_euler_weak.dat};
+          table [x index=0, y index=1]{../new_pid_data/pids_euler_weak.dat};
           % \addlegendentry{\texttt{StructuredMesh} (\trixi)}
           \addlegendentry{\trixi}
         \node at (axis cs:13,3.5e-7) {Weak form};
 
         \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
-          table [x index=0, y index=3]{../data/pids_euler_ranocha.dat};
+          table [x index=0, y index=2]{../new_pid_data/pids_euler_ranocha.dat};
 %         \addplot[orange, mark=square*, dashed] % TreeMesh, flux differencing
 %           table [x index=0, y index=1]{../data/pids_euler_ranocha.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=2]{../data/pids_euler_ranocha.dat};
-        \node [rotate=23] at (axis cs:9,8.2e-7) {Flux differencing};
-        \draw (axis cs:9,9.2e-7) -- (axis cs:7.5,10.2e-7);
+          table [x index=0, y index=1]{../new_pid_data/pids_euler_ranocha.dat};
+        \node [rotate=15] at (axis cs:9,8.2e-7) {Flux differencing};
+        \draw (axis cs:9,9.2e-7) -- (axis cs:8.5,10.2e-7);
         \draw (axis cs:9,7.2e-7) -- (axis cs:8.5,5.2e-7);
       \end{axis}
     \end{tikzpicture}%
@@ -527,19 +528,19 @@ suitability of Julia for this kind of simulation-focused scientific computing.
           grid=major,
         ]
         \addplot[blue, mark=*, solid, forget plot] % FLUXO, weak form
-          table [x index=0, y index=3]{../data/pids_euler_weak_relative.dat};
+          table [x index=0, y index=2]{../new_pid_data/pids_euler_weak_relative.dat};
 %         \addplot[orange, mark=square*, solid, forget plot] % TreeMesh, weak form
 %           table [x index=0, y index=1]{../data/pids_euler_weak_relative.dat};
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=2]{../data/pids_euler_weak_relative.dat};
+          table [x index=0, y index=1]{../new_pid_data/pids_euler_weak_relative.dat};
           \addlegendentry{Weak form}
 
         \addplot[blue, mark=*, dashed, forget plot] % FLUXO, flux differencing
-          table [x index=0, y index=3]{../data/pids_euler_ranocha_relative.dat};
+          table [x index=0, y index=2]{../new_pid_data/pids_euler_ranocha_relative.dat};
 %         \addplot[orange, mark=square*, dashed, forget plot] % TreeMesh, flux differencing
 %           table [x index=0, y index=1]{../data/pids_euler_ranocha_relative.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=2]{../data/pids_euler_ranocha_relative.dat};
+          table [x index=0, y index=1]{../new_pid_data/pids_euler_ranocha_relative.dat};
           \addlegendentry{Flux differencing}
       \end{axis}
     \end{tikzpicture}
@@ -573,9 +574,9 @@ be used. Depending on the relative computational effort of the discretization
 Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
-\todo{TODO: Plot of this comparison with the \lstinline{TreeMesh}?}
+\todo{add Intel discussion}
 
-\todo{TODO: Add MHD results?}
+\todo{alter slightly with MHD results}
 
 
 
