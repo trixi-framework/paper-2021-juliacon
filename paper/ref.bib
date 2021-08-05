@@ -11,7 +11,7 @@
 @misc{ranocha2021adaptiveRepro,
   title={Reproducibility repository for
          Adaptive high-order numerical simulations of hyperbolic {PDEs} with
-         {T}rixi.jl: {A} case study of Julia for scientific computing},
+         {T}rixi.jl: {A} case study of {J}ulia for scientific computing},
   author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
   year={2021},
@@ -45,7 +45,7 @@
   month={08},
   doi={10.1007/s42967-021-00148-z},
   eprint={2009.13139},
-  eprinttype={arXiv},
+  eprinttype={arxiv},
   eprintclass={math.NA}
 }
 
@@ -105,9 +105,10 @@
          semidiscretization techniques with mimetic properties},
   author={Ranocha, Hendrik},
   year={2021},
+  month={05},
   howpublished={\url{https://github.com/ranocha/SummationByPartsOperators.jl}},
   doi={10.5281/zenodo.4773575},
-  note={Submitted to the Journal of Open Source Software}
+  note={Submitted to the Journal of Open Source Software. \url{https://github.com/openjournals/joss-papers/blob/joss.03454/joss.03454/10.21105.joss.03454.pdf}}
 }
 
 @online{innes2018fashionable,
@@ -263,22 +264,23 @@
 @article{leveque2013top,
   title={Top ten reasons to not share your code (and why you should anyway)},
   author={LeVeque, Randall J},
-  journal={Siam News},
+  journal={SIAM News},
   volume={46},
   number={3},
   year={2013}
 }
 
 @online{ranocha2021optimized,
-  title={Optimized {R}unge-{K}utta Methods with Automatic Step Size Control
+  title={Optimized Runge-Kutta Methods with Automatic Step Size Control
          for Compressible Computational Fluid Dynamics},
   author={Ranocha, Hendrik and Dalcin, Lisandro and Parsani, Matteo
           and Ketcheson, David I.},
   year={2021},
-  month={04},
+  month={07},
   eprint={2104.06836},
   eprinttype={arxiv},
-  eprintclass={math.NA}
+  eprintclass={math.NA},
+  note={Accepted in Communications on Applied Mathematics and Computation}
 }
 
 @article{besard2018juliagpu,
@@ -292,15 +294,14 @@
   eprintclass={cs.PL}
 }
 
-@misc{omlin2020solving,
+@online{omlin2020solving,
   title={Solving Nonlinear Multi-Physics on {GPU} Supercomputers with {J}ulia},
   author={Omlin, Samuel and Räss, Ludovic and Kwasniewski, Grzegorz and
           Malvoisin, Benjamin and Podladchikov, Yury},
-  howpublished={Talk presented at JuliaCon},
+  howpublished={\url{https://www.youtube.com/watch?v=vPsfZUqI4_0}. Talk presented at JuliaCon},
   location={virtual},
   year={2020},
-  month={07},
-  url={https://www.youtube.com/watch?v=vPsfZUqI4_0}
+  month={07}
 }
 
 @article{grassi2014krome,
@@ -426,15 +427,19 @@
   pages={A2938--A2966},
   year={2019},
   publisher={SIAM},
+  doi={10.1137/18M1209234},
   doi={10.1137/18M1209234}
 }
 
 @techreport{CarpenterKennedy1994,
-	author={Mark H. Carpenter and Christopher A. Kennedy},
-	institution={NASA Langley Research Center},
-	number={NASA TM 109111},
-	title={Fourth-Order $2{N}$-Storage {R}unge-{K}utta Schemes},
-	year={1994}
+  title={Fourth Order {2N}-Storage {R}unge-{K}utta Schemes},
+  author={Kennedy, Christopher A and Carpenter, Mark H},
+  institution={NASA},
+  month={06},
+  year={1994},
+  type={Technical Memorandum},
+  number={NASA-TM-109112},
+  address={NASA Langley Research Center, Hampton VA 23681-0001, United States}
 }
 
 @article{gassner2011,
@@ -467,12 +472,14 @@
 }
 
 @book{Toro2009,
-	author={Toro, Eleuterio F.},
-	publisher={Springer},
-	title={Riemann Solvers and Numerical Methods for Fluid Dynamics: A Practical Introduction},
-	isbn={9783662034903},
-	year={2009}
- }
+  title={Riemann Solvers and Numerical Methods for Fluid Dynamics: {A} Practical
+         Introduction},
+  author={Toro, Eleuterio F},
+  year={2009},
+  publisher={Springer},
+  address={Berlin Heidelberg},
+  doi={10.1007/b79761}
+}
 
  @article{li2005hllc,
   title={An {HLLC} {R}iemann solver for magneto-hydrodynamics},
