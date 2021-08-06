@@ -461,10 +461,11 @@ experiments is available in the accompanying repository \cite{ranocha2021adaptiv
 
 \subsection{Results of the performance comparison}
 
-The results of this comparison are visualized in Figure~\ref{fig:PID-Euler}.
-Clearly, \trixi is more than 2x faster than the Fortran code FLUXO
-while both implement the same numerical methods. This demonstrates the
-suitability of Julia for this kind of simulation-focused scientific computing.
+The results of these performance comparisons are visualized for the 3D compressible Euler
+in Figure~\ref{fig:PID-Euler} and for the 3D ideal MHD equations in Figure~\ref{fig:PID-MHD}.
+We present the PID timings for both codes in the top portion of these two Figures as well as
+a relative comparison using FLUXO as reference. Therefore, smaller values in the bottom portion
+the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
 
 \begin{figure}[!ht]
 \centering
@@ -632,6 +633,17 @@ suitability of Julia for this kind of simulation-focused scientific computing.
   \label{fig:PID-MHD}
 \end{figure}
 
+From these results, it is clear that \trixi is more than 2x faster for the compressible Euler equations
+and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUXO.
+We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
+the Intel was between $5\%$ to $23\%$ faster.
+Thus, only results from the Intel compiler are included.
+It is also possible to see the additional computational overhead for the entropy conservative, flux
+differencing DG methods for both physical models. This is because the numerical fluxes are more complex, in
+terms of computational effort, and require special care to optimize their performance~\cite{hendrik_blog}.
+We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
+This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
+
 Note that we do not want to state that Julia is generically faster than Fortran,
 C, or C++. In contrast, we would like to emphasize that Julia can be at least
 as fast as code written in these traditional scientific computing languages.
@@ -646,7 +658,6 @@ introspection and profiling tools available in Julia. Similar tools used to opti
 performance in other languages are usually not as easy to use as their Julia
 equivalents (if they exist at all).
 
-
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
@@ -654,14 +665,6 @@ be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
 Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
-
-\todo{TODO: add Intel discussion} % TODO: Andrew
-
-\todo{TODO: alter slightly with MHD results} % TODO: Andrew
-
-\todo{TODO: \trixi runs need redone due to further improvements} % TODO: Andrew
-
-
 
 \section{Assessment of Julia for simulation-focused scientific computing}
 \label{sec:assessment-of-julia}
