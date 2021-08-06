@@ -1,12 +1,12 @@
 # Performance index (PID) computations of Trixi and FLUXO
 
 The files in this folder can be used to reproduce the numerical experiments
-for the performance comparison between the fortran code
+for the performance comparison between the Fortran code
 [FLUXO](https://github.com/project-fluxo/fluxo) and the Julia code
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 All results reported in the paper were obtained with the Intel compiler suite v18.0.03
 and Julia v1.6.1. The runs were performed with a single Intel Xeon Gold 6130 processor
-on [Tetralith](https://www.nsc.liu.se/systems/tetralith/) an HPC cluster maintained by the
+on [Tetralith](https://www.nsc.liu.se/systems/tetralith/) an HPC cluster provided by the
 [Swedish National Infrastrucutre for Computing (SNIC)](https://snic.se/).
 
 ## Trixi.jl run instructions
@@ -16,11 +16,11 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   ```shell
   > julia --project=@. --threads=1 --check-bounds=no
   ```
-- Execute one of the included elixir files, either `elixir_euler_pid.jl` for the
+- Execute one of the included elixir files; either `elixir_euler_pid.jl` for the
   3D compressible Euler equations on a heavily warped periodic box mesh or `elixir_mhd_pid.jl`
   for the 3D ideal GLM-MHD equations on a heavily warped periodic box mesh. One can vary the polynomial
   degree (`polydeg`) directly from the REPL. For example, one can run a compressible Euler test with fifth
-  order polynomials using the commands
+  order polynomials using
   ```julia
   julia> using Trixi
 
@@ -61,29 +61,42 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   #solver = DGSEM(polydeg=3, surface_flux=flux_hll,
   #               volume_integral=VolumeIntegralWeakForm())
   ```
-  In the ideal GLM-MHD elixir file a similar comment/uncomment can be done on lines 13-21.
+  In the ideal GLM-MHD elixir file a similar comment/uncomment can be done on lines 13-21 as follows
+  ```julia
+  # For ECKEP flux split form
+   volume_flux = (flux_hindenlang_gassner, flux_nonconservative_powell)
+   solver = DGSEM(polydeg=3, surface_flux=(flux_hindenlang_gassner, flux_nonconservative_powell),
+                 volume_integral=VolumeIntegralFluxDifferencing(volume_flux))
+
+  # For standard DG weak form + HLL
+  #volume_flux = (flux_central, flux_nonconservative_powell)
+  #solver = DGSEM(polydeg=3, surface_flux=(flux_hll, flux_nonconservative_powell),
+  #               volume_integral=VolumeIntegralFluxDifferencing(volume_flux))
+  ```
 
 ## FLUXO configuration, compilation and run instructions
 
-The files necessary to reprocude the FLUXO simulations for the PID comparison are also included.
-These simulation we run on the same heavily warped periodic box mesh in the file `ConformBoxHeavilyWarped_04_mesh.h5`.
+The files necessary to reproduce the FLUXO simulations for the PID comparison are also included.
+These simulation we run on the same heavily warped periodic box mesh.
+For the FLUXO simulations this mesh is read into the code from the file `ConformBoxHeavilyWarped_04_mesh.h5` at runtime.
 This mesh file was generated with the [High Order Preprocessor (HOPR)](https://www.hopr-project.org/index.php/Home) tool.
 We also include the `hopr_parameter_ConformBoxHeavilyWarped.ini` file used with HOPR to generate this mesh.
 
 To reproduce the FLUXO numerical PID experiments, proceed as follows. Note, for this discussion it is assumed that
 one has access to some version of the Intel compiler suite.
 - Clone the [FLUXO](https://github.com/project-fluxo/fluxo) source code. The results reported in this work used the
-  `master` branch from August 04, 2021 with the commit has `f16435a779ca342b44b12d0475506ec2d25e7db9`.
+  `master` branch with the commit hash `f16435a779ca342b44b12d0475506ec2d25e7db9`.
 - Follow the provided [installation instructions](https://github.com/project-fluxo/fluxo/blob/master/INSTALL.md).
-- Compilation of the FLUXO code for these PID comparisons used a few combinations of the available options.
+- Compilation of the FLUXO code for these PID comparisons used a few combinations of the available options that
+  are selected/configured via [CMake](https://cmake.org/).
   We note that many default options are used, e.g., that parabolic (i.e. second order derivative) terms are *deactivated*.
   Also, the default option for the DG solver used by FLUXO is the flux differencing version.
-- To compile FLUXO first open a terminal, navigate to the FLUXO FLUXO directory, and create a new subdirectory for the
+- To compile FLUXO first open a terminal, navigate to the FLUXO directory, and create a new subdirectory for the
   `build`.
-  ```shell
+  ```
   > mkdir build; cd build
   ```
-- The `makefile` for FLUXO is generated using [CMake](https://cmake.org/).
+- The `makefile` for FLUXO is generated using CMake.
   Here we give the instructions for three versions of the `makefile` as they differ slightly
   for compressible Euler versus ideal GLM-MHD and weak form versus flux differencing form.
   All versions will build FLUXO in `Release` mode, which activates compiler and other optimizations.
@@ -105,7 +118,7 @@ one has access to some version of the Intel compiler suite.
   > make
   ```
   to build the particular FLUXO configuration. Note, if CMake does not detect a precompiled version of the HDF5 library
-  than this will automatically be built as a first step of the FLUXO compilation.
+  then it will automatically download and build a local copy of HDF5 as a first step of the FLUXO compilation.
   The executable `fluxo` is contained in your FLUXO directory in `build/bin/` upon a sucessful compilation.
 - To configure the different physical models use one of the included `.ini` files; either `fluxo_parameter_euler_pid.ini`
   for the compressible Euler equations or `fluxo_parameter_mhd_pid.ini` for the ideal GLM-MHD equations. Depending
@@ -116,7 +129,7 @@ one has access to some version of the Intel compiler suite.
     Riemann    = 22  ! 1: LF, 22:HLL, 32: ECKEP-Ranocha, 33: ESKEP-Ranocha
     !VolumeFlux = 32  ! 0: standard DG, 1: standard DG metric dealiased, 32:ECKEP-Ranocha
     ```
-    This sets the numerical surface flux to use the HLL flux and disables the numerical volume flux (as it
+    This sets the numerical surface flux to use the HLL Riemann solver and disables the numerical volume flux (as it
     is not present in the weak form DG solver).
   - For the flux differencing form DG solver, compressible Euler equations PID setup change lines 38 and 39 of
     `fluxo_parameter_euler_pid.ini` to be
@@ -132,7 +145,7 @@ one has access to some version of the Intel compiler suite.
     Riemann       = 4  !Riemann solver (surface flux): 1: LLF 4: HLL, 11: EC-Derigs, 12: EC-FloGor
     VolumeFlux    = 0  !two-point split-form flux:  0: standard DG, 1: standard DG metric dealiased, 10: EC-Derigs, 12: EC-FloGor
     ```
-    This sets the numerical surface flux to be the HLL flux and the numerical volume flux to be the central flux.
+    This sets the numerical surface flux to be the HLL Riemann solver and the numerical volume flux to be the central flux.
     The flux differencing DG solver with a central volume flux is algebraically equivalent to the weak form DG solver.
   - For the flux differencing form DG solver, ideal GLM-MHD equations PID setup change lines 38 and 39 of
     `fluxo_parameter_mhd_pid.ini` to be
@@ -152,11 +165,11 @@ one has access to some version of the Intel compiler suite.
   ```
   for the ideal GLM-MHD setup.
   Note, for either run command the mesh file `ConformBoxHeavilyWarped_04_mesh.h5` must be in the same folder as the `.ini` file.
-  Also, by default CMake will configure FLUXO to compile with MPI capabilities such that we must specify a single rank
+  Also, by default, CMake will configure FLUXO to compile with MPI capabilities such that one must specify a single rank
   for the serial PID comparison runs.
 - During a FLUXO simulation information about the current run is output to the screen according to the ini parameter
   `Analyze_dt`. It is within this output information that one finds the PID value. Below we show a portion of such
-  FLUXO output for a run using the `fluxo_parameter_euler_pid.ini` file.
+  FLUXO terminal output for a run using the `fluxo_parameter_euler_pid.ini` file.
   ```
   ------------------------------------------------------------------------------------------------------------------------------------
    Sys date   :    04.08.2021 11:53:51
