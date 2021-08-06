@@ -27,7 +27,7 @@ authors:
     affiliation: 4
     orcid: 0000-0003-2077-3636
   - name: Gregor J. Gassner
-    affiliation: 2
+    affiliation: 2, 5
     orcid: 0000-0002-1752-1158
 affiliations:
   - name: Applied Mathematics, University of Münster, Germany
@@ -38,5 +38,7 @@ affiliations:
     index: 3
   - name: Department of Computational and Applied Mathematics, Rice University, Houston, Texas, US
     index: 4
+  - name: Center for Data and Simulation Science, University of Cologne, Germany
+    index: 5
 date: 20 July 2020
 bibliography: ref.bib

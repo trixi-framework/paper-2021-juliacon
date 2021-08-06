@@ -63,8 +63,8 @@ computing languages such as C, C++, and Fortran.
 We are broadly interested in simulation-focused scientific computing, in particular
 numerical approximations for hyperbolic partial differential equations (PDEs), computational fluid dynamics (CFD),
 and related problems. The focus of our research ranges from specific applications
-in CFD to general multi-physics coupling strategies to the high-order numerical methods
-such simulations are built upon. In addition, we are academics and involved in teaching
+in CFD to general multi-physics coupling strategies to the development and analysis of high-order numerical methods
+our simulations are built upon. In addition, we are academics and involved in teaching
 students in these areas of science. Thus, we would like to have a
 code that is
 \begin{enumerate}
@@ -108,8 +108,7 @@ quantities are denoted as $u$, \eg, mass, momentum, and energy for the compressi
 Euler equations of an ideal gas.
 The physical model is specified by the fluxes $f^j$ and the source term $s$.
 In addition, suitable initial and boundary conditions (ICs, BCs) are required.
-\trixi also handles non-conservative source terms containing derivatives of the
-conserved quantities as in the shallow water equations or magnetohydrodynamics
+\trixi also handles non-conservative PDE terms as in the shallow water equations or magnetohydrodynamics equations
 with divergence cleaning.
 
 
@@ -160,9 +159,16 @@ following features.
 \end{itemize}
 
 Some of the main features of \trixi are demonstrated in the following figures.
+
+\todo{I am not super happy about using KHI for a shock capturing demonstration. There are no shocks in a KHI - so it is a bit weird. I would reformulate this to "demonstrates non-linear stability via positivity and entropy-stability with adaptive mesh refinment....}
+
 Figure~\ref{fig:kelvin_helmholtzs} demonstrates entropy-dissipative shock-capturing
 methods with adaptive mesh refinement applied to a classical Kelvin-Helmholtz
-flow instability problem. Figure~\ref{fig:pressure_waves} shows the approximation
+flow instability problem. 
+
+\todo{Maybe we can add a particular shock capturing test case as well, like Sedov with AMR, or the new Mach 2000 jet :-)}
+
+Figure~\ref{fig:pressure_waves} shows the approximation
 of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
 curvilinear and unstructured domain. The 2D quadrilateral mesh in
 Figure~\ref{fig:ginger_mesh} was generated with
@@ -402,7 +408,7 @@ or multiple mesh types and more physics setups in \trixi. Nevertheless,
 both \trixi and FLUXO share a common set of features, \eg, high-order DG
 methods on 3D curvilinear meshes, that enables a reasonable comparison of their performance.
 
-\todo{TODO: Gregor. Be careful how to formulate this, be neutral and avoid making people angry} %TODO: Gregor
+% GG: ok with me now!
 
 \subsection{Description of the setup}
 
@@ -452,9 +458,9 @@ measures the time required to advance a single degree of freedom (DOF) from one 
 time integration scheme to the next. It is computed as
 \begin{equation}
 \label{eqn:pid}
-\text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3}.
+\text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot 5\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3},
 \end{equation}
-In other words, the PID acts as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
+where $5$ is the number of RK stages per time step. In other words, the PID acts as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
 
 The code and detailed information necessary to reproduce these numerical
 experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
@@ -911,9 +917,7 @@ Andrew Winters was funded through Vetenskapsr{\aa}det, Sweden grant
 agreement 2020-03642 VR.
 Jesse Chan acknowledges support from the US National Science Foundation under
 awards DMS-1719818 and DMS-1943186.
-
-\todo{TODO: Gregor, add your funding sources that need to be here} %TODO Gregor
-
+Gregor J. Gassner and Michael Schlottke-Lakemper received funding from the European Research Council through the ERC Starting Grant “An Exascale aware and Un-crashable Space-Time-Adaptive Discontinuous Spectral Element Solver for Non-Linear Conservation Laws” (Extreme), ERC grant agreement no. 714487.
 The performance computations were enabled by resources provided by the Swedish National
 Infrastructure for Computing (SNIC) at Tetralith partially funded by the Swedish
 Research Council through grant agreement no. 2018-05973.
