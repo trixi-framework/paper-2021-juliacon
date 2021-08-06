@@ -1,4 +1,4 @@
-# Performance index (PID) computations of Trixi and FLUXO
+# Performance index (PID) computations of Trixi.jl and FLUXO
 
 The files in this folder can be used to reproduce the numerical experiments
 for the performance comparison between the Fortran code
@@ -6,8 +6,8 @@ for the performance comparison between the Fortran code
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 All results reported in the paper were obtained with the Intel compiler suite v18.0.03
 and Julia v1.6.1. The runs were performed with a single Intel Xeon Gold 6130 processor
-on [Tetralith](https://www.nsc.liu.se/systems/tetralith/) an HPC cluster provided by the
-[Swedish National Infrastrucutre for Computing (SNIC)](https://snic.se/).
+on [Tetralith](https://www.nsc.liu.se/systems/tetralith/), an HPC cluster provided by the
+[Swedish National Infrastructure for Computing (SNIC)](https://snic.se/).
 
 ## Trixi.jl run instructions
 
@@ -46,8 +46,8 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   ────────────────────────────────────────────────────────────────────────────────────────────────────
   ```
   The PID information is found on the top right with the label `time/DOF/rhs!:  5.86020104e-08 s`.
-- In order to change the type of DG solver used during the comparsion one must make some simple edits
-  to either of the included elixir files. As commited in this repo, the weak form DG solver with the
+- In order to change the type of DG solver used during the comparison one must make some simple edits
+  to either of the included elixir files. As committed in this repo, the weak form DG solver with the
   HLL surface flux is used by default. To change to the flux differencing entropy conservative DG
   solver comment the weak form solver instructions and uncomment the flux differencing commands, e.g.,
   in `elixir_euler_pid.jl` edit lines 17-24 to become
@@ -74,10 +74,10 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   #               volume_integral=VolumeIntegralFluxDifferencing(volume_flux))
   ```
 
-## FLUXO configuration, compilation and run instructions
+## FLUXO configuration, compilation, and run instructions
 
 The files necessary to reproduce the FLUXO simulations for the PID comparison are also included.
-These simulation we run on the same heavily warped periodic box mesh.
+These simulation were run on the same heavily warped periodic box mesh.
 For the FLUXO simulations this mesh is read into the code from the file `ConformBoxHeavilyWarped_04_mesh.h5` at runtime.
 This mesh file was generated with the [High Order Preprocessor (HOPR)](https://www.hopr-project.org/index.php/Home) tool.
 We also include the `hopr_parameter_ConformBoxHeavilyWarped.ini` file used with HOPR to generate this mesh.
@@ -101,28 +101,28 @@ one has access to some version of the Intel compiler suite.
   for compressible Euler versus ideal GLM-MHD and weak form versus flux differencing form.
   All versions will build FLUXO in `Release` mode, which activates compiler and other optimizations.
   - For the weak form DG solver with the compressible Euler equations execute
-  ```
-  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes -D FLUXO_DISCTYPE=1 ../
-  ```
-  where the option `FLUXO_DISCTYPE=1` activates the weak form.
+    ```
+    > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes -D FLUXO_DISCTYPE=1 ../
+    ```
+    where the option `FLUXO_DISCTYPE=1` activates the weak form.
   - For the flux differencing DG solver with the compressible Euler equations execute
-  ```
-  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes ../
-  ```
+    ```
+    > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes ../
+    ```
   - For the flux differencing DG solver with the ideal GLM-MHD equations execute
-  ```
-  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=mhd -D FLUXO_EQN_NONCONS_GLM=ON ../
-  ```
+    ```
+    > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=mhd -D FLUXO_EQN_NONCONS_GLM=ON ../
+    ```
 - Once the `makefile` is generated simply type in the terminal
   ```
   > make
   ```
   to build the particular FLUXO configuration. Note, if CMake does not detect a precompiled version of the HDF5 library
   then it will automatically download and build a local copy of HDF5 as a first step of the FLUXO compilation.
-  The executable `fluxo` is contained in your FLUXO directory in `build/bin/` upon a sucessful compilation.
+  The executable `fluxo` is contained in your FLUXO directory in `build/bin/` upon a successful compilation.
 - To configure the different physical models use one of the included `.ini` files; either `fluxo_parameter_euler_pid.ini`
   for the compressible Euler equations or `fluxo_parameter_mhd_pid.ini` for the ideal GLM-MHD equations. Depending
-  upon the build configuration above the correpsonding `.ini` file may need altered.
+  upon the build configuration above the corresponding `.ini` file may need to be altered.
   - For the weak form DG solver, compressible Euler equations PID setup change lines 38 and 39 of
     `fluxo_parameter_euler_pid.ini` to be
     ```
@@ -188,6 +188,6 @@ one has access to some version of the Intel compiler suite.
   ------------------------------------------------------------------------------------------------------------------------------------
   ```
   The PID value is found near the top with the label `CALCULATION TIME PER TSTEP/DOF: [ 9.69513E-07 sec ], nRKstages:   5`.
-- It is important to note that this PID value is for one comple explicit time step.
+- It is important to note that this PID value is for one complete explicit time step.
   Therefore, in order to compare the FLUXO PID value to the Trixi.jl PID value **one must divide** the FLUXO PID value
   by the number of explicit Runge-Kutta stages. For all the PID runs this value will be *five*.
