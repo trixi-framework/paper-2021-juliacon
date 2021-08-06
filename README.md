@@ -19,6 +19,22 @@ computing, an area that is still dominated by traditional high-performance
 computing languages such as C, C++, and Fortran.
 
 
+## Reproducing the numerical experiments
+
+- All material necessary to reproduce the simulation of a Kelvin-Helmholtz
+  shown in the paper is contained in the folder
+  [`figure_kelvin_helmholtz`](figure_kelvin_helmholtz/),
+  including a [`README.md`](figure_kelvin_helmholtz/README.md) with instructions.
+- All material necessary to reproduce the acoustics simulation on a curved
+  high-order mesh shown in the paper is contained in the folder
+  [`figure_gingerbread_man`](figure_gingerbread_man/),
+  including a [`README.md`](figure_gingerbread_man/README.md) with instructions.
+- All material necessary to reproduce the performance comparison with the Fortran
+  code [FLUXO](https://github.com/project-fluxo/fluxo) is contained in the folder
+  [`pid_runs`](pid_runs/),
+  including a [`README.md`](pid_runs/README.md) with instructions.
+
+
 ## Building the paper
 
 The source files of the paper are contained in the folder [`paper`](paper/).
