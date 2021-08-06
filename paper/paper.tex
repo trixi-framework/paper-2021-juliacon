@@ -492,23 +492,17 @@ the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
           grid=major,
         ]
         \addplot[blue, mark=*, solid] % FLUXO, weak form
-          table [x index=0, y index=2]{../new_pid_data/pids_euler_weak.dat};
+          table [x index=0, y index=2]{../pid_data/pids_euler_weak.dat};
           \addlegendentry{FLUXO}
-%         \addplot[orange, mark=square*, solid] % TreeMesh, weak form
-%           table [x index=0, y index=1]{../data/pids_euler_weak.dat};
-%           \addlegendentry{\texttt{TreeMesh} (\trixi)}
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=1]{../new_pid_data/pids_euler_weak.dat};
-          % \addlegendentry{\texttt{StructuredMesh} (\trixi)}
+          table [x index=0, y index=1]{../pid_data/pids_euler_weak.dat};
           \addlegendentry{\trixi}
         \node at (axis cs:13,3.5e-7) {Weak form};
 
         \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
-          table [x index=0, y index=2]{../new_pid_data/pids_euler_ranocha.dat};
-%         \addplot[orange, mark=square*, dashed] % TreeMesh, flux differencing
-%           table [x index=0, y index=1]{../data/pids_euler_ranocha.dat};
+          table [x index=0, y index=2]{../pid_data/pids_euler_ranocha.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=1]{../new_pid_data/pids_euler_ranocha.dat};
+          table [x index=0, y index=1]{../pid_data/pids_euler_ranocha.dat};
         \node [rotate=15] at (axis cs:9,8.2e-7) {Flux differencing};
         \draw (axis cs:9,9.2e-7) -- (axis cs:8.5,10.2e-7);
         \draw (axis cs:9,7.2e-7) -- (axis cs:8.5,5.2e-7);
@@ -535,19 +529,15 @@ the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
           grid=major,
         ]
         \addplot[blue, mark=*, solid, forget plot] % FLUXO, weak form
-          table [x index=0, y index=2]{../new_pid_data/pids_euler_weak_relative.dat};
-%         \addplot[orange, mark=square*, solid, forget plot] % TreeMesh, weak form
-%           table [x index=0, y index=1]{../data/pids_euler_weak_relative.dat};
+          table [x index=0, y index=2]{../pid_data/pids_euler_weak_relative.dat};
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=1]{../new_pid_data/pids_euler_weak_relative.dat};
+          table [x index=0, y index=1]{../pid_data/pids_euler_weak_relative.dat};
           \addlegendentry{Weak form}
 
         \addplot[blue, mark=*, dashed, forget plot] % FLUXO, flux differencing
-          table [x index=0, y index=2]{../new_pid_data/pids_euler_ranocha_relative.dat};
-%         \addplot[orange, mark=square*, dashed, forget plot] % TreeMesh, flux differencing
-%           table [x index=0, y index=1]{../data/pids_euler_ranocha_relative.dat};
+          table [x index=0, y index=2]{../pid_data/pids_euler_ranocha_relative.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=1]{../new_pid_data/pids_euler_ranocha_relative.dat};
+          table [x index=0, y index=1]{../pid_data/pids_euler_ranocha_relative.dat};
           \addlegendentry{Flux differencing}
       \end{axis}
     \end{tikzpicture}
@@ -578,19 +568,19 @@ the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
           grid=major,
         ]
         \addplot[blue, mark=*, solid] % FLUXO, weak form
-          table [x index=0, y index=2]{../new_pid_data/pids_mhd_weak.dat};
+          table [x index=0, y index=2]{../pid_data/pids_mhd_weak.dat};
           \addlegendentry{FLUXO}
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak.dat};
+          table [x index=0, y index=1]{../pid_data/pids_mhd_weak.dat};
           \addlegendentry{\trixi}
         \node [rotate=12] at (axis cs:13.5,5.75e-7) {Central flux};
         \draw (axis cs:13,6.0e-7) -- (axis cs:12.4,7.1e-7);
         \draw (axis cs:13.4,6.3e-7) -- (axis cs:13.7,1.075e-6);
 
         \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
-          table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor.dat};
+          table [x index=0, y index=2]{../pid_data/pids_mhd_flogor.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor.dat};
+          table [x index=0, y index=1]{../pid_data/pids_mhd_flogor.dat};
         \node [rotate=20] at (axis cs:7,1.2e-6) {EC flux};
         \draw (axis cs:8.4,1.1e-6) -- (axis cs:7.75,1.15e-6);
         \draw (axis cs:7,1.1e-6) -- (axis cs:7.5,6.5e-7);
@@ -616,15 +606,15 @@ the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
           grid=major,
         ]
         \addplot[blue, mark=*, solid, forget plot] % FLUXO, weak form
-          table [x index=0, y index=2]{../new_pid_data/pids_mhd_weak_relative.dat};
+          table [x index=0, y index=2]{../pid_data/pids_mhd_weak_relative.dat};
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
-          table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak_relative.dat};
+          table [x index=0, y index=1]{../pid_data/pids_mhd_weak_relative.dat};
           \addlegendentry{Central flux}
 
         \addplot[blue, mark=*, dashed, forget plot] % FLUXO, flux differencing
-          table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor_relative.dat};
+          table [x index=0, y index=2]{../pid_data/pids_mhd_flogor_relative.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
-          table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor_relative.dat};
+          table [x index=0, y index=1]{../pid_data/pids_mhd_flogor_relative.dat};
           \addlegendentry{EC flux}
       \end{axis}
     \end{tikzpicture}
@@ -641,7 +631,7 @@ the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
 From these results, it is clear that \trixi is more than 2x faster for the compressible Euler equations
 and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUXO.
 We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
-the Intel was between $5\%$ to $23\%$ faster.
+the Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
 Thus, only results from the Intel compiler are included.
 It is also possible to see the additional computational overhead for the entropy conservative, flux
 differencing DG methods for both physical models. This is because the numerical fluxes are more complex, in
@@ -652,8 +642,6 @@ This demonstrates the suitability of Julia for this kind of simulation-focused s
 Note that we do not want to state that Julia is generically faster than Fortran,
 C, or C++. In contrast, we would like to emphasize that Julia can be at least
 as fast as code written in these traditional scientific computing languages.
-%We believe that it will be possible to get the same efficiency by rewriting
-%FLUXO appropriately.
 Together, the members of our team have strong backgrounds in C, C++, and
 Fortran. Nevertheless, our Julia code is faster than the established HPC Fortran
 code FLUXO for this example. The reason is not that Fortran or Julia are generically
@@ -668,7 +656,7 @@ For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
 be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
-Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent}--\SI{25}{\percent}
+Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent} to \SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
 \section{Assessment of Julia for simulation-focused scientific computing}
