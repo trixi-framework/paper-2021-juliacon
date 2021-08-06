@@ -45,7 +45,7 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
    ∑∂S/∂U ⋅ Uₜ :   9.90536480e-06
   ────────────────────────────────────────────────────────────────────────────────────────────────────
   ```
-  The PID information is found on the top right where `time/DOF/rhs!:  5.86020104e-08 s`.
+  The PID information is found on the top right with the label `time/DOF/rhs!:  5.86020104e-08 s`.
 - In order to change the type of DG solver used during the comparsion one must make some simple edits
   to either of the included elixir files. As commited in this repo, the weak form DG solver with the
   HLL surface flux is used by default. To change to the flux differencing entropy conservative DG
@@ -61,12 +61,120 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   #solver = DGSEM(polydeg=3, surface_flux=flux_hll,
   #               volume_integral=VolumeIntegralWeakForm())
   ```
+  In the ideal GLM-MHD elixir file a similar comment/uncomment can be done on lines 13-21.
 
-## FLUXO compilation and run instructions
+## FLUXO configuration, compilation and run instructions
 
+The files necessary to reprocude the FLUXO simulations for the PID comparison are also included.
+These simulation we run on the same heavily warped periodic box mesh in the file `ConformBoxHeavilyWarped_04_mesh.h5`.
+This mesh file was generated with the [High Order Preprocessor (HOPR)](https://www.hopr-project.org/index.php/Home) tool.
+We also include the `hopr_parameter_ConformBoxHeavilyWarped.ini` file used with HOPR to generate this mesh.
 
-
-FLUXO version of the `master` branch on August 6, 2021 with commit hash `f16435a779ca342b44b12d0475506ec2d25e7db9`.
-
-Mesh made with HOPR
-
+To reproduce the FLUXO numerical PID experiments, proceed as follows. Note, for this discussion it is assumed that
+one has access to some version of the Intel compiler suite.
+- Clone the [FLUXO](https://github.com/project-fluxo/fluxo) source code. The results reported in this work used the
+  `master` branch from August 04, 2021 with the commit has `f16435a779ca342b44b12d0475506ec2d25e7db9`.
+- Follow the provided [installation instructions](https://github.com/project-fluxo/fluxo/blob/master/INSTALL.md).
+- Compilation of the FLUXO code for these PID comparisons used a few combinations of the available options.
+  We note that many default options are used, e.g., that parabolic (i.e. second order derivative) terms are *deactivated*.
+  Also, the default option for the DG solver used by FLUXO is the flux differencing version.
+- To compile FLUXO first open a terminal, navigate to the FLUXO FLUXO directory, and create a new subdirectory for the
+  `build`.
+  ```shell
+  > mkdir build; cd build
+  ```
+- The `makefile` for FLUXO is generated using [CMake](https://cmake.org/).
+  Here we give the instructions for three versions of the `makefile` as they differ slightly
+  for compressible Euler versus ideal GLM-MHD and weak form versus flux differencing form.
+  All versions will build FLUXO in `Release` mode, which activates compiler and other optimizations.
+  - For the weak form DG solver with the compressible Euler equations execute
+  ```
+  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes -D FLUXO_DISCTYPE=1 ../
+  ```
+  where the option `FLUXO_DISCTYPE=1` activates the weak form.
+  - For the flux differencing DG solver with the compressible Euler equations execute
+  ```
+  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=navierstokes ../
+  ```
+  - For the flux differencing DG solver with the ideal GLM-MHD equations execute
+  ```
+  > cmake -D CMAKE_C_COMPILER=icc -D CMAKE_CXX_COMPILER=icpc -D CMAKE_Fortran_COMPILER=ifort -D CMAKE_BUILD_TYPE=Release -D FLUXO_EQNSYSNAME=mhd -D FLUXO_EQN_NONCONS_GLM=ON ../
+  ```
+- Once the `makefile` is generated simply type in the terminal
+  ```
+  > make
+  ```
+  to build the particular FLUXO configuration. Note, if CMake does not detect a precompiled version of the HDF5 library
+  than this will automatically be built as a first step of the FLUXO compilation.
+  The executable `fluxo` is contained in your FLUXO directory in `build/bin/` upon a sucessful compilation.
+- To configure the different physical models use one of the included `.ini` files; either `fluxo_parameter_euler_pid.ini`
+  for the compressible Euler equations or `fluxo_parameter_mhd_pid.ini` for the ideal GLM-MHD equations. Depending
+  upon the build configuration above the correpsonding `.ini` file may need altered.
+  - For the weak form DG solver, compressible Euler equations PID setup change lines 38 and 39 of
+    `fluxo_parameter_euler_pid.ini` to be
+    ```
+    Riemann    = 22  ! 1: LF, 22:HLL, 32: ECKEP-Ranocha, 33: ESKEP-Ranocha
+    !VolumeFlux = 32  ! 0: standard DG, 1: standard DG metric dealiased, 32:ECKEP-Ranocha
+    ```
+    This sets the numerical surface flux to use the HLL flux and disables the numerical volume flux (as it
+    is not present in the weak form DG solver).
+  - For the flux differencing form DG solver, compressible Euler equations PID setup change lines 38 and 39 of
+    `fluxo_parameter_euler_pid.ini` to be
+    ```
+    Riemann    = 32  ! 1: LF, 22:HLL, 32: ECKEP-Ranocha, 33: ESKEP-Ranocha
+    VolumeFlux = 32  ! 0: standard DG, 1: standard DG metric dealiased, 32:ECKEP-Ranocha
+    ```
+    This sets the numerical surface and volume flux functions to be the entropy conservative and kinetic
+    energy preserving flux of Ranocha.
+  - For the weak form DG solver, ideal GLM-MHD equations PID setup change lines 38 and 39 of
+    `fluxo_parameter_mhd_pid.ini` to be
+    ```
+    Riemann       = 4  !Riemann solver (surface flux): 1: LLF 4: HLL, 11: EC-Derigs, 12: EC-FloGor
+    VolumeFlux    = 0  !two-point split-form flux:  0: standard DG, 1: standard DG metric dealiased, 10: EC-Derigs, 12: EC-FloGor
+    ```
+    This sets the numerical surface flux to be the HLL flux and the numerical volume flux to be the central flux.
+    The flux differencing DG solver with a central volume flux is algebraically equivalent to the weak form DG solver.
+  - For the flux differencing form DG solver, ideal GLM-MHD equations PID setup change lines 38 and 39 of
+    `fluxo_parameter_mhd_pid.ini` to be
+    ```
+    Riemann       = 12  !Riemann solver (surface flux): 1: LLF 4: HLL, 11: EC-Derigs, 12: EC-FloGor
+    VolumeFlux    = 12  !two-point split-form flux:  0: standard DG, 1: standard DG metric dealiased, 10: EC-Derigs, 12: EC-FloGor
+    ```
+    This sets the numerical surface and volume flux functions to be the entropy conservative and kinetic/magnetic
+    energy preserving flux due to Hindenlang and Gassner.
+- To execute the particular physical setup with its accompanying surface and volume flux combination execute
+  ```
+  mpirun -np 1 $(fluxopath)/build/bin/fluxo fluxo_parameter_euler_pid.ini
+  ```
+  for the compressible Euler setup or
+  ```
+  mpirun -np 1 $(fluxopath)/build/bin/fluxo fluxo_parameter_mhd_pid.ini
+  ```
+  for the ideal GLM-MHD setup.
+  Note, for either run command the mesh file `ConformBoxHeavilyWarped_04_mesh.h5` must be in the same folder as the `.ini` file.
+  Also, by default CMake will configure FLUXO to compile with MPI capabilities such that we must specify a single rank
+  for the serial PID comparison runs.
+- During a FLUXO simulation information about the current run is output to the screen according to the ini parameter
+  `Analyze_dt`. It is within this output information that one finds the PID value. Below we show a portion of such
+  FLUXO output for a run using the `fluxo_parameter_euler_pid.ini` file.
+  ```
+  ------------------------------------------------------------------------------------------------------------------------------------
+   Sys date   :    04.08.2021 11:53:51
+   CALCULATION TIME PER TSTEP/DOF: [ 9.69513E-07 sec ], nRKstages:   5
+   Timestep   :    4.6502353E-03
+  #Timesteps   :    8.7000000E+01
+   Sim time   :    4.0000000E-01
+   L_2        :    5.047056300516E-04   4.187939598071E-04   4.734560283398E-04   4.995685323228E-04   7.434139394407E-04
+   L_2_colloc :    5.285411275588E-04   4.370326021381E-04   5.034501138426E-04   5.236081583404E-04   7.982683614151E-04
+   L_inf      :    1.696711371902E-02   1.270523391131E-02   1.680713994982E-02   1.696274374697E-02   2.649233188224E-02
+        Entropy      :    7.568197287005E+01
+        dEntropy/dt  :    5.148426964752E-06
+     dSdU*Ut         :    4.964204203360E-06
+  ....................................................................................................................................
+   FLUXO RUNNING MAN_SOL... [    1.96 sec ]
+  ------------------------------------------------------------------------------------------------------------------------------------
+  ```
+  The PID value is found near the top with the label `CALCULATION TIME PER TSTEP/DOF: [ 9.69513E-07 sec ], nRKstages:   5`.
+- It is important to note that this PID value is for one comple explicit time step.
+  Therefore, in order to compare the FLUXO PID value to the Trixi.jl PID value **one must divide** the FLUXO PID value
+  by the number of explicit Runge-Kutta stages. For all the PID runs this value will be *five*.
