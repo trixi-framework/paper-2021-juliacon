@@ -159,22 +159,33 @@ following features.
 \end{itemize}
 
 Some of the main features of \trixi are demonstrated in the following figures.
+The detailed physical setups and numerical parameters as well as all code
+necessary to reproduce these figures are available in the reproducibility
+repository for this article \cite{ranocha2021adaptiveRepro}.
 
-\todo{I am not super happy about using KHI for a shock capturing demonstration. There are no shocks in a KHI - so it is a bit weird. I would reformulate this to "demonstrates non-linear stability via positivity and entropy-stability with adaptive mesh refinment....}
+Figure~\ref{fig:jet} demonstrates demonstrates entropy-dissipative shock-capturing
+methods with positivity-preserving limiters and adaptive mesh refinement applied
+to an astrophysical supersonic jet with Mach number 2000.
+\begin{figure}[!h]
+  \begin{subfigure}{0.53\linewidth}
+    \includegraphics[width=\textwidth]{../figures/jet_density}
+    \caption{Density at time $t = 10^{-3}$.}
+  \end{subfigure}%
+  \hspace*{\fill}
+  \begin{subfigure}{0.47\linewidth}
+    \includegraphics[width=\textwidth]{../figures/jet_mesh}
+    \caption{Mesh at time $t = 10^{-3}$.}
+  \end{subfigure}%
+  \caption{Numerical solutions of a supersonic jet with Mach number 2000 using
+           entropy-dissipative shock-capturing methods with positivity-preserving
+           limiters and adaptive mesh refinement for the compressible Euler equations.}
+  \label{fig:jet}
+\end{figure}
 
-Figure~\ref{fig:kelvin_helmholtzs} demonstrates entropy-dissipative shock-capturing
-methods with adaptive mesh refinement applied to a classical Kelvin-Helmholtz
-flow instability problem.
-
-\todo{Maybe we can add a particular shock capturing test case as well, like Sedov with AMR, or the new Mach 2000 jet :-)}
-
-Figure~\ref{fig:pressure_waves} shows the approximation
-of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
-curvilinear and unstructured domain. The 2D quadrilateral mesh in
-Figure~\ref{fig:ginger_mesh} was generated with
-HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
-
-\begin{figure}[htbp]
+Figure~\ref{fig:kelvin_helmholtzs} demonstrates demonstrates nonlinear stability
+obtained with entropy-stable methods and adaptive mesh refinement applied to a
+classical Kelvin-Helmholtz flow instability problem.
+\begin{figure}[!h]
   \begin{subfigure}{0.53\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
     \caption{Density at time $t = 2$.}
@@ -195,12 +206,17 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
     \caption{Mesh at time $t = 3$.}
   \end{subfigure}%
   \caption{Numerical solutions of a Kelvin-Helmholtz instability using
-           entropy-dissipative shock-capturing methods and adaptive mesh
-           refinement for the compressible Euler equations.}
+           entropy-stable methods and adaptive mesh refinement for the
+           compressible Euler equations.}
   \label{fig:kelvin_helmholtzs}
 \end{figure}
 
-\begin{figure}[htbp]
+Figure~\ref{fig:pressure_waves} shows the approximation
+of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
+curvilinear and unstructured domain. The 2D quadrilateral mesh in
+Figure~\ref{fig:ginger_mesh} was generated with
+HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
+\begin{figure}[!h]
   \begin{subfigure}{0.475\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_00}
     \caption{Pressure at time $t = 0$.}
@@ -226,10 +242,6 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
                 curvilinear quadrilateral mesh.}
   \label{fig:pressure_waves}
 \end{figure}
-
-The detailed physical setups and numerical parameters as well as all code
-necessary to reproduce these figures are available in the reproducibility
-repository for this article \cite{ranocha2021adaptiveRepro}.
 
 
 \subsection{High-level overview of the structure}
