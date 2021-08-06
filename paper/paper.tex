@@ -280,7 +280,7 @@ or closed source) codes that are designed as monolithic applications that can
 simulate a specific setup. These codes can often be configured to a limited extent
 by specifying compile time options or editing parameter files. In contrast, users of
 \trixi do not need to compile anything or learn parameter file syntax. Instead, they can
-just load the library and write their simulation setups in Julia. Scripts which describe
+just load the library and write their simulation setups in Julia. Scripts that describe
 a simulation setup for \trixi are referred to as ``elixirs''. As of version
 v0.3.53 (August 2021), \trixi comes with \ca 200 example elixirs. A basic elixir
 might look as follows:
@@ -423,19 +423,19 @@ we fix this coefficient to be $\text{CFL}=0.5$.
 
 We compare the performance of FLUXO and \trixi for two smooth nonlinear problems,
 a manufactured solution for the 3D compressible Euler equations and Alfv\'{e}n wave propagation for
-the 3D ideal MHD equations~\cite{altmann2012}. These initial conditions, available in FLUXO and
+the 3D ideal MHD equations~\cite{gassner2009,altmann2012}. These initial conditions, available in FLUXO and
 \trixi, are typically used for the purpose of demonstrating the high-order accuracy and convergence properties
 of the frameworks.
 
 For these comparisons we examine the performance of FLUXO and \trixi for the weak
 form as well as flux differencing implementations of the DG solver. For the weak form simulations we compute
 the coupling between elements with a Harten-Lax-van Leer (HLL) numerical surface flux function~\cite{Toro2009,li2005hllc}.
-For the flux differencing solver, that introduces an additional numerical volume flux function, we use an entropy-conservative flux
+For the flux differencing solver, which introduces an additional numerical volume flux function, we use an entropy-conservative flux
 function in both the volume and at the surface. For the compressible Euler equations this flux is also kinetic energy preserving~\cite{ranocha2020icosahom}
 while for the ideal MHD equations it is kinetic and magnetic energy preserving~\cite{hindenlang2019}. We note that both ideal MHD implementations
 contain additional computational overhead due to nonconservative terms necessary for the numerical approximation
 to remain entropy consistent~\cite{bohm2020}. Additionally, the weak form DG solver type is recovered if one uses a central flux
-in the volume of the flux differencing DG solver, albeit with additional computational cost.
+in the volume of the flux differencing DG solver, albeit with additional computational cost~\cite{gassner2016split}.
 
 All simulations for the performance comparison were run on the High Performance Computing (HPC) system Tetralith
 provided by the Swedish National Infrastructure for Computing (SNIC).
@@ -577,15 +577,17 @@ suitability of Julia for this kind of simulation-focused scientific computing.
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
           table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak.dat};
           \addlegendentry{\trixi}
-        \node at (axis cs:13,3.5e-7) {Weak form};
+        \node [rotate=12] at (axis cs:13.5,5.75e-7) {Central flux};
+        \draw (axis cs:13,6.0e-7) -- (axis cs:12.4,7.1e-7);
+        \draw (axis cs:13.4,6.3e-7) -- (axis cs:13.7,1.075e-6);
 
         \addplot[blue, mark=*, dashed] % FLUXO, flux differencing
           table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
           table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor.dat};
-        \node [rotate=15] at (axis cs:9,8.2e-7) {Flux differencing};
-        \draw (axis cs:9,9.2e-7) -- (axis cs:8.5,10.2e-7);
-        \draw (axis cs:9,7.2e-7) -- (axis cs:8.5,5.2e-7);
+        \node [rotate=20] at (axis cs:7,1.2e-6) {EC flux};
+        \draw (axis cs:8.4,1.1e-6) -- (axis cs:7.75,1.15e-6);
+        \draw (axis cs:7,1.1e-6) -- (axis cs:7.5,6.5e-7);
       \end{axis}
     \end{tikzpicture}%
     \caption{Absolute run times.}
@@ -604,26 +606,29 @@ suitability of Julia for this kind of simulation-focused scientific computing.
           legend pos=south west,
           ymin=0.0,
           ymax=1.1,
-          ytick={0, 0.2, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1},
+          ytick={0, 0.2, 0.5, 0.6, 0.7, 0.8, 0.9, 1},
           grid=major,
         ]
         \addplot[blue, mark=*, solid, forget plot] % FLUXO, weak form
           table [x index=0, y index=2]{../new_pid_data/pids_mhd_weak_relative.dat};
         \addplot[red, mark=diamond*, solid] % StructuredMesh, weak form
           table [x index=0, y index=1]{../new_pid_data/pids_mhd_weak_relative.dat};
-          \addlegendentry{Weak form}
+          \addlegendentry{Central flux}
 
         \addplot[blue, mark=*, dashed, forget plot] % FLUXO, flux differencing
           table [x index=0, y index=2]{../new_pid_data/pids_mhd_flogor_relative.dat};
         \addplot[red, mark=diamond*, dashed] % StructuredMesh, flux differencing
           table [x index=0, y index=1]{../new_pid_data/pids_mhd_flogor_relative.dat};
-          \addlegendentry{Flux differencing}
+          \addlegendentry{EC flux}
       \end{axis}
     \end{tikzpicture}
     \caption{Run time relative to FLUXO.}
   \end{subfigure}%
   \caption{Run time per right-hand side evaluation and degree of freedom for
-           different DG discretizations of the 3D ideal MHD equations.}
+           the flux differencing DG discretization of the 3D ideal MHD equations.
+           Two configurations are compared using either the central volume flux
+           (algebraically equivalent to the weak form DG solver) and the entropy
+           conservative (EC) volume flux.}
   \label{fig:PID-MHD}
 \end{figure}
 
