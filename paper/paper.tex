@@ -431,13 +431,14 @@ For these comparisons we examine the performance of FLUXO and \trixi for the wea
 form as well as flux differencing implementations of the DG solver. For the weak form simulations we compute
 the coupling between elements with a Harten-Lax-van Leer (HLL) numerical surface flux function~\cite{Toro2009,li2005hllc}.
 For the flux differencing solver, which introduces an additional numerical volume flux function, we use an entropy-conservative flux
-function in both the volume and at the surface. For the compressible Euler equations this flux is also kinetic energy preserving~\cite{ranocha2020icosahom}
+function in both the volume and at the surface. For the compressible Euler equations
+this flux is also kinetic energy preserving~\cite{ranocha2020icosahom, ranocha2018thesis}
 while for the ideal MHD equations it is kinetic and magnetic energy preserving~\cite{hindenlang2019}. We note that both ideal MHD implementations
 contain additional computational overhead due to nonconservative terms necessary for the numerical approximation
 to remain entropy consistent~\cite{bohm2020}. Additionally, the weak form DG solver type is recovered if one uses a central flux
 in the volume of the flux differencing DG solver, albeit with additional computational cost~\cite{gassner2016split}.
 
-All simulations for the performance comparison were run on the High Performance Computing (HPC) system Tetralith
+All simulations for the performance comparison were run on the HPC system Tetralith
 provided by the Swedish National Infrastructure for Computing (SNIC).
 Each node of Tetralith has two sockets, each with an Intel(R) Xeon(R) Gold 6130 @ 2.10GHz with 96GiB of memory.
 FLUXO was compiled using the Intel compiler suite v18.0.3 and \trixi used Julia v1.6.1.
@@ -445,14 +446,15 @@ The serial performance results were run on a single core.
 We ran each configuration of a particular physical setup, polynomial degree, and solver type
 for each code five times, taking the smallest value from each in the comparison results.
 
-To assess the performance of the two codes we vary the polynomial degree (polydeg) in the range $[3,15]$.
+To assess the performance of the two codes we vary the polynomial degree
+(\lstinline{polydeg}) in the range $[3,15]$.
 This corresponds to considering DG approximations of (increasing) spatial accuracy, from fourth up to sixteenth order.
 The metric we use to analyze and compare FLUXO and \trixi simulations is a performance index (PID) that
 measures the time required to advance a single degree of freedom (DOF) from one stage of the explicit Runge-Kutta
 time integration scheme to the next. It is computed as
 \begin{equation}
 \label{eqn:pid}
-\text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot\#\text{elements}\cdot(\text{polydeg}+1)^3}.
+\text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3}.
 \end{equation}
 In other words, the PID acts as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
 
@@ -463,7 +465,7 @@ experiments is available in the accompanying repository \cite{ranocha2021adaptiv
 
 The results of these performance comparisons are visualized for the 3D compressible Euler
 in Figure~\ref{fig:PID-Euler} and for the 3D ideal MHD equations in Figure~\ref{fig:PID-MHD}.
-We present the PID timings for both codes in the top portion of these two Figures as well as
+We present the PID timings for both codes in the top portion of these two figures as well as
 a relative comparison using FLUXO as reference. Therefore, smaller values in the bottom portion
 the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
 
@@ -927,7 +929,6 @@ Research Council through grant agreement no. 2018-05973.
 \begin{itemize}
   \item Full paper: 5--10 pages
   \item Prepare repro repo including scripts for \trixi and FLUXO
-  \item Rerun Euler benchmarks and add MHD benchmarks
   \item Gregor: Other aspects of other codes that we like more in \trixi?
   \item Are there other aspects we should discuss?
   \item Check affiliations
