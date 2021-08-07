@@ -10,7 +10,7 @@ equations = CompressibleEulerEquations2D(gamma)
 # Initial condition adopted from
 # - Yong Liu, Jianfang Lu, and Chi-Wang Shu
 #   An oscillation free discontinuous Galerkin method for hyperbolic systems
-#   https://tinyurl.com/c76fjtx4
+#   Preprint available at https://tinyurl.com/c76fjtx4
 # Mach = 2000 jet
 function initial_condition_astro_jet(x, t, equations::CompressibleEulerEquations2D)
   @unpack gamma = equations
