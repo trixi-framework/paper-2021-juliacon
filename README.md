@@ -1,6 +1,7 @@
 # Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl: A case study of Julia for scientific computing
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](https://opensource.org/licenses/MIT)
+<!-- [![DOI](https://zenodo.org/badge/DOI/TODO.svg)](https://doi.org/TODO) -->
 
 This repository contains the source files of the paper on
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl) to be submitted
@@ -17,6 +18,40 @@ source Fortran code for hyperbolic PDEs using the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
 computing, an area that is still dominated by traditional high-performance
 computing languages such as C, C++, and Fortran.
+
+
+## Referencing
+
+This repository contains information and code to reproduce the results presented in the article
+```bibtex
+@online{ranocha2021adaptive,
+  title={Adaptive high-order numerical simulations of hyperbolic {PDEs} with
+         {T}rixi.jl: {A} case study of {J}ulia for scientific computing},
+  author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
+          and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
+  year={2021},
+  month={08},
+  eprint={TODO},
+  eprinttype={arXiv},
+  eprintclass={math.NA}
+}
+```
+
+If you find these results useful, please cite the article mentioned above. If you
+use the implementations provided here, please **also** cite this repository as
+```bibtex
+@misc{ranocha2021adaptiveRepro,
+  title={Reproducibility repository for
+         Adaptive high-order numerical simulations of hyperbolic {PDEs} with
+         {T}rixi.jl: {A} case study of {J}ulia for scientific computing},
+  author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
+          and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
+  year={2021},
+  month={08},
+  howpublished={\url{https://github.com/trixi-framework/paper-2021-juliacon}},
+  doi={TODO:Zenodo-DOI}
+}
+```
 
 
 ## Reproducing the numerical experiments
@@ -59,3 +94,8 @@ make clean
 The source code included in this repository is licensed under the MIT license
 (see [LICENSE.md](LICENSE.md)). The manuscript is subject to the license of
 the JuliaCon proceedings.
+
+
+## Disclaimer
+
+Everything is provided as is and without warranty. Use at your own risk!
