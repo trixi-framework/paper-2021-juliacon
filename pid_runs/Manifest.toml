@@ -925,9 +925,9 @@ version = "2.0.0"
 
 [[Trixi]]
 deps = ["CodeTracking", "DiffEqBase", "EllipsisNotation", "ForwardDiff", "HDF5", "LazyArrays", "LinearAlgebra", "LinearMaps", "LoopVectorization", "MPI", "Octavian", "OffsetArrays", "P4est", "Polyester", "Printf", "RecipesBase", "Reexport", "Requires", "StartUpDG", "StaticArrays", "StrideArrays", "StructArrays", "SummationByPartsOperators", "TimerOutputs", "Triangulate", "UnPack"]
-git-tree-sha1 = "062f47328eb95bc927836c1262174cbbc97ce01a"
+git-tree-sha1 = "ddcd1802bd9edf50fc81e3bae0807f019707c49e"
 uuid = "a7f1ee26-1774-49b1-8366-f1abc58fbfcb"
-version = "0.3.54"
+version = "0.3.55"
 
 [[UUIDs]]
 deps = ["Random", "SHA"]
