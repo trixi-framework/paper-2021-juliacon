@@ -2,7 +2,8 @@
 \PassOptionsToPackage{hyphens}{url}
 
 % JuliaCon proceedings template
-\documentclass{juliacon}
+% \documentclass{juliacon}
+\documentclass[hidelinks]{juliacon} % To disable ugly color boxes around clickable links
 \setcounter{page}{1}
 
 
@@ -47,7 +48,7 @@
 \begin{abstract}
 % Abstract: at most 600 characters, written in plain English with no symbol
 % nor formula + references etc.
-We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
+We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
 Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with an established open
@@ -68,9 +69,9 @@ our simulations are built upon. In addition, we are academics and involved in te
 students in these areas of science. Thus, we would like to have a
 code that is
 \begin{enumerate}
-  \item extendable to be useful for research and development
-  \item easy to apply/understand to be useful for students/collaborators
-  \item fast enough to be useful beyond small toy problems
+  \item extendable for research and development,
+  \item easy to apply/understand for students/collaborators,
+  \item fast enough for applied 3D problems.
 \end{enumerate}
 Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia/}}
 and wish to include all these features within a single code.
@@ -92,11 +93,11 @@ Finally, we summarize our findings and conclusions in Section~\ref{sec:summary}.
 
 
 
-\section{Design of \trixi and overview of its features}
+\section{Capabilities and design of \trixi}
 \label{sec:design-of-trixi}
 
-\trixi is designed as a library of high-order methods for hyperbolic PDEs of
-the form
+\trixi is designed as a simulation framework and library of high-order methods for conservation laws
+of the form
 \begin{equation}
 \label{eq:hcl}
   \partial_t u(t, x) + \sum_{j=1}^d \partial_{x_j} f^j(u) = s(t, x, u),
@@ -106,7 +107,7 @@ in $d \in \{1, 2, 3\}$ space dimensions. Here, the independent variables are
 time $t$ and space coordinates $x \in \Omega \subset \mathbb{R}^d$. The conserved
 quantities are denoted as $u$, \eg, mass, momentum, and energy for the compressible
 Euler equations of an ideal gas.
-The physical model is specified by the fluxes $f^j$ and the source term $s$.
+The physical system is specified by the fluxes $f^j$ and the source term $s$.
 In addition, suitable initial and boundary conditions (ICs, BCs) are required.
 \trixi also handles non-conservative PDE terms as in the shallow water equations or magnetohydrodynamics equations
 with divergence cleaning.
@@ -118,8 +119,8 @@ As of version v0.3.55 (August 2021), \trixi concentrates mainly on discontinuous
 Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
 In particular, it has a focus on entropy-conservative and -dissipative methods
 \cite{tadmor1987numerical, lefloch2002fully, fisher2013discretely,
-ranocha2018comparison, chen2017entropy}. Currently, \trixi comes with the
-following features.
+ranocha2018comparison, chen2017entropy}. Currently, \trixi offers the
+following features:
 \begin{itemize}
   \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
   \begin{itemize}
@@ -182,7 +183,7 @@ to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillatio
   \label{fig:jet}
 \end{figure}
 
-Figure~\ref{fig:kelvin_helmholtzs} demonstrates demonstrates nonlinear stability
+Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
 \begin{figure}[!h]
@@ -213,8 +214,8 @@ classical Kelvin-Helmholtz flow instability problem.
 
 Figure~\ref{fig:pressure_waves} shows the approximation
 of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
-curvilinear and unstructured domain. The 2D quadrilateral mesh in
-Figure~\ref{fig:ginger_mesh} was generated with
+curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
+(Figure~\ref{fig:ginger_mesh}) was generated with
 HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
 \begin{figure}[!h]
   \begin{subfigure}{0.475\linewidth}
@@ -238,19 +239,19 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
     \label{fig:ginger_mesh}
   \end{subfigure}%
   \caption{Numerical solutions of pressure wave scattering for the acoustic
-                perturbation equations at three times as well as the unstructured,
+                perturbation equations at three points in time as well as the unstructured,
                 curvilinear quadrilateral mesh.}
   \label{fig:pressure_waves}
 \end{figure}
 
 
-\subsection{High-level overview of the structure}
+\subsection{High-level overview of the code structure}
 
 \trixi is built from the method of lines. Thus, a discretization of \eqref{eq:hcl}
 is obtained in two steps. First, a spatial semidiscretization is created. Next,
 the resulting ordinary differential equation (ODE) is solved using a time
 integration method. Currently, \trixi focuses on the spatial semidiscretization
-and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, a part
+and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, which is part
 of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
 
 \begin{figure*}[htbp]
@@ -275,7 +276,7 @@ Once information about the time span $[0, T]$ is provided, a semidiscretization
 in \trixi can be converted into an ODE problem, which can be solved by methods
 from OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
 allows us to provide extended functionality for \trixi without modifying any
-main loop. In particular, diverse tasks such as input/output operations, adaptive
+main loop. In particular, various tasks such as input/output operations, adaptive
 mesh refinement (AMR), and positivity preserving limiting are implemented using
 callbacks.
 
@@ -299,7 +300,7 @@ by specifying compile time options or editing parameter files. In contrast, user
 \trixi do not need to compile anything or learn parameter file syntax. Instead, they can
 just load the library and write their simulation setups in Julia. Scripts that describe
 a simulation setup for \trixi are referred to as ``elixirs''. As of version
-v0.3.55 (August 2021), \trixi comes with \ca 200 example elixirs. A basic elixir
+v0.3.55 (August 2021), \trixi comes with approximately 200 example elixirs. A basic elixir
 might look as follows:
 
 \begin{lstlisting}[language = Julia]
@@ -331,7 +332,7 @@ mesh = TreeMesh(coordinates_min, coordinates_max,
 # Create semidiscretization with all spatial
 # discretization-related components
 semi = SemidiscretizationHyperbolic(
-  mesh, equations, ic, solver)
+    mesh, equations, ic, solver)
 
 # Create an ODE problem from the semidiscretization
 # with time span from 0.0 to 1.0
@@ -340,7 +341,7 @@ ode = semidiscretize(semi, (0.0, 1.0))
 # Evolve the ODE problem in time using `solve` from
 # OrdinaryDiffEq with adaptive time stepping
 sol = solve(ode, RDPK3SpFSAL49(), abstol=1.0e-6,
-  reltol=1.0e-6, save_everystep=false)
+    reltol=1.0e-6, save_everystep=false)
 
 # Plot the numerical solution at the final time
 plot(sol)
@@ -373,15 +374,15 @@ and used in the same code.
 \subsubsection{New physics can be specified with minimal effort}
 
 Instead of providing only the very basic discretization ingredients, as with
-other open source frameworks for PDEs, \trixi also includes some widely used
-physical systems and analysis routines, such as computation of the integrated kinetic energy
+other open source libraries for PDEs, \trixi also includes some widely used
+physical systems as well as analysis routines, such as computation of the integrated kinetic energy
 for the compressible Euler equations,
 to make it easier to use. Nevertheless, users are not restricted
-to the physics models bundled in \trixi. To setup a new type of \lstinline{equations},
-it is only necessary to create an appropriate \lstinline{struct} bundling all
-parameters and implementing pointwise operations such as the calculation of
-the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to Julia's
-design and just-ahead-of-time compiler, these fluxes can be inlined into the
+to the physics models bundled in \trixi. To set up a new type of \lstinline{equations},
+it is only necessary to create an appropriate \lstinline{struct} containing all
+parameters and to implement pointwise operations such as the calculation of
+the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to the Julia language
+design with just-ahead-of-time compilation, these fluxes can be inlined into the
 library functions of \trixi. Thus, the physics can be separated completely from
 the \lstinline{solver} but remain computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
@@ -406,30 +407,30 @@ to test their newly implemented feature(s).
 
 
 
-\section{Performance comparison with FLUXO}
+\section{Performance comparison with Fortran}
 \label{sec:performance-comparison}
 
 FLUXO\footnote{\url{https://github.com/project-fluxo/fluxo}} is an open source
-MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
-meshes in three space dimensions for advection-diffusion equations. It also
-implements the same kind of modern, flux differencing DG methods
-to achieve entropy conservation/dissipation or kinetic energy preservation.
+Fortran code implementing discontinuous Galerkin methods on unstructured hexahedral
+meshes in 3D for advection-diffusion equations. It provides
+the same kind of modern, flux differencing DG methods
+to achieve entropy conservation/dissipation or kinetic energy preservation that are used in \trixi.
 At the same time, both codes have features the other does not, \eg,
-approximation capabilities for parabolic equations and MPI in FLUXO
+support for parabolic equations and multi-node parallelism in FLUXO,
 or multiple mesh types and more physics setups in \trixi. Nevertheless,
-both \trixi and FLUXO share a common set of features, \eg, high-order DG
-methods on 3D curvilinear meshes, that enables a reasonable comparison of their performance.
+both \trixi and FLUXO share a common set of features, \ie, high-order DG
+methods on 3D curvilinear meshes, which allows a reasonable comparison of their performance.
 
 
 \subsection{Description of the setup}
 
 Here, we compare the serial performance of \trixi and FLUXO when solving a
-hyperbolic PDE in three space dimensions on curvilinear hex meshes.
+hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
 spatial direction. To make the mesh curvilinear, the interior of the box is heavily warped
 by a combination of sine and cosine functions~\cite{chan2019efficient}. To integrate up to the
-final time $t=1.0$, both codes use the five-stage, four-order low-storage explicit
+final time $t=1.0$, both codes use the five-stage, fourth-order low-storage explicit
 Runge-Kutta method of Carpenter and Kennedy~\cite{CarpenterKennedy1994}.
 A stable explicit time step is adaptively computed according to the local maximum wave
 speed, the relative grid size, and an adjustable Courant-Friedrichs-Lewy (CFL)
@@ -449,7 +450,7 @@ For the flux differencing solver, which introduces an additional numerical volum
 function in both the volume and at the surface. For the compressible Euler equations
 this flux is also kinetic energy preserving~\cite{ranocha2020icosahom, ranocha2018thesis}
 while for the ideal MHD equations it is kinetic and magnetic energy preserving~\cite{hindenlang2019}. We note that both ideal MHD implementations
-contain additional computational overhead due to nonconservative terms necessary for the numerical approximation
+require additional computational effort due to nonconservative terms necessary for the numerical approximation
 to remain entropy consistent~\cite{bohm2020}. Additionally, the weak form DG solver type is recovered if one uses a central flux
 in the volume of the flux differencing DG solver, albeit with additional computational cost~\cite{gassner2016split}.
 
@@ -459,9 +460,9 @@ Each node of Tetralith has two sockets, each with an Intel(R) Xeon(R) Gold 6130 
 FLUXO was compiled using the Intel compiler suite v18.0.3 and \trixi used Julia v1.6.1.
 The serial performance results were run on a single core.
 We ran each configuration of a particular physical setup, polynomial degree, and solver type
-for each code five times, taking the smallest value from each in the comparison results.
+for each code five times, taking the smallest value from each for the comparison results.
 
-To assess the performance of the two codes we vary the polynomial degree
+To assess the performance of the two codes, we vary the polynomial degree
 (\lstinline{polydeg}) in the range $[3,15]$.
 This corresponds to considering DG approximations of (increasing) spatial accuracy, from fourth up to sixteenth order.
 The metric we use to analyze and compare FLUXO and \trixi simulations is a performance index (PID) that
@@ -469,21 +470,21 @@ measures the time required to advance a single degree of freedom (DOF) from one 
 time integration scheme to the next. It is computed as
 \begin{equation}
 \label{eqn:pid}
-\text{PID} = \frac{\text{wall-clock-time}}{\#\text{time steps}\cdot 5\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3},
+\text{PID} = \frac{\text{wall-clock time}}{\#\text{time steps}\cdot 5\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3},
 \end{equation}
-where $5$ is the number of RK stages per time step for the selected time-stepping method. In other words, the PID acts 
+where $5$ is the number of Runge-Kutta stages per time step for the selected time-stepping method. In other words, the PID acts
 as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
 
 The code and detailed information necessary to reproduce these numerical
-experiments is available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
+experiments are available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
 
 \subsection{Results of the performance comparison}
 
-The results of these performance comparisons are visualized for the 3D compressible Euler
+The results of these performance measurements are visualized for the 3D compressible Euler equations
 in Figure~\ref{fig:PID-Euler} and for the 3D ideal MHD equations in Figure~\ref{fig:PID-MHD}.
-We present the PID timings for both codes in the top portion of these two figures as well as
-a relative comparison using FLUXO as reference. Therefore, smaller values in the bottom portion
-the Figures~\ref{fig:PID-Euler} and \ref{fig:PID-MHD} are better.
+We present the absolute PID timings for both codes in the top portion of these two figures and 
+a relative comparison using FLUXO as reference in the bottom portion; smaller values thus are always
+better.
 
 \begin{figure}[!ht]
 \centering
@@ -646,9 +647,10 @@ and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUX
 We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
 the version compiled using Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
 Thus, only results from the Intel compiler are included.
-It is also possible to see the additional computational overhead for the entropy conservative, flux
-differencing DG methods for both physical models. This is because the numerical fluxes are more complex, in
-terms of computational effort, and require special care to optimize their performance~\cite{hendrik_blog}.
+It is also possible to see the additional computational effort for the entropy-conservative flux
+differencing DG methods for both physical systems. This is because the numerical fluxes are more
+expensive in
+terms of computational cost, and require special care to optimize their performance~\cite{hendrik_blog}.
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
@@ -669,13 +671,13 @@ For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
 be used. Depending on the relative computational effort of the discretization
 (such as the polynomial degree and the choice of the volume terms), the
-Cartesian \lstinline{TreeMesh} can be \ca \SI{10}{\percent} to \SI{25}{\percent}
+Cartesian \lstinline{TreeMesh} can be \SI{10}{\percent} to \SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
 \section{Assessment of Julia for simulation-focused scientific computing}
 \label{sec:assessment-of-julia}
 
-Julia was designed from scratch to be useful for numerical computing
+Julia was designed from scratch to be suitable for numerical computing
 \cite{bezanson2017julia}. Its usefulness has been demonstrated for example for
 GPU programming \cite{besard2018juliagpu, omlin2020solving},
 optimization \cite{dunning2017jump}, data science including
@@ -697,40 +699,39 @@ in classical programming languages such as C and Fortran are still dominant
 
 \subsubsection{Julia is fast}
 
-As demonstrated in Section~\ref{sec:performance-comparison}, there is no reason
-why Julia should be generically slower than traditional high-performance programming
-languages such as C, C++, and Fortran. A minor exception of this rule is that
-Julia is built on LLVM, which does not perform the same optimizations as most
-optimizing C/C++/Fortran compilers in use nowadays. In particular, LLVM does
-not use fused multiply add (FMA) instructions by default while GCC and Intel
-compilers do. Thus, one needs to opt-in to these optimizations explicitly in
-Julia. Luckily, that is relatively easy due to Julia's code manipulation
-techniques which enable the macro \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
+As demonstrated in Section~\ref{sec:performance-comparison},
+Julia is not generically slower than traditional high-performance programming
+languages such as C, C++, and Fortran. A minor exception is due to
+Julia being built on top of LLVM, which does not perform the same optimizations as other
+C/C++/Fortran compilers. In particular, LLVM does
+not use fused multiply-add (FMA) instructions by default, while GCC and Intel
+compilers do, and thus one needs to opt-in to these optimizations explicitly.
+Relying on Julia's code manipulation techniques, this can be achieved by using the macro
+\lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
 
 \subsubsection{Julia encourages good software development practices}
 
-Many scientists implementing numerical methods often have no real experience or
-education in software development. Julia and its ecosystem support these
+Many scientists implementing numerical methods often have no formal training
+in software development. Julia and its ecosystem support these
 researchers by making it easy to set up unit and regression tests, since a
 testing framework is included in the standard library and default package
 generation setups prepare the file structure accordingly. This allows test-driven
 development and continuous integration (CI), which makes code restructuring
 and optimization straightforward.
 
-Julia itself and most packages are developed on GitHub. The community provides
-many tools one can use to run corresponding CI setups, prepare and publish
+Julia itself and most packages are developed on GitHub. The Julia community provides
+several tools to run corresponding CI setups, prepare and publish
 documentation\footnote{\url{https://github.com/JuliaDocs/Documenter.jl}},
 and other related tasks. This setup also encourages other good software development
-practices that we use in \trixi, such as mandatory code review before pull requests
-are merged.
+practices that we use in \trixi, such as mandatory code reviews.
 
-In addition, the package manager encourages a unified form of semantic versioning
+In addition, the package manager fosters a unified form of semantic versioning
 across the Julia ecosystem, which lays the basis for the following three
 observations.
 
 \subsubsection{It is easy to set up reproducible numerical experiments}
 
-The package manager makes it easy to reproduce the exact run environment, including
+The package manager makes it easy to reproduce the exact runtime environment, including
 binary dependencies, used to generate numerical results. We have used this feature for all of our papers based on
 \trixi \cite{schlottkelakemper2021purely, ranocha2021preventing}, including this
 one \cite{ranocha2021adaptiveRepro}.
@@ -741,9 +742,9 @@ donoho2010invitation, leveque2013top}.
 \subsubsection{External libraries can be integrated relatively easily}
 
 To incorporate some of the adaptive mesh capabilities into \trixi
-we have written a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
-of the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
-it is relatively easy to do so in Julia and the package manager in combination
+we have created a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
+for the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
+it is relatively easy to do so in Julia, and the package manager in combination
 with BinaryBuilder.jl makes it convenient to distribute the necessary binaries.
 In particular, users do not have to compile libraries on their own system
 and the binaries are available on all major platforms including Linux, macOS,
@@ -765,28 +766,28 @@ hex-quad mesh generator written in Fortran.
 \subsubsection{Packages can be used together at low (or no) cost}
 
 Due to Julia's package manager, the cost of using external dependencies is low
-enough to not be a problem. Traditionally, many scientific simulation codes tend
+enough to not become an issue. Traditionally, many scientific simulation codes tend
 to reduce the number of external dependencies as much as possible due to the
 complexity of handling different versions and making everything work together.
-Such an approach typically leads to significant code duplication. For example, many
+Such an approach often leads to significant code duplication. For example, many
 CFD codes implement their own time integration methods, arguing that the spatial
 part is much more complex. While this is often true, it is still more efficient
-in terms of human workload to be able to reuse existing implementations. This
+in terms of developer time to reuse existing implementations. This
 allows experts on time integration methods to develop specialized algorithms and
-implement them in open source software while practitioners or researchers focusing
-on spatial semidiscretizations can benefit immediately by changing only one line
-of code. For example, optimized time integration methods were developed in
+implement them in open source software, while practitioners or researchers focusing
+on spatial semidiscretizations can benefit with near-zero effort.
+In our case, optimized time integration methods were developed in
 \cite{ranocha2021optimized} and implemented in OrdinaryDiffEq.jl. These methods
 can be used with \trixi by changing a single line of code. In contrast, researchers
-working without external dependencies would need to spend a day or two to digest
-details before even beginning implementation. This additional overhead in developer
-time makes it less likely that researchers would implement these methods in their own
+working without external dependencies would need extra time to digest a new method's
+details before even beginning an implementation. This additional overhead
+makes it less likely that researchers would use these novel schemes in their own
 codes and benefit from recent algorithmic developments.
 
-An additional example is given by automatic differentiation. Due to dispatch,
-it is conveniently possible to use forward mode automatic differentiation
+An additional example is given by automatic differentiation. Due to multiple dispatch,
+it is possible to conveniently use forward mode automatic differentiation
 \cite{revels2016forward} to compute Jacobians of semidiscretizations of nonlinear
-conservation laws with \trixi or to differentiate through a complete simulation
+conservation laws with \trixi or to differentiate through a complete simulation,
 including time integration methods from OrdinaryDiffEq.jl.
 
 \subsubsection{Julia solves the two-language problem}
@@ -798,11 +799,11 @@ for users to apply the algorithms for their problems. In contrast, \trixi is
 written completely in Julia.
 
 Such a difference between the programming languages used in the front- and
-back-ends lead to a well-known barrier between a user and the developers of a library.
+backend leads to a well-known barrier between a user and the developers of a library.
 Julia was designed from the beginning to make it possible to write both simple
 high-level code and highly efficient compute kernels, thereby solving the
 two-language problem --- at least to a significant extent. Highly efficient low-level
-code will of course still look different from simple high-level code, but the
+code will still look different from simple high-level code, but the
 barrier between them is much smaller. In particular, this makes it easier for
 users to transition to developers and contribute to a package. This also contributes
 to the following observation:
@@ -812,16 +813,16 @@ to the following observation:
 Due to the package manager, \trixi and all related ODE and visualization tools
 can be installed with a single command, reducing the overhead of exploring the
 code. In addition, Julia's expressiveness and the ability to work with a restricted
-subset of all possible features have enabled more than 18 students to use \trixi
-for their coursework or theses. In our experience, the time required to get
-started with traditional monolithic code bases is so long that students either
-choose to build their own implementations specialized on their tasks or can only
-work on toy problems since the remaining time is rather restricted.
+subset of all possible features have enabled already more than 18 students to use \trixi
+for their coursework or theses. In our experience, the effort to get
+started with traditional monolithic code bases is often so large that due to time restrictions
+students either choose to build their own implementations specialized on their tasks or only work on
+projects with a limited scope.
 
-Another anecdotal example of ease of use is the preprint \cite{singh2021linear}.
+Another anecdotal example for the ease of use is the preprint \cite{singh2021linear}.
 While the authors utilized \trixi for some numerical experiments, they did so
 independently of the development team (who learned that the authors were
-using \trixi only \textit{after} reading the preprint!).
+using \trixi only \textit{after} reading the preprint).
 
 \subsubsection{Existing features can be extended and combined easily}
 
@@ -873,7 +874,7 @@ to not step on anybodies toes...} %TODO Michael
 \section{Summary and conclusions}
 \label{sec:summary}
 
-We have presented \trixi, a Julia library for adaptive high-order numerical
+We have presented \trixi, a Julia package for adaptive high-order numerical
 simulations of hyperbolic PDEs. As researchers in numerical analysis and
 scientific computing, our goals were to create a framework that is extendable,
 easy to use, and fast (in this particular order). Making use of Julia's strengths,
@@ -893,10 +894,10 @@ generically slower than traditional compiled HPC programming languages. Neverthe
 it appears to be more complicated to scale Julia to HPC while still keeping the
 code as simple, clean, and flexible as it is now.
 
-Learning a new programming language requires of course some effort and needs some
-time. Nevertheless, it has paid off in our experience and we do not want to miss the
-nice features of \trixi enabled by Julia and its ecosystem. Thus, while there is
-of course no need to switch to Julia if people are satisfied with their existing
+Learning a new programming language naturally requires some time and effort.
+Nevertheless, it has paid off in our experience and we do not want to miss the
+many useful features of \trixi enabled by Julia and its ecosystem. Thus, while there is
+no need to switch to Julia if people are satisfied with their existing
 tools, we encourage researchers to try out Julia and stay for a while. The Julia
 community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org/}}
 or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
