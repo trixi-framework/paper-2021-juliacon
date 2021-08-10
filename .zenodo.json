@@ -1,6 +1,6 @@
 {
     "license": "MIT",
-    "title": "Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl: A case study of Julia for scientific computing",
+    "title": "Adaptive numerical simulations with Trixi.jl: A case study of Julia for scientific computing",
     "upload_type": "software",
     "creators": [
         {
