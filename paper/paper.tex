@@ -334,7 +334,7 @@ mesh = TreeMesh(coordinates_min, coordinates_max,
 # Create semidiscretization with all spatial
 # discretization-related components
 semi = SemidiscretizationHyperbolic(
-  mesh, equations, ic, solver)
+    mesh, equations, ic, solver)
 
 # Create an ODE problem from the semidiscretization
 # with time span from 0.0 to 1.0
@@ -343,7 +343,7 @@ ode = semidiscretize(semi, (0.0, 1.0))
 # Evolve the ODE problem in time using `solve` from
 # OrdinaryDiffEq with adaptive time stepping
 sol = solve(ode, RDPK3SpFSAL49(), abstol=1.0e-6,
-  reltol=1.0e-6, save_everystep=false)
+    reltol=1.0e-6, save_everystep=false)
 
 # Plot the numerical solution at the final time
 plot(sol)
