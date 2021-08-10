@@ -3,9 +3,7 @@
 
 % JuliaCon proceedings template
 % \documentclass{juliacon}
-% FIXME sloede: I personally hate these color boxes around links, but maybe we should not mess with
-% the official style?
-\documentclass[hidelinks]{juliacon}
+\documentclass[hidelinks]{juliacon} % To disable ugly color boxes around clickable links
 \setcounter{page}{1}
 
 
@@ -50,7 +48,7 @@
 \begin{abstract}
 % Abstract: at most 600 characters, written in plain English with no symbol
 % nor formula + references etc.
-We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
+We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
 Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with an established open
@@ -253,7 +251,7 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
 is obtained in two steps. First, a spatial semidiscretization is created. Next,
 the resulting ordinary differential equation (ODE) is solved using a time
 integration method. Currently, \trixi focuses on the spatial semidiscretization
-and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, a part
+and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, which is part
 of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
 
 \begin{figure*}[htbp]
@@ -278,7 +276,7 @@ Once information about the time span $[0, T]$ is provided, a semidiscretization
 in \trixi can be converted into an ODE problem, which can be solved by methods
 from OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
 allows us to provide extended functionality for \trixi without modifying any
-main loop. In particular, diverse tasks such as input/output operations, adaptive
+main loop. In particular, various tasks such as input/output operations, adaptive
 mesh refinement (AMR), and positivity preserving limiting are implemented using
 callbacks.
 
@@ -876,7 +874,7 @@ to not step on anybodies toes...} %TODO Michael
 \section{Summary and conclusions}
 \label{sec:summary}
 
-We have presented \trixi, a Julia library for adaptive high-order numerical
+We have presented \trixi, a Julia package for adaptive high-order numerical
 simulations of hyperbolic PDEs. As researchers in numerical analysis and
 scientific computing, our goals were to create a framework that is extendable,
 easy to use, and fast (in this particular order). Making use of Julia's strengths,
