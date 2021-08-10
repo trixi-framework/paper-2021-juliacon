@@ -12,7 +12,7 @@ material to reproduce the numerical experiments reported therein.
 
 We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
-Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
+Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with an established open
 source Fortran code for hyperbolic PDEs using the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific

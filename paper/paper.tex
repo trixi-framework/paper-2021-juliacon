@@ -50,7 +50,7 @@
 % nor formula + references etc.
 We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
-Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
+Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with an established open
 source Fortran code for hyperbolic PDEs using the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
@@ -69,7 +69,7 @@ our simulations are built upon. In addition, we are academics and involved in te
 students in these areas of science. Thus, we would like to have a
 code that is
 \begin{enumerate}
-  \item extendable for research and development,
+  \item extensible for research and development,
   \item easy to apply/understand for students/collaborators,
   \item fast enough for applied 3D problems.
 \end{enumerate}
@@ -82,7 +82,7 @@ in Julia \cite{bezanson2017julia}. Starting as an experiment, we have been able
 to reach more and more of our goals with \trixi.
 
 In this article, we present an overview of the main features and design decisions
-of \trixi in Section~\ref{sec:design-of-trixi}, laying the ground for an extendable
+of \trixi in Section~\ref{sec:design-of-trixi}, laying the ground for an extensible
 and easy-to-use framework of high-order methods for hyperbolic PDEs. Next, we
 compare the serial performance with an established high-performance computing (HPC) Fortran code in
 Section~\ref{sec:performance-comparison}, demonstrating that Julia is not generically
@@ -876,7 +876,7 @@ to not step on anybodies toes...} %TODO Michael
 
 We have presented \trixi, a Julia package for adaptive high-order numerical
 simulations of hyperbolic PDEs. As researchers in numerical analysis and
-scientific computing, our goals were to create a framework that is extendable,
+scientific computing, our goals were to create a framework that is extensible,
 easy to use, and fast (in this particular order). Making use of Julia's strengths,
 we have been successful based on recent publications making use of \trixi,
 the number of students and researchers working with \trixi, and serial performance
