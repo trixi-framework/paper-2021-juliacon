@@ -12,7 +12,7 @@ material to reproduce the numerical experiments reported therein.
 
 We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
-Trixi.jl is extendable, easy to use, and fast. We describe the main design choices
+Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with an established open
 source Fortran code for hyperbolic PDEs using the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
@@ -65,7 +65,7 @@ use the implementations provided here, please **also** cite this repository as
   [`figure_gingerbread_man`](figure_gingerbread_man/),
   including a [`README.md`](figure_gingerbread_man/README.md) with instructions.
 - All material necessary to reproduce the performance comparison with the Fortran
-  code [FLUXO](https://github.com/project-fluxo/fluxo) is contained in the folder
+  code [FLUXO](https://gitlab.com/project-fluxo/fluxo) is contained in the folder
   [`pid_runs`](pid_runs/),
   including a [`README.md`](pid_runs/README.md) with instructions.
 

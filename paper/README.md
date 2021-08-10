@@ -1,4 +1,4 @@
-# Adaptive and extendable numerical simulations with Trixi.jl
+# Adaptive numerical simulations with Trixi.jl: A case study of Julia for scientific computing
 
 
 ## Building the paper

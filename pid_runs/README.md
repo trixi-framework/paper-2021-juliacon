@@ -2,7 +2,7 @@
 
 The files in this folder can be used to reproduce the numerical experiments
 for the performance comparison between the Fortran code
-[FLUXO](https://github.com/project-fluxo/fluxo) and the Julia code
+[FLUXO](https://gitlab.com/project-fluxo/fluxo) and the Julia code
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 All results reported in the paper were obtained with the Intel compiler suite v18.0.03
 and Julia v1.6.1. The runs were performed with a single Intel Xeon Gold 6130 processor
@@ -84,9 +84,9 @@ We also include the `hopr_parameter_ConformBoxHeavilyWarped.ini` file used with 
 
 To reproduce the FLUXO numerical PID experiments, proceed as follows. Note, for this discussion it is assumed that
 one has access to some version of the Intel compiler suite.
-- Clone the [FLUXO](https://github.com/project-fluxo/fluxo) source code. The results reported in this work used the
+- Clone the [FLUXO](https://gitlab.com/project-fluxo/fluxo) source code. The results reported in this work used the
   `master` branch with the commit hash `f16435a779ca342b44b12d0475506ec2d25e7db9`.
-- Follow the provided [installation instructions](https://github.com/project-fluxo/fluxo/blob/master/INSTALL.md).
+- Follow the provided [installation instructions](https://gitlab.com/project-fluxo/fluxo/-/blob/master/INSTALL.md).
 - Compilation of the FLUXO code for these PID comparisons used a few combinations of the available options that
   are selected/configured via [CMake](https://cmake.org/).
   We note that many default options are used, e.g., that parabolic (i.e. second order derivative) terms are *deactivated*.
