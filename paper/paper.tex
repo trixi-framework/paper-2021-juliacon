@@ -93,11 +93,11 @@ Finally, we summarize our findings and conclusions in Section~\ref{sec:summary}.
 
 
 
-\section{Design of \trixi and overview of its features}
+\section{Capabilities and design of \trixi}
 \label{sec:design-of-trixi}
 
-\trixi is designed as a library of high-order methods for hyperbolic PDEs of
-the form
+\trixi is designed as a simulation framework and library of high-order methods for conservation laws
+of the form
 \begin{equation}
 \label{eq:hcl}
   \partial_t u(t, x) + \sum_{j=1}^d \partial_{x_j} f^j(u) = s(t, x, u),
@@ -245,7 +245,7 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
 \end{figure}
 
 
-\subsection{High-level overview of the structure}
+\subsection{High-level overview of the code structure}
 
 \trixi is built from the method of lines. Thus, a discretization of \eqref{eq:hcl}
 is obtained in two steps. First, a spatial semidiscretization is created. Next,
@@ -407,7 +407,7 @@ to test their newly implemented feature(s).
 
 
 
-\section{Performance comparison with FLUXO}
+\section{Performance comparison with Fortran}
 \label{sec:performance-comparison}
 
 FLUXO\footnote{\url{https://github.com/project-fluxo/fluxo}} is an open source
