@@ -65,7 +65,7 @@ use the implementations provided here, please **also** cite this repository as
   [`figure_gingerbread_man`](figure_gingerbread_man/),
   including a [`README.md`](figure_gingerbread_man/README.md) with instructions.
 - All material necessary to reproduce the performance comparison with the Fortran
-  code [FLUXO](https://github.com/project-fluxo/fluxo) is contained in the folder
+  code [FLUXO](https://gitlab.com/project-fluxo/fluxo) is contained in the folder
   [`pid_runs`](pid_runs/),
   including a [`README.md`](pid_runs/README.md) with instructions.
 
