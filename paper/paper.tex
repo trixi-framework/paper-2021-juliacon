@@ -411,21 +411,21 @@ to test their newly implemented feature(s).
 \label{sec:performance-comparison}
 
 FLUXO\footnote{\url{https://github.com/project-fluxo/fluxo}} is an open source
-MPI Fortran code implementing discontinuous Galerkin methods on unstructured hex
-meshes in three space dimensions for advection-diffusion equations. It also
-implements the same kind of modern, flux differencing DG methods
-to achieve entropy conservation/dissipation or kinetic energy preservation.
+Fortran code implementing discontinuous Galerkin methods on unstructured hexahedral
+meshes in 3D for advection-diffusion equations. It provides
+the same kind of modern, flux differencing DG methods
+to achieve entropy conservation/dissipation or kinetic energy preservation that are used in \trixi.
 At the same time, both codes have features the other does not, \eg,
-approximation capabilities for parabolic equations and MPI in FLUXO
+support for parabolic equations and multi-node parallelism in FLUXO,
 or multiple mesh types and more physics setups in \trixi. Nevertheless,
-both \trixi and FLUXO share a common set of features, \eg, high-order DG
-methods on 3D curvilinear meshes, that enables a reasonable comparison of their performance.
+both \trixi and FLUXO share a common set of features, \ie, high-order DG
+methods on 3D curvilinear meshes, which allows a reasonable comparison of their performance.
 
 
 \subsection{Description of the setup}
 
 Here, we compare the serial performance of \trixi and FLUXO when solving a
-hyperbolic PDE in three space dimensions on curvilinear hex meshes.
+hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
 spatial direction. To make the mesh curvilinear, the interior of the box is heavily warped
