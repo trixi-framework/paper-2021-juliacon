@@ -677,7 +677,7 @@ more efficient than the curvilinear meshes in \trixi.
 \section{Assessment of Julia for simulation-focused scientific computing}
 \label{sec:assessment-of-julia}
 
-Julia was designed from scratch to be useful for numerical computing
+Julia was designed from scratch to be suitable for numerical computing
 \cite{bezanson2017julia}. Its usefulness has been demonstrated for example for
 GPU programming \cite{besard2018juliagpu, omlin2020solving},
 optimization \cite{dunning2017jump}, data science including
@@ -699,40 +699,39 @@ in classical programming languages such as C and Fortran are still dominant
 
 \subsubsection{Julia is fast}
 
-As demonstrated in Section~\ref{sec:performance-comparison}, there is no reason
-why Julia should be generically slower than traditional high-performance programming
-languages such as C, C++, and Fortran. A minor exception of this rule is that
-Julia is built on LLVM, which does not perform the same optimizations as most
-optimizing C/C++/Fortran compilers in use nowadays. In particular, LLVM does
-not use fused multiply add (FMA) instructions by default while GCC and Intel
+As demonstrated in Section~\ref{sec:performance-comparison},
+Julia is not generically slower than traditional high-performance programming
+languages such as C, C++, and Fortran. A minor exception is due to
+Julia being built on top of LLVM, which does not perform the same code optimizations as other
+C/C++/Fortran compilers. In particular, LLVM does
+not use fused multiply-add (FMA) instructions by default, while GCC and Intel
 compilers do. Thus, one needs to opt-in to these optimizations explicitly in
-Julia. Luckily, that is relatively easy due to Julia's code manipulation
-techniques which enable the macro \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
+Julia, e.g., by using the macro
+\lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
 
 \subsubsection{Julia encourages good software development practices}
 
-Many scientists implementing numerical methods often have no real experience or
-education in software development. Julia and its ecosystem support these
+Many scientists implementing numerical methods often have no formal training
+in software development. Julia and its ecosystem support these
 researchers by making it easy to set up unit and regression tests, since a
 testing framework is included in the standard library and default package
 generation setups prepare the file structure accordingly. This allows test-driven
 development and continuous integration (CI), which makes code restructuring
 and optimization straightforward.
 
-Julia itself and most packages are developed on GitHub. The community provides
-many tools one can use to run corresponding CI setups, prepare and publish
+Julia itself and most packages are developed on GitHub. The Julia community provides
+several tools to run corresponding CI setups, prepare and publish
 documentation\footnote{\url{https://github.com/JuliaDocs/Documenter.jl}},
 and other related tasks. This setup also encourages other good software development
-practices that we use in \trixi, such as mandatory code review before pull requests
-are merged.
+practices that we use in \trixi, such as mandatory code reviews.
 
-In addition, the package manager encourages a unified form of semantic versioning
+In addition, the package manager fosters a unified form of semantic versioning
 across the Julia ecosystem, which lays the basis for the following three
 observations.
 
 \subsubsection{It is easy to set up reproducible numerical experiments}
 
-The package manager makes it easy to reproduce the exact run environment, including
+The package manager makes it easy to reproduce the exact runtime environment, including
 binary dependencies, used to generate numerical results. We have used this feature for all of our papers based on
 \trixi \cite{schlottkelakemper2021purely, ranocha2021preventing}, including this
 one \cite{ranocha2021adaptiveRepro}.
@@ -743,9 +742,9 @@ donoho2010invitation, leveque2013top}.
 \subsubsection{External libraries can be integrated relatively easily}
 
 To incorporate some of the adaptive mesh capabilities into \trixi
-we have written a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
-of the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
-it is relatively easy to do so in Julia and the package manager in combination
+we have created a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
+for the C library \texttt{p4est} \cite{burstedde2011p4est}. In our experience,
+it is relatively easy to do so in Julia, and the package manager in combination
 with BinaryBuilder.jl makes it convenient to distribute the necessary binaries.
 In particular, users do not have to compile libraries on their own system
 and the binaries are available on all major platforms including Linux, macOS,
@@ -767,28 +766,28 @@ hex-quad mesh generator written in Fortran.
 \subsubsection{Packages can be used together at low (or no) cost}
 
 Due to Julia's package manager, the cost of using external dependencies is low
-enough to not be a problem. Traditionally, many scientific simulation codes tend
+enough to not become an issue. Traditionally, many scientific simulation codes tend
 to reduce the number of external dependencies as much as possible due to the
 complexity of handling different versions and making everything work together.
-Such an approach typically leads to significant code duplication. For example, many
+Such an approach often leads to significant code duplication. For example, many
 CFD codes implement their own time integration methods, arguing that the spatial
 part is much more complex. While this is often true, it is still more efficient
-in terms of human workload to be able to reuse existing implementations. This
+in terms of developer time to reuse existing implementations. This
 allows experts on time integration methods to develop specialized algorithms and
-implement them in open source software while practitioners or researchers focusing
-on spatial semidiscretizations can benefit immediately by changing only one line
-of code. For example, optimized time integration methods were developed in
+implement them in open source software, while practitioners or researchers focusing
+on spatial semidiscretizations can benefit with near-zero effort.
+In our case, optimized time integration methods were developed in
 \cite{ranocha2021optimized} and implemented in OrdinaryDiffEq.jl. These methods
 can be used with \trixi by changing a single line of code. In contrast, researchers
-working without external dependencies would need to spend a day or two to digest
-details before even beginning implementation. This additional overhead in developer
-time makes it less likely that researchers would implement these methods in their own
+working without external dependencies would need extra time to digest a new method's
+details before even beginning an implementation. This additional overhead
+makes it less likely that researchers would use these novel schemes in their own
 codes and benefit from recent algorithmic developments.
 
-An additional example is given by automatic differentiation. Due to dispatch,
-it is conveniently possible to use forward mode automatic differentiation
+An additional example is given by automatic differentiation. Due to dynamic multiple dispatch,
+it is possible to conveniently use forward mode automatic differentiation
 \cite{revels2016forward} to compute Jacobians of semidiscretizations of nonlinear
-conservation laws with \trixi or to differentiate through a complete simulation
+conservation laws with \trixi or to differentiate through a complete simulation,
 including time integration methods from OrdinaryDiffEq.jl.
 
 \subsubsection{Julia solves the two-language problem}
@@ -800,11 +799,11 @@ for users to apply the algorithms for their problems. In contrast, \trixi is
 written completely in Julia.
 
 Such a difference between the programming languages used in the front- and
-back-ends lead to a well-known barrier between a user and the developers of a library.
+backend leads to a well-known barrier between a user and the developers of a library.
 Julia was designed from the beginning to make it possible to write both simple
 high-level code and highly efficient compute kernels, thereby solving the
 two-language problem --- at least to a significant extent. Highly efficient low-level
-code will of course still look different from simple high-level code, but the
+code will still look different from simple high-level code, but the
 barrier between them is much smaller. In particular, this makes it easier for
 users to transition to developers and contribute to a package. This also contributes
 to the following observation:
@@ -814,16 +813,16 @@ to the following observation:
 Due to the package manager, \trixi and all related ODE and visualization tools
 can be installed with a single command, reducing the overhead of exploring the
 code. In addition, Julia's expressiveness and the ability to work with a restricted
-subset of all possible features have enabled more than 18 students to use \trixi
-for their coursework or theses. In our experience, the time required to get
-started with traditional monolithic code bases is so long that students either
-choose to build their own implementations specialized on their tasks or can only
-work on toy problems since the remaining time is rather restricted.
+subset of all possible features have enabled already more than 18 students to use \trixi
+for their coursework or theses. In our experience, the effort to get
+started with traditional monolithic code bases is often so large that due to time restrictions
+students either choose to build their own implementations specialized on their tasks or only work on
+projects with a limited scope.
 
-Another anecdotal example of ease of use is the preprint \cite{singh2021linear}.
+Another anecdotal example for the ease of use is the preprint \cite{singh2021linear}.
 While the authors utilized \trixi for some numerical experiments, they did so
 independently of the development team (who learned that the authors were
-using \trixi only \textit{after} reading the preprint!).
+using \trixi only \textit{after} reading the preprint).
 
 \subsubsection{Existing features can be extended and combined easily}
 
