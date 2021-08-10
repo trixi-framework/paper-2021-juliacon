@@ -374,15 +374,15 @@ and used in the same code.
 \subsubsection{New physics can be specified with minimal effort}
 
 Instead of providing only the very basic discretization ingredients, as with
-other open source frameworks for PDEs, \trixi also includes some widely used
-physical systems and analysis routines, such as computation of the integrated kinetic energy
+other open source libraries for PDEs, \trixi also includes some widely used
+physical systems as well as analysis routines, such as computation of the integrated kinetic energy
 for the compressible Euler equations,
 to make it easier to use. Nevertheless, users are not restricted
-to the physics models bundled in \trixi. To setup a new type of \lstinline{equations},
-it is only necessary to create an appropriate \lstinline{struct} bundling all
-parameters and implementing pointwise operations such as the calculation of
-the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to Julia's
-design and just-ahead-of-time compiler, these fluxes can be inlined into the
+to the physics models bundled in \trixi. To set up a new type of \lstinline{equations},
+it is only necessary to create an appropriate \lstinline{struct} containing all
+parameters and to implement pointwise operations such as the calculation of
+the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to the Julia language
+design with just-ahead-of-time compilation, these fluxes can be inlined into the
 library functions of \trixi. Thus, the physics can be separated completely from
 the \lstinline{solver} but remain computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
