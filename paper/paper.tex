@@ -109,7 +109,7 @@ in $d \in \{1, 2, 3\}$ space dimensions. Here, the independent variables are
 time $t$ and space coordinates $x \in \Omega \subset \mathbb{R}^d$. The conserved
 quantities are denoted as $u$, \eg, mass, momentum, and energy for the compressible
 Euler equations of an ideal gas.
-The physical model is specified by the fluxes $f^j$ and the source term $s$.
+The physical system is specified by the fluxes $f^j$ and the source term $s$.
 In addition, suitable initial and boundary conditions (ICs, BCs) are required.
 \trixi also handles non-conservative PDE terms as in the shallow water equations or magnetohydrodynamics equations
 with divergence cleaning.
@@ -121,8 +121,8 @@ As of version v0.3.55 (August 2021), \trixi concentrates mainly on discontinuous
 Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
 In particular, it has a focus on entropy-conservative and -dissipative methods
 \cite{tadmor1987numerical, lefloch2002fully, fisher2013discretely,
-ranocha2018comparison, chen2017entropy}. Currently, \trixi comes with the
-following features.
+ranocha2018comparison, chen2017entropy}. Currently, \trixi offers the
+following features:
 \begin{itemize}
   \item 1D, 2D, and 3D simulations on line/quad/hex/simplex meshes
   \begin{itemize}
@@ -185,7 +185,7 @@ to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillatio
   \label{fig:jet}
 \end{figure}
 
-Figure~\ref{fig:kelvin_helmholtzs} demonstrates demonstrates nonlinear stability
+Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
 \begin{figure}[!h]
@@ -216,8 +216,8 @@ classical Kelvin-Helmholtz flow instability problem.
 
 Figure~\ref{fig:pressure_waves} shows the approximation
 of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
-curvilinear and unstructured domain. The 2D quadrilateral mesh in
-Figure~\ref{fig:ginger_mesh} was generated with
+curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
+(Figure~\ref{fig:ginger_mesh}) was generated with
 HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
 \begin{figure}[!h]
   \begin{subfigure}{0.475\linewidth}
@@ -241,7 +241,7 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
     \label{fig:ginger_mesh}
   \end{subfigure}%
   \caption{Numerical solutions of pressure wave scattering for the acoustic
-                perturbation equations at three times as well as the unstructured,
+                perturbation equations at three points in time as well as the unstructured,
                 curvilinear quadrilateral mesh.}
   \label{fig:pressure_waves}
 \end{figure}
