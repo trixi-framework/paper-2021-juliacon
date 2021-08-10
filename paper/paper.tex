@@ -702,11 +702,11 @@ in classical programming languages such as C and Fortran are still dominant
 As demonstrated in Section~\ref{sec:performance-comparison},
 Julia is not generically slower than traditional high-performance programming
 languages such as C, C++, and Fortran. A minor exception is due to
-Julia being built on top of LLVM, which does not perform the same code optimizations as other
+Julia being built on top of LLVM, which does not perform the same optimizations as other
 C/C++/Fortran compilers. In particular, LLVM does
 not use fused multiply-add (FMA) instructions by default, while GCC and Intel
-compilers do. Thus, one needs to opt-in to these optimizations explicitly in
-Julia, e.g., by using the macro
+compilers do, and thus one needs to opt-in to these optimizations explicitly.
+Relying on Julia's code manipulation techniques, this can be achieved by using the macro
 \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
 
 \subsubsection{Julia encourages good software development practices}
@@ -784,7 +784,7 @@ details before even beginning an implementation. This additional overhead
 makes it less likely that researchers would use these novel schemes in their own
 codes and benefit from recent algorithmic developments.
 
-An additional example is given by automatic differentiation. Due to dynamic multiple dispatch,
+An additional example is given by automatic differentiation. Due to multiple dispatch,
 it is possible to conveniently use forward mode automatic differentiation
 \cite{revels2016forward} to compute Jacobians of semidiscretizations of nonlinear
 conservation laws with \trixi or to differentiate through a complete simulation,
