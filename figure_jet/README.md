@@ -1,7 +1,7 @@
-# Kelvin-Helmholtz instability
+# Astrophysical supersonic jet with Mach number 2000
 
 The files in this folder can be used to reproduce the numerical experiment
-simulating a Kelvin-Helmholtz instability with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
+simulating a supersonic jet with [Trixi.jl](https://github.com/trixi-framework/Trixi.jl).
 All results were obtained with Julia v1.6.2 on a computer running Kubuntu 20.04.
 
 To reproduce the numerical experiments and the figure shown in the paper, proceed
@@ -14,7 +14,7 @@ as follows.
   ```julia
   julia> using Trixi
 
-  julia> trixi_include("elixir_euler_kelvin_helmholtz_instability_amr.jl")
+  julia> trixi_include("elixir_euler_astro_jet.jl")
   [output of the simulation]
   ```
 
