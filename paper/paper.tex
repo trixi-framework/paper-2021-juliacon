@@ -73,7 +73,7 @@ code that is
   \item easy to apply/understand for students/collaborators,
   \item fast enough for applied 3D problems.
 \end{enumerate}
-Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia/}}
+Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia} (accessed 2021-08-11)}
 and wish to include all these features within a single code.
 Roughly one year of collaborative work has resulted in the current version of
 \trixi\footnote{\url{https://github.com/trixi-framework/Trixi.jl}}, providing adaptive
@@ -482,7 +482,7 @@ experiments are available in the accompanying repository \cite{ranocha2021adapti
 
 The results of these performance measurements are visualized for the 3D compressible Euler equations
 in Figure~\ref{fig:PID-Euler} and for the 3D ideal MHD equations in Figure~\ref{fig:PID-MHD}.
-We present the absolute PID timings for both codes in the top portion of these two figures and 
+We present the absolute PID timings for both codes in the top portion of these two figures and
 a relative comparison using FLUXO as reference in the bottom portion; smaller values thus are always
 better.
 
@@ -682,7 +682,7 @@ Julia was designed from scratch to be suitable for numerical computing
 GPU programming \cite{besard2018juliagpu, omlin2020solving},
 optimization \cite{dunning2017jump}, data science including
 big data\footnote{Celeste project: \url{https://github.com/jeff-regier/Celeste.jl},
-see \url{https://juliacomputing.com/case-studies/celeste/} (accessed 2021-07-22)},
+see \url{https://juliacomputing.com/case-studies/celeste} (accessed 2021-08-11)},
 machine learning \cite{innes2018fashionable}, and scientific machine learning
 (SciML) \cite{pal2021opening}. There are also mature libraries for ODE problems
 \cite{rackauckas2017differentialequations}, small scale spectral approximations
@@ -899,7 +899,7 @@ Nevertheless, it has paid off in our experience and we do not want to miss the
 many useful features of \trixi enabled by Julia and its ecosystem. Thus, while there is
 no need to switch to Julia if people are satisfied with their existing
 tools, we encourage researchers to try out Julia and stay for a while. The Julia
-community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org/}}
+community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org}}
 or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
 experienced users. Making use of existing learning material and asking questions
 appears to be important since a new programming style is necessary to make full
@@ -926,22 +926,6 @@ Research Council through grant agreement no. 2018-05973.
 
 % References
 \input{bib.tex}
-
-
-\todo{ % TODO
-\begin{itemize}
-  \item Full paper: 5--10 pages
-  \item Prepare repro repo including scripts for \trixi and FLUXO
-  \item Gregor: Other aspects of other codes that we like more in \trixi?
-  \item Are there other aspects we should discuss?
-  \item Check affiliations
-\end{itemize}
-\begin{quote}
-  Compared to an extended abstract, a full paper presents more of the background
-  and context motivating the work. It compares the work to other approaches taken
-  in the field and gives some additional insights on the conference contribution.
-  Use cases back up the work by showing how it can be used.
-\end{quote}}
 
 
 \end{document}
