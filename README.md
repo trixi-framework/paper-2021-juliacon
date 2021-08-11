@@ -56,6 +56,9 @@ use the implementations provided here, please **also** cite this repository as
 
 ## Reproducing the numerical experiments
 
+- All material necessary to reproduce the simulation of a Mach 2000 jet shown
+  in the paper is contained in the folder [`figure_jet`](figure_jet/),
+  including a [`README.md`](figure_jet/README.md) with instructions.
 - All material necessary to reproduce the simulation of a Kelvin-Helmholtz
   shown in the paper is contained in the folder
   [`figure_kelvin_helmholtz`](figure_kelvin_helmholtz/),
