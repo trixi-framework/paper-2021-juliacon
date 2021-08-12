@@ -895,7 +895,7 @@ putting heavy pressure on the parallel file system. This can be partially allevi
 precompilation serially, and there are tools like
 \texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
 problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
-Finally, the ease of using external libraries as desribed in Section~\ref{sec:external-libraries} is
+Finally, the ease of using external libraries as described in Section~\ref{sec:external-libraries} is
 somewhat lost when working with dependencies that themselves are parallelized with MPI. In this
 case it is necessary to manually specify the paths to locally compiled libraries that have been
 built against the respective system MPI installation, since there is generally no binary
@@ -907,8 +907,8 @@ Even though the aforementioned difficulties do not prevent massively parallel si
 Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
 that at the time of writing, there is little precedence in terms of openly available tutorials,
 citable publications, or highly scalable example applications that can be used to learn about best
-practices for MPI-based parallism in Julia. Thus, while in general it is justified to be cautiously
-optimistic that most issues can be overcome, it is too early to make a final assessment on the
+practices for MPI-based parallelism in Julia. Thus, while in general it is justified to be cautiously
+optimistic that most issues can be overcome, it is too early to make a final assessment of the
 suitability of Julia for highly parallel simulations.
 
 
