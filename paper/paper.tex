@@ -390,6 +390,9 @@ library functions of \trixi. Thus, the physics can be separated completely from
 the \lstinline{solver} but remain computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
 difference methods, and variants of finite volume methods.
+And even if a new feature requires modifications to methods provided by \trixi: Due to favoring
+simplicity over abstractions in the code, it remains comparatively straightforward to modify
+existing implementations.
 
 \subsubsection{There is no spooky action at a distance}
 
