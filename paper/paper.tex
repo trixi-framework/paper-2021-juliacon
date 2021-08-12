@@ -303,7 +303,7 @@ by specifying compile time options or editing parameter files. In contrast, user
 \trixi do not need to compile anything or learn parameter file syntax. Instead, they can
 just load the library and write their simulation setups in Julia. Scripts that describe
 a simulation setup for \trixi are referred to as ``elixirs''. As of version
-v0.3.57 (August 2021), \trixi comes with approximately 200 example elixirs. A basic elixir
+v0.3.55 (August 2021), \trixi comes with approximately 200 example elixirs. A basic elixir
 looks as follows:
 
 \begin{lstlisting}[language = Julia]
@@ -664,9 +664,9 @@ While our Julia code is faster than the established HPC Fortran code FLUXO for t
 example, we do not claim that Julia is generally faster than Fortran, C, or C++.
 Instead, we would like to emphasize that Julia code can be \emph{at least
 as fast} as code written in these traditional scientific computing languages.
-Further, we expect to be able to achieve similar performance with either language, and that
-remaining performance differences are due to how much time and effort has been spent to optimize
-each code.  \trixi owes its performance optimizations in part to the code introspection and
+Further, we expect to be able to achieve similar performance with either language
+by spending enough time and effort to optimize the respective code.
+\trixi owes its performance optimizations in part to the code introspection and
 profiling tools available in Julia. Similar tools used to optimize the performance in other
 languages are often not as easy to use as their Julia counterparts.
 
@@ -876,9 +876,9 @@ wrap MPI binaries installed through Julia's package manager or to make use of an
 installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
 MPI.jl, such as ClimateMachine.jl\footnote{\url{https://github.com/CliMA/ClimateMachine.jl}} or
 ImplicitGlobalGrid.jl\footnote{\url{https://github.com/eth-cscs/ImplicitGlobalGrid.jl}}.  In
-general, the performance of MPI programs written in Julia is to be comparable to C programs
+general, the performance of MPI programs written in Julia is comparable to C programs
 \cite{hunold2020benchmarking}, and parallel simulations with Julia have been shown to scale
-to more than 5,000 GPUs with MPI.jl \cite{omlin2020solving}.
+to more than 5{,}000 GPUs with MPI.jl \cite{omlin2020solving}.
 
 However, there are also some practical challenges associated with running MPI-based parallel
 simulations with Julia. For starters, the issue of compilation times as described in the previous
@@ -907,7 +907,7 @@ Even though the aforementioned difficulties do not prevent massively parallel si
 Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
 that at the time of writing, there is little precedence in terms of openly available tutorials,
 citable publications, or highly scalable example applications that can be used to learn about best
-practices for MPI-based parallism in Julia. Thus while in general it is justified to be cautiously
+practices for MPI-based parallism in Julia. Thus, while in general it is justified to be cautiously
 optimistic that most issues can be overcome, it is too early to make a final assessment on the
 suitability of Julia for highly parallel simulations.
 
@@ -944,9 +944,6 @@ The Julia
 community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org}}
 or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
 experienced users.
-% Making use of existing learning material and asking questions
-% appears to be important since a new programming style is necessary to make full
-% use of all of Julia's strengths.
 
 
 
