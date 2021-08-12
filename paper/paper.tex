@@ -930,16 +930,17 @@ scientific computing, in particular for hyperbolic PDEs, computational fluid
 dynamics, and related problems --- at least on the scale of shared memory
 parallelism. The scalability of high-order methods for hyperbolic PDEs written
 in Julia to high-performance computing applications still needs to be demonstrated.
-However, we do not expect this to remain an unsolvable problem since Julia is not
+Yet, we do not consider this an unsolvable problem, since Julia is not
 generically slower than traditional compiled HPC programming languages. Nevertheless,
-it appears to be more complicated to scale Julia to HPC while still keeping the
-code as simple, clean, and flexible as it is now.
+it appears to be more complicated to scale Julia to distributed systems without losing some of the
+simplicity and flexibility it offers for serial or shared-memory parallel computations.
 
 Learning a new programming language naturally requires some time and effort.
-Nevertheless, it has paid off in our experience and we do not want to miss the
-many useful features of \trixi enabled by Julia and its ecosystem. Thus, while there is
+In our experience, however, it has paid off and we do not want to miss the
+many useful features of \trixi enabled by Julia and its ecosystem. While there is
 no need to switch to Julia if people are satisfied with their existing
-tools, we encourage researchers to try out Julia and stay for a while. The Julia
+tools, we encourage researchers to try out Julia for scientific computing and to stay for a while.
+The Julia
 community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org}}
 or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
 experienced users. Making use of existing learning material and asking questions
