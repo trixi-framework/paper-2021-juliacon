@@ -456,7 +456,7 @@ For the flux differencing solver, which introduces an additional numerical volum
 function in both the volume and at the surface. For the compressible Euler equations
 this flux is also kinetic energy preserving~\cite{ranocha2020icosahom, ranocha2018thesis}
 while for the ideal MHD equations it is kinetic and magnetic energy preserving~\cite{hindenlang2019}. We note that both ideal MHD implementations
-require additional computational effort due to nonconservative terms necessary for the numerical approximation
+require additional computational effort due to non-conservative terms necessary for the numerical approximation
 to remain entropy consistent~\cite{bohm2020}. Additionally, the weak form DG solver type is recovered if one uses a central flux
 in the volume of the flux differencing DG solver, albeit with additional computational cost~\cite{gassner2016split}.
 
