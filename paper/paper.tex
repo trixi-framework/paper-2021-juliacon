@@ -660,17 +660,15 @@ terms of computational cost, and require special care to optimize their performa
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
-Note that we do not want to state that Julia is generically faster than Fortran,
-C, or C++. In contrast, we would like to emphasize that Julia can be at least
-as fast as code written in these traditional scientific computing languages.
-Together, the members of our team have strong backgrounds in C, C++, and
-Fortran. Nevertheless, our Julia code is faster than the established HPC Fortran
-code FLUXO for this example. The reason is not that Fortran or Julia are generically
-faster; in contrast, we expect to be able to achieve similar performance from either
-language. Instead, \trixi owes its performance optimizations in part to the code
-introspection and profiling tools available in Julia. Similar tools used to optimize the
-performance in other languages are usually not as easy to use as their Julia
-equivalents (if they exist at all).
+While our Julia code is faster than the established HPC Fortran code FLUXO for this non-trivial
+example, we do not claim that Julia is generally faster than Fortran, C, or C++.
+Instead, we would like to emphasize that Julia code can be \emph{at least
+as fast} as code written in these traditional scientific computing languages.
+Further, we expect to be able to achieve similar performance with either language, and that
+remaining performance differences are due to how much time and effort has been spent to optimize
+each code.  \trixi owes its performance optimizations in part to the code introspection and
+profiling tools available in Julia. Similar tools used to optimize the performance in other
+languages are often not as easy to use as their Julia counterparts.
 
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
