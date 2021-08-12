@@ -278,7 +278,10 @@ from OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
 allows us to provide extended functionality for \trixi without modifying any
 main loop. In particular, various tasks such as input/output operations, adaptive
 mesh refinement (AMR), and positivity preserving limiting are implemented using
-callbacks.
+callbacks. In case full control over the time step loop is required, e.g., to experiment with new
+features that are not easily realized with the existing API, \trixi also implements its own time
+integration schemes that mimic the interface of OrdinaryDiffEq.jl and that can be used as drop-in
+replacements.
 
 
 \subsection{Review of the main design choices}
@@ -301,7 +304,7 @@ by specifying compile time options or editing parameter files. In contrast, user
 just load the library and write their simulation setups in Julia. Scripts that describe
 a simulation setup for \trixi are referred to as ``elixirs''. As of version
 v0.3.55 (August 2021), \trixi comes with approximately 200 example elixirs. A basic elixir
-might look as follows:
+looks as follows:
 
 \begin{lstlisting}[language = Julia]
 # Load all required libraries
@@ -387,6 +390,9 @@ library functions of \trixi. Thus, the physics can be separated completely from
 the \lstinline{solver} but remain computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
 difference methods, and variants of finite volume methods.
+And even if a new feature requires modifications to methods provided by \trixi: Due to favoring
+simplicity over excessively generic code, it remains comparatively straightforward to modify
+existing implementations.
 
 \subsubsection{There is no spooky action at a distance}
 
@@ -654,17 +660,15 @@ terms of computational cost, and require special care to optimize their performa
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
-Note that we do not want to state that Julia is generically faster than Fortran,
-C, or C++. In contrast, we would like to emphasize that Julia can be at least
-as fast as code written in these traditional scientific computing languages.
-Together, the members of our team have strong backgrounds in C, C++, and
-Fortran. Nevertheless, our Julia code is faster than the established HPC Fortran
-code FLUXO for this example. The reason is not that Fortran or Julia are generically
-faster; in contrast, we expect to be able to achieve similar performance from either
-language. Instead, \trixi owes its performance optimizations in part to the code
-introspection and profiling tools available in Julia. Similar tools used to optimize the
-performance in other languages are usually not as easy to use as their Julia
-equivalents (if they exist at all).
+While our Julia code is faster than the established HPC Fortran code FLUXO for this non-trivial
+example, we do not claim that Julia is generally faster than Fortran, C, or C++.
+Instead, we would like to emphasize that Julia code can be \emph{at least
+as fast} as code written in these traditional scientific computing languages.
+Further, we expect to be able to achieve similar performance with either language
+by spending enough time and effort to optimize the respective code.
+\trixi owes its performance optimizations in part to the code introspection and
+profiling tools available in Julia. Similar tools used to optimize the performance in other
+languages are often not as easy to use as their Julia counterparts.
 
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
@@ -714,8 +718,7 @@ Relying on Julia's code manipulation techniques, this can be achieved by using t
 Many scientists implementing numerical methods often have no formal training
 in software development. Julia and its ecosystem support these
 researchers by making it easy to set up unit and regression tests, since a
-testing framework is included in the standard library and default package
-generation setups prepare the file structure accordingly. This allows test-driven
+testing framework is included in the standard library. This facilitates test-driven
 development and continuous integration (CI), which makes code restructuring
 and optimization straightforward.
 
@@ -740,6 +743,7 @@ which is arguably important but not yet mainstream \cite{barnes2010publish,
 donoho2010invitation, leveque2013top}.
 
 \subsubsection{External libraries can be integrated relatively easily}
+\label{sec:external-libraries}
 
 To incorporate some of the adaptive mesh capabilities into \trixi
 we have created a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
@@ -862,13 +866,50 @@ PackageCompiler.jl\footnote{\url{https://github.com/JuliaLang/PackageCompiler.jl
 that can help with these tasks but a good workflow usable for development and
 deployment still has to be found.
 
-\subsubsection{MPI-based parallel simulations need to be established}
+\subsubsection{Simulations with distributed-memory parallelism}
 
-MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
+While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
+in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
+As an alternatively, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
+exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows to either
+wrap MPI binaries installed through Julia's package manager or to make use of an existing MPI
+installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
+MPI.jl, such as ClimateMachine.jl\footnote{\url{https://github.com/CliMA/ClimateMachine.jl}} or
+ImplicitGlobalGrid.jl\footnote{\url{https://github.com/eth-cscs/ImplicitGlobalGrid.jl}}.  In
+general, the performance of MPI programs written in Julia is comparable to C programs
+\cite{hunold2020benchmarking}, and parallel simulations with Julia have been shown to scale
+to more than 5{,}000 GPUs with MPI.jl \cite{omlin2020solving}.
 
-\todo{TODO: Michael, could you please write something here? You are much more
-experienced with MPI and HPC. Be aware of \cite{omlin2020solving, byrne2021mpi}
-to not step on anybodies toes...} %TODO Michael
+However, there are also some practical challenges associated with running MPI-based parallel
+simulations with Julia. For starters, the issue of compilation times as described in the previous
+section is exacerbated, as MPI runs are by default not interactive and thus compilation results cannot be cached between MPI sessions. Since this
+requires to recompile everything for each subsequent execution of an MPI-parallel Julia program,
+this is particularly annoying during development. Partial relief can be obtained by using
+\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}}, which allows to simultaneously
+interact with multiple interactive Julia REPL sessions via the terminal multiplexer \texttt{tmux}.
+However, this approach does not scale beyond a few MPI ranks and is only available on
+Unix-like operating systems. The use of PackageCompiler.jl to reduce compilation times as much as
+possible becomes thus mandatory. Another issue encountered when running Julia with many parallel
+processes is that Julia operates with a lot of small files during startup and precompilation,
+putting heavy pressure on the parallel file system. This can be partially alleviated by doing
+precompilation serially, and there are tools like
+\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
+problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
+Finally, the ease of using external libraries as desribed in Section~\ref{sec:external-libraries} is
+somewhat lost when working with dependencies that themselves are parallelized with MPI. In this
+case it is necessary to manually specify the paths to locally compiled libraries that have been
+built against the respective system MPI installation, since there is generally no binary
+compatibility between different MPI implementations. There are ongoing efforts in the Julia HPC
+community to work around this limitation by using the
+\texttt{WI4MPI}\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package.
+
+Even though the aforementioned difficulties do not prevent massively parallel simulations with
+Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
+that at the time of writing, there is little precedence in terms of openly available tutorials,
+citable publications, or highly scalable example applications that can be used to learn about best
+practices for MPI-based parallism in Julia. Thus, while in general it is justified to be cautiously
+optimistic that most issues can be overcome, it is too early to make a final assessment on the
+suitability of Julia for highly parallel simulations.
 
 
 \section{Summary and conclusions}
@@ -889,21 +930,20 @@ scientific computing, in particular for hyperbolic PDEs, computational fluid
 dynamics, and related problems --- at least on the scale of shared memory
 parallelism. The scalability of high-order methods for hyperbolic PDEs written
 in Julia to high-performance computing applications still needs to be demonstrated.
-However, we do not expect this to remain an unsolvable problem since Julia is not
+Yet, we do not consider this an unsolvable problem, since Julia is not
 generically slower than traditional compiled HPC programming languages. Nevertheless,
-it appears to be more complicated to scale Julia to HPC while still keeping the
-code as simple, clean, and flexible as it is now.
+it appears to be more complicated to scale Julia to distributed systems without losing some of the
+simplicity and flexibility it offers for serial or shared-memory parallel computations.
 
 Learning a new programming language naturally requires some time and effort.
-Nevertheless, it has paid off in our experience and we do not want to miss the
-many useful features of \trixi enabled by Julia and its ecosystem. Thus, while there is
+In our experience, however, it has paid off and we do not want to miss the
+many useful features of \trixi enabled by Julia and its ecosystem. While there is
 no need to switch to Julia if people are satisfied with their existing
-tools, we encourage researchers to try out Julia and stay for a while. The Julia
+tools, we encourage researchers to try out Julia for scientific computing and to stay for a while.
+The Julia
 community (on the Julia Discourse forum\footnote{\url{https://discourse.julialang.org}}
 or Slack/Zulip workspaces) is usually welcoming and helpful, both for new and
-experienced users. Making use of existing learning material and asking questions
-appears to be important since a new programming style is necessary to make full
-use of all of Julia's strengths.
+experienced users.
 
 
 
