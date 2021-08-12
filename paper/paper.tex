@@ -740,6 +740,7 @@ which is arguably important but not yet mainstream \cite{barnes2010publish,
 donoho2010invitation, leveque2013top}.
 
 \subsubsection{External libraries can be integrated relatively easily}
+\label{sec:external-libraries}
 
 To incorporate some of the adaptive mesh capabilities into \trixi
 we have created a Julia wrapper\footnote{\url{https://github.com/trixi-framework/P4est.jl}}
@@ -862,13 +863,50 @@ PackageCompiler.jl\footnote{\url{https://github.com/JuliaLang/PackageCompiler.jl
 that can help with these tasks but a good workflow usable for development and
 deployment still has to be found.
 
-\subsubsection{MPI-based parallel simulations need to be established}
+\subsubsection{Simulations with distributed-memory parallelism}
 
-MPI: To be evaluated but the basic tools are already there \cite{byrne2021mpi}
+While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
+in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
+As an alternatively, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
+exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows to either
+wrap MPI binaries installed through Julia's package manager or to make use of an existing MPI
+installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
+MPI.jl, such as ClimateMachine.jl\footnote{\url{https://github.com/CliMA/ClimateMachine.jl}} or
+ImplicitGlobalGrid.jl\footnote{\url{https://github.com/eth-cscs/ImplicitGlobalGrid.jl}}.  In
+general, the performance of MPI programs written in Julia is to be comparable to C programs
+\cite{hunold2020benchmarking}, and parallel simulations with Julia have been shown to scale
+to more than 5,000 GPUs with MPI.jl \cite{omlin2020solving}.
 
-\todo{TODO: Michael, could you please write something here? You are much more
-experienced with MPI and HPC. Be aware of \cite{omlin2020solving, byrne2021mpi}
-to not step on anybodies toes...} %TODO Michael
+However, there are also some practical challenges associated with running MPI-based parallel
+simulations with Julia. For starters, the issue of compilation times as described in the previous
+section is exacerbated, as MPI runs are by default not interactive and thus compilation results cannot be cached between MPI sessions. Since this
+requires to recompile everything for each subsequent execution of an MPI-parallel Julia program,
+this is particularly annoying during development. Partial relief can be obtained by using
+\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}}, which allows to simultaneously
+interact with multiple interactive Julia REPL sessions via the terminal multiplexer \texttt{tmux}.
+However, this approach does not scale beyond a few MPI ranks and is only available on
+Unix-like operating systems. The use of PackageCompiler.jl to reduce compilation times as much as
+possible becomes thus mandatory. Another issue encountered when running Julia with many parallel
+processes is that Julia operates with a lot of small files during startup and precompilation,
+putting heavy pressure on the parallel file system. This can be partially alleviated by doing
+precompilation serially, and there are tools like
+\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
+problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
+Finally, the ease of using external libraries as desribed in Section~\ref{sec:external-libraries} is
+somewhat lost when working with dependencies that themselves are parallelized with MPI. In this
+case it is necessary to manually specify the paths to locally compiled libraries that have been
+built against the respective system MPI installation, since there is generally no binary
+compatibility between different MPI implementations. There are ongoing efforts in the Julia HPC
+community to work around this limitation by using the
+\texttt{WI4MPI}\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package.
+
+Even though the aforementioned difficulties do not prevent massively parallel simulations with
+Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
+that at the time of writing, there is little precedence in terms of openly available tutorials,
+citable publications, or highly scalable example applications that can be used to learn about best
+practices for MPI-based parallism in Julia. Thus while in general it is justified to be cautiously
+optimistic that most issues can be overcome, it is too early to make a final assessment on the
+suitability of Julia for highly parallel simulations.
 
 
 \section{Summary and conclusions}
