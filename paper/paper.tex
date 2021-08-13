@@ -871,7 +871,7 @@ deployment still has to be found.
 While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
 in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
 As an alternative, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
-exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows to either
+exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows one to either
 wrap MPI binaries installed through Julia's package manager or to make use of an existing MPI
 installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
 MPI.jl, such as ClimateMachine.jl\footnote{\url{https://github.com/CliMA/ClimateMachine.jl}} or
@@ -880,19 +880,19 @@ general, the performance of MPI programs written in Julia is comparable to C pro
 \cite{hunold2020benchmarking}, and parallel simulations with Julia have been shown to scale
 to more than 5{,}000 GPUs with MPI.jl \cite{omlin2020solving}.
 
-However, there are also some practical challenges associated with running MPI-based parallel
-simulations with Julia. For starters, the issue of compilation times as described in the previous
-section is exacerbated, as MPI runs are by default not interactive and thus compilation results cannot be cached between MPI sessions. Since this
-requires to recompile everything for each subsequent execution of an MPI-parallel Julia program,
-this is particularly annoying during development. Partial relief can be obtained by using
-\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}}, which allows to simultaneously
+However, some practical challenges associated with running MPI-based parallel
+simulations with Julia remain. For starters, the issue of compilation times, described in the previous
+section, is exacerbated as MPI runs are by default not interactive and compilation results cannot be cached between MPI sessions. As such, this
+requires code to recompile for each subsequent execution of an MPI-parallel Julia program,
+which is particularly annoying during development. Partial relief can be obtained by using
+\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}} that allows the user to simultaneously
 interact with multiple interactive Julia REPL sessions via the terminal multiplexer \texttt{tmux}.
 However, this approach does not scale beyond a few MPI ranks and is only available on
 Unix-like operating systems. The use of PackageCompiler.jl to reduce compilation times as much as
-possible becomes thus mandatory. Another issue encountered when running Julia with many parallel
-processes is that Julia operates with a lot of small files during startup and precompilation,
+possible thus becomes mandatory. Another issue encountered when running Julia with many parallel
+processes is that Julia operates with many small files during startup and precompilation,
 putting heavy pressure on the parallel file system. This can be partially alleviated by doing
-precompilation serially, and there are tools like
+precompilation in serial, with tools like
 \texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
 problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
 Finally, the ease of using external libraries as described in Section~\ref{sec:external-libraries} is
