@@ -1,4 +1,4 @@
-# Adaptive high-order numerical simulations of hyperbolic PDEs with Trixi.jl: A case study of Julia for scientific computing
+# Adaptive numerical simulations with Trixi.jl: A case study of Julia for scientific computing
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](https://opensource.org/licenses/MIT)
 <!-- [![DOI](https://zenodo.org/badge/DOI/TODO.svg)](https://doi.org/TODO) -->
@@ -10,11 +10,11 @@ material to reproduce the numerical experiments reported therein.
 
 ## Abstract
 
-We present Trixi.jl, a Julia library for adaptive high-order numerical simulations
-of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
+We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
+of hyperbolic partial differential equations. Utilizing Julia's strengths,
 Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
-that enable these features and compare Trixi.jl with an established open
-source Fortran code for hyperbolic PDEs using the same numerical methods.
+that enable these features and compare Trixi.jl with a mature open
+source Fortran code that uses the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
 computing, an area that is still dominated by traditional high-performance
 computing languages such as C, C++, and Fortran.
