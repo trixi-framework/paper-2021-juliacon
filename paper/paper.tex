@@ -901,7 +901,8 @@ case it is necessary to manually specify the paths to locally compiled libraries
 built against the respective system MPI installation, since there is generally no binary
 compatibility between different MPI implementations. There are ongoing efforts in the Julia HPC
 community to work around this limitation by using the
-\texttt{WI4MPI}\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package.
+WI4MPI\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package or the
+Spack package manager \cite{gamblin2015spack,byrne2021mpi}.
 
 Even though the aforementioned difficulties do not prevent massively parallel simulations with
 Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
