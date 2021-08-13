@@ -892,8 +892,8 @@ Unix-like operating systems. The use of PackageCompiler.jl to reduce compilation
 possible thus becomes mandatory. Another issue encountered when running Julia with many parallel
 processes is that Julia operates with many small files during startup and precompilation,
 putting heavy pressure on the parallel file system. This can be partially alleviated by doing
-precompilation in serial, with tools like
-\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
+precompilation in serial. There are also tools like
+\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}} that help solve similar
 problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
 Finally, the ease of using external libraries as described in Section~\ref{sec:external-libraries} is
 somewhat lost when working with dependencies that themselves are parallelized with MPI. In this
