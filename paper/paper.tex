@@ -51,7 +51,7 @@
 We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
 of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
 Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
-that enable these features and compare Trixi.jl with an established open
+that enable these features and compare Trixi.jl with a mature open
 source Fortran code for hyperbolic PDEs using the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
 computing, an area that is still dominated by traditional high-performance
@@ -84,7 +84,7 @@ to reach more and more of our goals with \trixi.
 In this article, we present an overview of the main features and design decisions
 of \trixi in Section~\ref{sec:design-of-trixi}, laying the ground for an extensible
 and easy-to-use framework of high-order methods for hyperbolic PDEs. Next, we
-compare the serial performance with an established high-performance computing (HPC) Fortran code in
+compare the serial performance with a mature high-performance computing (HPC) Fortran code in
 Section~\ref{sec:performance-comparison}, demonstrating that Julia is not generically
 slower than traditional HPC languages (and can even be faster in this particular case).
 Thereafter, we present an assessment of Julia for simulation-focused scientific
@@ -289,7 +289,7 @@ replacements.
 The design of \trixi was guided by extensibility, ease of use, and efficiency
 (in this particular order). Thus, it is likely possible to make (some parts) even
 faster at the cost of simplicity and readability. Nevertheless, \trixi is already quite
-fast, even compared to established high-performance open source software,
+fast, even compared to mature high-performance open source software,
 as described in detail in Section~\ref{sec:performance-comparison}. In this
 section, we focus mostly on the first two goals.
 
@@ -660,7 +660,7 @@ terms of computational cost, and require special care to optimize their performa
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
-While our Julia code is faster than the established HPC Fortran code FLUXO for this non-trivial
+While our Julia code is faster than the mature HPC Fortran code FLUXO for this non-trivial
 example, we do not claim that Julia is generally faster than Fortran, C, or C++.
 Instead, we would like to emphasize that Julia code can be \emph{at least
 as fast} as code written in these traditional scientific computing languages.
@@ -921,7 +921,7 @@ scientific computing, our goals were to create a framework that is extensible,
 easy to use, and fast (in this particular order). Making use of Julia's strengths,
 we have been successful based on recent publications making use of \trixi,
 the number of students and researchers working with \trixi, and serial performance
-comparisons with an established Fortran code. Having developed, from scratch, \trixi for a bit
+comparisons with a mature Fortran code. Having developed, from scratch, \trixi for a bit
 more than one year allows us to give an assessment of Julia for simulation-focused
 scientific computing.
 
