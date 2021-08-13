@@ -673,8 +673,7 @@ languages are often not as easy to use as their Julia counterparts.
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
-be used. Depending on the relative computational effort of the discretization
-(such as the polynomial degree and the choice of the volume terms), the
+be used. Depending on the particular choice of discretization methods, the
 Cartesian \lstinline{TreeMesh} can be \SI{10}{\percent} to \SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
