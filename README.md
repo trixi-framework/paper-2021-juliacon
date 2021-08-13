@@ -25,8 +25,8 @@ computing languages such as C, C++, and Fortran.
 This repository contains information and code to reproduce the results presented in the article
 ```bibtex
 @online{ranocha2021adaptive,
-  title={Adaptive high-order numerical simulations of hyperbolic {PDEs} with
-         {T}rixi.jl: {A} case study of {J}ulia for scientific computing},
+  title={Adaptive numerical simulations with {T}rixi.jl: 
+         {A} case study of {J}ulia for scientific computing},
   author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
   year={2021},
@@ -42,8 +42,8 @@ use the implementations provided here, please **also** cite this repository as
 ```bibtex
 @misc{ranocha2021adaptiveRepro,
   title={Reproducibility repository for
-         Adaptive high-order numerical simulations of hyperbolic {PDEs} with
-         {T}rixi.jl: {A} case study of {J}ulia for scientific computing},
+         Adaptive numerical simulations with {T}rixi.jl: 
+         {A} case study of {J}ulia for scientific computing},
   author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
   year={2021},
