@@ -755,9 +755,9 @@ and Windows.
 
 Similarly, there is no need to compile HDF5 on a user system due to the
 availability of HDF5.jl\footnote{\url{https://github.com/JuliaIO/HDF5.jl}}.
-There is still work to be done how to improve the experience in combination
+There is still work to be done on how to improve the experience in combination
 with MPI on HPC clusters, but some promising
-approaches exist \cite{byrne2021mpi}.
+approaches exist (see Section~\ref{sec:distributed-memory}).
 
 It is also possible to wrap Fortran libraries/tools in Julia. For example, we
 have created the wrappers KROME.jl\footnote{\url{https://github.com/trixi-framework/KROME.jl}}
@@ -866,6 +866,7 @@ that can help with these tasks but a good workflow usable for development and
 deployment still has to be found.
 
 \subsubsection{Simulations with distributed-memory parallelism}
+\label{sec:distributed-memory}
 
 While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
 in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
