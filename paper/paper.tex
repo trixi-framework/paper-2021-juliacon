@@ -467,6 +467,9 @@ FLUXO was compiled using the Intel compiler suite v18.0.3 and \trixi used Julia 
 The serial performance results were obtained on a single core.
 We ran each configuration of a particular physical setup, polynomial degree, and solver type
 for each code five times, taking the smallest value from each for the comparison results.
+We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
+the version compiled using Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
+Thus, only results from the Intel compiler are included.
 
 To assess the performance of the two codes, we vary the polynomial degree
 (\lstinline{polydeg}) from 3 to 15.
@@ -650,9 +653,6 @@ better.
 
 From these results, it is clear that \trixi is more than 2x faster for the compressible Euler equations
 and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUXO.
-We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
-the version compiled using Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
-Thus, only results from the Intel compiler are included.
 It is also possible to see the additional computational effort for the entropy-conservative flux
 differencing DG methods for both physical systems. This is because the numerical fluxes are more
 expensive in
