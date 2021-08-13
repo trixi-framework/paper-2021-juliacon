@@ -356,7 +356,7 @@ Since functions are first-class citizens in Julia, they can be passed around
 and used efficiently. Thus, everything that acts like a function can be used
 in \trixi, \eg, to define initial/boundary conditions. While the flexibility
 to change initial/boundary conditions
-is not too uncommon, two-point numerical fluxes are also just functions with a
+is quite common, two-point numerical fluxes are also just functions with a
 specified signature. Thus, users can implement numerical fluxes in their
 own code and they will work and be as efficient as if they were implemented
 directly in \trixi.
@@ -390,9 +390,9 @@ library functions of \trixi. Thus, the physics is completely separated from
 the \lstinline{solver} but remains computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
 difference methods, and variants of finite volume methods.
-And even if a new feature requires modifications to methods provided by \trixi: Due to favoring
+Due to favoring
 simplicity over excessively generic code, it remains comparatively straightforward to modify
-existing implementations.
+existing \trixi implementations if a new feature requires modifications to methods.
 
 \subsubsection{There is no spooky action at a distance}
 
@@ -446,7 +446,7 @@ we fix this coefficient to be $\text{CFL}=0.5$.
 We compare the performance of FLUXO and \trixi for two smooth nonlinear problems,
 a manufactured solution for the 3D compressible Euler equations and Alfv\'{e}n wave propagation for
 the 3D ideal magnetohydrodynamics (MHD) equations~\cite{gassner2009,altmann2012}. These initial conditions, available in FLUXO and
-\trixi, are typically used for the purpose of demonstrating the high-order accuracy and convergence properties
+\trixi, are typically used to demonstrate the high-order accuracy and convergence properties
 of the frameworks.
 
 For these comparisons we examine the performance of FLUXO and \trixi for the weak
@@ -481,8 +481,8 @@ time integration scheme to the next. It is computed as
 \label{eqn:pid}
 \text{PID} = \frac{\text{wall-clock time}}{\#\text{time steps}\cdot 5\cdot\#\text{elements}\cdot(\text{\lstinline{polydeg}}+1)^3},
 \end{equation}
-where $5$ is the number of Runge-Kutta stages per time step for the selected time-stepping method. In other words, the PID acts
-as a metric for the run time required for the right hand side (RHS) evaluation of each DOF.
+where $5$ is the number of Runge-Kutta stages per time step for the selected time-stepping method. In other words, the PID
+measures the run time required for the right hand side (RHS) evaluation of each DOF.
 
 The code and detailed information necessary to reproduce these numerical
 experiments are available in the accompanying repository \cite{ranocha2021adaptiveRepro}.
@@ -681,7 +681,7 @@ more efficient than the curvilinear meshes in \trixi.
 \label{sec:assessment-of-julia}
 
 Julia was designed from scratch to be suitable for numerical computing
-\cite{bezanson2017julia}. Its usefulness has been demonstrated for example for
+\cite{bezanson2017julia}. Its usefulness has been demonstrated, \eg, for
 GPU programming \cite{besard2018juliagpu, omlin2020solving},
 optimization \cite{dunning2017jump}, data science including
 big data\footnote{Celeste project: \url{https://github.com/jeff-regier/Celeste.jl},
@@ -704,12 +704,12 @@ in classical programming languages such as C and Fortran are still dominant
 
 As demonstrated in Section~\ref{sec:performance-comparison},
 Julia is not generically slower than traditional high-performance programming
-languages such as C, C++, and Fortran. A minor exception is due to
+languages like C, C++, and Fortran. A minor exception is due to
 Julia being built on top of LLVM, which does not perform the same optimizations as other
 C/C++/Fortran compilers. In particular, LLVM does
 not use fused multiply-add (FMA) instructions by default, while GCC and Intel
-compilers do, and thus one needs to opt-in to these optimizations explicitly.
-Relying on Julia's code manipulation techniques, this can be achieved by using the macro
+compilers do. Thus, one must opt-in to these optimizations explicitly.
+Relying on Julia's code manipulation techniques, this can be achieved with the macro
 \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
 
 \subsubsection{Julia encourages good software development practices}
@@ -741,7 +741,7 @@ This facilitates code sharing and reproducible research in computational science
 which is arguably important but not yet mainstream \cite{barnes2010publish,
 donoho2010invitation, leveque2013top}.
 
-\subsubsection{External libraries can be integrated relatively easily}
+\subsubsection{External libraries can be integrated with relative ease}
 \label{sec:external-libraries}
 
 To incorporate some of the adaptive mesh capabilities into \trixi
@@ -871,7 +871,7 @@ deployment still has to be found.
 While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
 in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
 As an alternative, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
-exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows to either
+exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows one to either
 wrap MPI binaries installed through Julia's package manager or to make use of an existing MPI
 installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
 MPI.jl, such as ClimateMachine.jl\footnote{\url{https://github.com/CliMA/ClimateMachine.jl}} or
@@ -880,20 +880,20 @@ general, the performance of MPI programs written in Julia is comparable to C pro
 \cite{hunold2020benchmarking}, and parallel simulations with Julia have been shown to scale
 to more than 5{,}000 GPUs with MPI.jl \cite{omlin2020solving}.
 
-However, there are also some practical challenges associated with running MPI-based parallel
-simulations with Julia. For starters, the issue of compilation times as described in the previous
-section is exacerbated, as MPI runs are by default not interactive and thus compilation results cannot be cached between MPI sessions. Since this
-requires to recompile everything for each subsequent execution of an MPI-parallel Julia program,
-this is particularly annoying during development. Partial relief can be obtained by using
-\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}}, which allows to simultaneously
+However, some practical challenges associated with running MPI-based parallel
+simulations with Julia remain. For starters, the issue of compilation times, described in the previous
+section, is exacerbated as MPI runs are by default not interactive and compilation results cannot be cached between MPI sessions. As such, this
+requires code to recompile for each subsequent execution of an MPI-parallel Julia program,
+which is particularly annoying during development. Partial relief can be obtained by using
+\texttt{tmpi}\footnote{\url{https://github.com/Azrael3000/tmpi}} that allows the user to simultaneously
 interact with multiple interactive Julia REPL sessions via the terminal multiplexer \texttt{tmux}.
 However, this approach does not scale beyond a few MPI ranks and is only available on
 Unix-like operating systems. The use of PackageCompiler.jl to reduce compilation times as much as
-possible becomes thus mandatory. Another issue encountered when running Julia with many parallel
-processes is that Julia operates with a lot of small files during startup and precompilation,
+possible thus becomes mandatory. Another issue encountered when running Julia with many parallel
+processes is that Julia operates with many small files during startup and precompilation,
 putting heavy pressure on the parallel file system. This can be partially alleviated by doing
-precompilation serially, and there are tools like
-\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}}, which help to solve similar
+precompilation in serial. There are also tools like
+\texttt{Spindle}\footnote{\url{https://github.com/hpc/Spindle}} that help solve similar
 problems that occur when running Python programs in parallel \cite{frings2013parallelloading}.
 Finally, the ease of using external libraries as described in Section~\ref{sec:external-libraries} is
 somewhat lost when working with dependencies that themselves are parallelized with MPI. In this
