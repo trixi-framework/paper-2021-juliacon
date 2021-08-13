@@ -49,10 +49,10 @@
 % Abstract: at most 600 characters, written in plain English with no symbol
 % nor formula + references etc.
 We present Trixi.jl, a Julia package for adaptive high-order numerical simulations
-of hyperbolic partial differential equations (PDEs). Utilizing Julia's strengths,
+of hyperbolic partial differential equations. Utilizing Julia's strengths,
 Trixi.jl is extensible, easy to use, and fast. We describe the main design choices
 that enable these features and compare Trixi.jl with a mature open
-source Fortran code for hyperbolic PDEs using the same numerical methods.
+source Fortran code that uses the same numerical methods.
 We conclude with an assessment of Julia for simulation-focused scientific
 computing, an area that is still dominated by traditional high-performance
 computing languages such as C, C++, and Fortran.
@@ -64,13 +64,13 @@ computing languages such as C, C++, and Fortran.
 We are broadly interested in simulation-focused scientific computing, in particular
 numerical approximations for hyperbolic partial differential equations (PDEs), computational fluid dynamics (CFD),
 and related problems. The focus of our research ranges from specific applications
-in CFD to general multi-physics coupling strategies to the development and analysis of high-order numerical methods
+in CFD to general multi-physics coupling strategies to the development and analysis of the high-order numerical methods
 our simulations are built upon. In addition, we are academics and involved in teaching
 students in these areas of science. Thus, we would like to have a
 code that is
 \begin{enumerate}
   \item extensible for research and development,
-  \item easy to apply/understand for students/collaborators,
+  \item easy to understand and use for students and collaborators,
   \item fast enough for applied 3D problems.
 \end{enumerate}
 Additionally, we are greedy\footnote{See \url{https://julialang.org/blog/2012/02/why-we-created-julia} (accessed 2021-08-11)}
@@ -287,7 +287,7 @@ replacements.
 \subsection{Review of the main design choices}
 
 The design of \trixi was guided by extensibility, ease of use, and efficiency
-(in this particular order). Thus, it is likely possible to make (some parts) even
+(in this particular order). Thus, it is likely possible to make some parts even
 faster at the cost of simplicity and readability. Nevertheless, \trixi is already quite
 fast, even compared to mature high-performance open source software,
 as described in detail in Section~\ref{sec:performance-comparison}. In this
@@ -301,7 +301,7 @@ or closed source) codes that are designed as monolithic applications that can
 simulate a specific setup. These codes can often be configured to a limited extent
 by specifying compile time options or editing parameter files. In contrast, users of
 \trixi do not need to compile anything or learn parameter file syntax. Instead, they can
-just load the library and write their simulation setups in Julia. Scripts that describe
+just load the package and write their simulation setups in Julia. Scripts that describe
 a simulation setup for \trixi are referred to as ``elixirs''. As of version
 v0.3.55 (August 2021), \trixi comes with approximately 200 example elixirs. A basic elixir
 looks as follows:
@@ -380,14 +380,14 @@ Instead of providing only the very basic discretization ingredients, as with
 other open source libraries for PDEs, \trixi also includes some widely used
 physical systems as well as analysis routines, such as computation of the integrated kinetic energy
 for the compressible Euler equations,
-to make it easier to use. Nevertheless, users are not restricted
+to make it easy to use out of the box. Nevertheless, users are not restricted
 to the physics models bundled in \trixi. To set up a new type of \lstinline{equations},
 it is only necessary to create an appropriate \lstinline{struct} containing all
 parameters and to implement pointwise operations such as the calculation of
 the fluxes $f^j$ in \eqref{eq:hcl} or two-point numerical fluxes. Due to the Julia language
 design with just-ahead-of-time compilation, these fluxes can be inlined into the
-library functions of \trixi. Thus, the physics can be separated completely from
-the \lstinline{solver} but remain computationally efficient. In particular, this allows
+library functions of \trixi. Thus, the physics is completely separated from
+the \lstinline{solver} but remains computationally efficient. In particular, this allows
 a user to reuse the same numerical fluxes for discontinuous Galerkin methods, finite
 difference methods, and variants of finite volume methods.
 And even if a new feature requires modifications to methods provided by \trixi: Due to favoring
@@ -396,10 +396,10 @@ existing implementations.
 
 \subsubsection{There is no spooky action at a distance}
 
-In traditional monolithic code bases, it is often necessary to implement a new
+In monolithic code bases, it is often necessary to implement a new
 feature for all combinations of possible (compile time) options. This effort
 can make it difficult to experiment with new ideas. In contrast, Julia's dynamic
-nature, multiple dispatch, and just-ahead-of-time compilation allow us to implement only the features
+nature, multiple dispatch, and just-ahead-of-time compilation allow us to implement only those features
 that are strictly necessary. For example, if a user wants to simulate a new
 physics model only on Cartesian grids with smooth solutions, there is no need
 to implement anything for curvilinear coordinates or shock-capturing approaches.
@@ -407,9 +407,9 @@ In addition, it allows a user to extend \trixi step by step with new capabilitie
 For example, there are ongoing efforts to incorporate summation by parts finite
 difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
 discontinuous Galerkin methods on simplex elements via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi.
-This is feasible because the modular design of \trixi gives users the flexibility to select
+This is feasible because the modular design of \trixi gives users the flexibility to pick
 a subset of the available meshes/methods, selected via multiple dispatch,
-to test their newly implemented feature(s).
+to test their newly implemented features.
 
 
 
@@ -421,7 +421,7 @@ Fortran code implementing discontinuous Galerkin methods on unstructured hexahed
 meshes in 3D for advection-diffusion equations. It provides
 the same kind of modern, flux differencing DG methods
 to achieve entropy conservation/dissipation or kinetic energy preservation that are used in \trixi.
-At the same time, both codes have features the other does not, \eg,
+At the same time, both codes have capabilities the other does not, \eg,
 support for parabolic equations and multi-node parallelism in FLUXO,
 or multiple mesh types and more physics setups in \trixi. Nevertheless,
 both \trixi and FLUXO share a common set of features, \ie, high-order DG
@@ -436,7 +436,7 @@ hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
 spatial direction. To make the mesh curvilinear, the interior of the box is heavily warped
 by a combination of sine and cosine functions~\cite{chan2019efficient}. To integrate up to the
-final time $t=1.0$, both codes use the five-stage, fourth-order low-storage explicit
+final time $T=1.0$, both codes use the five-stage, fourth-order low-storage explicit
 Runge-Kutta method of Carpenter and Kennedy~\cite{CarpenterKennedy1994}.
 A stable explicit time step is adaptively computed according to the local maximum wave
 speed, the relative grid size, and an adjustable Courant-Friedrichs-Lewy (CFL)
@@ -445,7 +445,7 @@ we fix this coefficient to be $\text{CFL}=0.5$.
 
 We compare the performance of FLUXO and \trixi for two smooth nonlinear problems,
 a manufactured solution for the 3D compressible Euler equations and Alfv\'{e}n wave propagation for
-the 3D ideal MHD equations~\cite{gassner2009,altmann2012}. These initial conditions, available in FLUXO and
+the 3D ideal magnetohydrodynamics (MHD) equations~\cite{gassner2009,altmann2012}. These initial conditions, available in FLUXO and
 \trixi, are typically used for the purpose of demonstrating the high-order accuracy and convergence properties
 of the frameworks.
 
@@ -464,13 +464,16 @@ All simulations for the performance comparison were run on the HPC system Tetral
 provided by the Swedish National Infrastructure for Computing (SNIC).
 Each node of Tetralith has two sockets, each with an Intel(R) Xeon(R) Gold 6130 @ 2.10GHz with 96GiB of memory.
 FLUXO was compiled using the Intel compiler suite v18.0.3 and \trixi used Julia v1.6.1.
-The serial performance results were run on a single core.
+The serial performance results were obtained on a single core.
 We ran each configuration of a particular physical setup, polynomial degree, and solver type
 for each code five times, taking the smallest value from each for the comparison results.
+We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
+the version compiled using Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
+Thus, only results from the Intel compiler are included.
 
 To assess the performance of the two codes, we vary the polynomial degree
-(\lstinline{polydeg}) in the range $[3,15]$.
-This corresponds to considering DG approximations of (increasing) spatial accuracy, from fourth up to sixteenth order.
+(\lstinline{polydeg}) from 3 to 15.
+This corresponds to considering DG approximations of increasing spatial accuracy, from fourth up to sixteenth order.
 The metric we use to analyze and compare FLUXO and \trixi simulations is a performance index (PID) that
 measures the time required to advance a single degree of freedom (DOF) from one stage of the explicit Runge-Kutta
 time integration scheme to the next. It is computed as
@@ -650,9 +653,6 @@ better.
 
 From these results, it is clear that \trixi is more than 2x faster for the compressible Euler equations
 and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUXO.
-We ran the same PID tests in FLUXO compiled with GCC v6.4.0 but found that
-the version compiled using Intel was between \SI{5}{\percent} to \SI{23}{\percent} faster.
-Thus, only results from the Intel compiler are included.
 It is also possible to see the additional computational effort for the entropy-conservative flux
 differencing DG methods for both physical systems. This is because the numerical fluxes are more
 expensive in
@@ -665,7 +665,7 @@ example, we do not claim that Julia is generally faster than Fortran, C, or C++.
 Instead, we would like to emphasize that Julia code can be \emph{at least
 as fast} as code written in these traditional scientific computing languages.
 Further, we expect to be able to achieve similar performance with either language
-by spending enough time and effort to optimize the respective code.
+by spending enough time and effort to optimize the respective codes.
 \trixi owes its performance optimizations in part to the code introspection and
 profiling tools available in Julia. Similar tools used to optimize the performance in other
 languages are often not as easy to use as their Julia counterparts.
@@ -673,8 +673,7 @@ languages are often not as easy to use as their Julia counterparts.
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
 without need for curvilinear coordinates, the Cartesian \lstinline{TreeMesh} can
-be used. Depending on the relative computational effort of the discretization
-(such as the polynomial degree and the choice of the volume terms), the
+be used. Depending on the particular choice of discretization methods, the
 Cartesian \lstinline{TreeMesh} can be \SI{10}{\percent} to \SI{25}{\percent}
 more efficient than the curvilinear meshes in \trixi.
 
@@ -715,7 +714,7 @@ Relying on Julia's code manipulation techniques, this can be achieved by using t
 
 \subsubsection{Julia encourages good software development practices}
 
-Many scientists implementing numerical methods often have no formal training
+Many scientists implementing numerical methods have no formal training
 in software development. Julia and its ecosystem support these
 researchers by making it easy to set up unit and regression tests, since a
 testing framework is included in the standard library. This facilitates test-driven
@@ -728,16 +727,16 @@ documentation\footnote{\url{https://github.com/JuliaDocs/Documenter.jl}},
 and other related tasks. This setup also encourages other good software development
 practices that we use in \trixi, such as mandatory code reviews.
 
-In addition, the package manager fosters a unified form of semantic versioning
+In addition, the Julia package manager \lstinline{Pkg} fosters a unified form of semantic versioning
 across the Julia ecosystem, which lays the basis for the following three
 observations.
 
 \subsubsection{It is easy to set up reproducible numerical experiments}
 
-The package manager makes it easy to reproduce the exact runtime environment, including
+The package manager \lstinline{Pkg} makes it easy to reproduce the exact runtime environment, including
 binary dependencies, used to generate numerical results. We have used this feature for all of our papers based on
-\trixi \cite{schlottkelakemper2021purely, ranocha2021preventing}, including this
-one \cite{ranocha2021adaptiveRepro}.
+\trixi \cite{schlottkelakemper2021purely, ranocha2021preventing}, including the present manuscript
+\cite{ranocha2021adaptiveRepro}.
 This facilitates code sharing and reproducible research in computational science,
 which is arguably important but not yet mainstream \cite{barnes2010publish,
 donoho2010invitation, leveque2013top}.
@@ -756,9 +755,9 @@ and Windows.
 
 Similarly, there is no need to compile HDF5 on a user system due to the
 availability of HDF5.jl\footnote{\url{https://github.com/JuliaIO/HDF5.jl}}.
-There is still work to be done how to improve the experience in combination
+There is still work to be done on how to improve the experience in combination
 with MPI on HPC clusters, but some promising
-approaches exist \cite{byrne2021mpi}.
+approaches exist (see Section~\ref{sec:distributed-memory}).
 
 It is also possible to wrap Fortran libraries/tools in Julia. For example, we
 have created the wrappers KROME.jl\footnote{\url{https://github.com/trixi-framework/KROME.jl}}
@@ -857,7 +856,7 @@ Since Julia uses a serial just-ahead-of-time compiler that currently does not ca
 code between different Julia sessions, the initial compilation time can be
 annoying. For example, the time to finish a first \trixi simulation in a fresh Julia
 session and plot the results on a notebook can take between 30 seconds and a
-minute. Having compiled the code, the second simulation and plot takes less than
+minute. Having compiled the code, the second simulation and plot take less than
 0.05 seconds. Thus, switching to Julia requires adapting the workflow compared
 to other languages such as keeping a REPL session active for a longer time and
 using packages such as Revise.jl\footnote{\url{https://github.com/timholy/Revise.jl}}.
@@ -867,10 +866,11 @@ that can help with these tasks but a good workflow usable for development and
 deployment still has to be found.
 
 \subsubsection{Simulations with distributed-memory parallelism}
+\label{sec:distributed-memory}
 
 While Julia offers its own approach to distributed computing via the \lstinline{Distributed} package
 in the standard library, its performance and scalability are currently limited \cite{byrne2021mpi}.
-As an alternatively, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
+As an alternative, the package MPI.jl utilizes the Message Passing Interface (MPI) for data
 exchange \cite{byrne2021mpi}. It provides an API similar to MPI's C interface and allows to either
 wrap MPI binaries installed through Julia's package manager or to make use of an existing MPI
 installation.  Most Julia projects focusing on distributed-memory simulations seem to be using
@@ -901,7 +901,8 @@ case it is necessary to manually specify the paths to locally compiled libraries
 built against the respective system MPI installation, since there is generally no binary
 compatibility between different MPI implementations. There are ongoing efforts in the Julia HPC
 community to work around this limitation by using the
-\texttt{WI4MPI}\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package.
+WI4MPI\footnote{\url{https://github.com/cea-hpc/wi4mpi}} wrapper package or the
+Spack package manager \cite{gamblin2015spack,byrne2021mpi}.
 
 Even though the aforementioned difficulties do not prevent massively parallel simulations with
 Julia, they raise the entry barrier for new users and developers. The overarching issue, however, is
