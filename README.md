@@ -1,7 +1,7 @@
 # Adaptive numerical simulations with Trixi.jl: A case study of Julia for scientific computing
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](https://opensource.org/licenses/MIT)
-<!-- [![DOI](https://zenodo.org/badge/DOI/TODO.svg)](https://doi.org/TODO) -->
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5201484.svg)](https://doi.org/10.5281/zenodo.5201484)
 
 This repository contains the source files of the paper on
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl) to be submitted
@@ -25,7 +25,7 @@ computing languages such as C, C++, and Fortran.
 This repository contains information and code to reproduce the results presented in the article
 ```bibtex
 @online{ranocha2021adaptive,
-  title={Adaptive numerical simulations with {T}rixi.jl: 
+  title={Adaptive numerical simulations with {T}rixi.jl:
          {A} case study of {J}ulia for scientific computing},
   author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
@@ -42,14 +42,14 @@ use the implementations provided here, please **also** cite this repository as
 ```bibtex
 @misc{ranocha2021adaptiveRepro,
   title={Reproducibility repository for
-         Adaptive numerical simulations with {T}rixi.jl: 
+         Adaptive numerical simulations with {T}rixi.jl:
          {A} case study of {J}ulia for scientific computing},
   author={Ranocha, Hendrik and Schlottke-Lakemper, Michael and Winters, Andrew Ross
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
   year={2021},
   month={08},
   howpublished={\url{https://github.com/trixi-framework/paper-2021-juliacon}},
-  doi={TODO:Zenodo-DOI}
+  doi={10.5281/zenodo.5201484}
 }
 ```
 
