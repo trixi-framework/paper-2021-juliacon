@@ -31,7 +31,7 @@ This repository contains information and code to reproduce the results presented
           and Faulhaber, Erik and Chan, Jesse and Gassner, Gregor},
   year={2021},
   month={08},
-  eprint={TODO},
+  eprint={2108.06476},
   eprinttype={arXiv},
   eprintclass={math.NA}
 }
