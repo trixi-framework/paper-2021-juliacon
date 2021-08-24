@@ -17,5 +17,6 @@ clean:
 	rm -f $(TARGET).toc
 	rm -f $(TARGET).vrb
 	rm -f $(TARGET).pdf
+	rm -f $(TARGET).synctex.gz
 
 .PHONY: all clean
