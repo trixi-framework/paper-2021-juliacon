@@ -93,7 +93,7 @@ Finally, we summarize our findings and conclusions in Section~\ref{sec:summary}.
 
 
 
-\section{Capabilities and design of \trixi}
+\section{Capabilities and design of Trixi.jl}
 \label{sec:design-of-trixi}
 
 \trixi is designed as a simulation framework and library of high-order methods for conservation laws
@@ -113,7 +113,7 @@ In addition, suitable initial and boundary conditions (ICs, BCs) are required.
 with divergence cleaning.
 
 
-\subsection{Main features of \trixi}
+\subsection{Main features of Trixi.jl}
 
 As of version v0.3.55 (August 2021), \trixi concentrates mainly on discontinuous
 Galerkin (DG) methods \cite{hesthaven2007nodal, kopriva2009implementing}.
@@ -293,7 +293,7 @@ fast, even compared to mature high-performance open source software,
 as described in detail in Section~\ref{sec:performance-comparison}. In this
 section, we focus mostly on the first two goals.
 
-\subsubsection{\trixi is a library}
+\subsubsection{Trixi.jl is a library}
 
 The most important design decision was to create \trixi as a library. In the
 context of simulation-focused scientific computing, there are many (open
@@ -568,7 +568,7 @@ better.
   \end{subfigure}%
   \caption{Run time per right-hand side evaluation and degree of freedom for
            different DG discretizations of the 3D compressible Euler equations
-           in FLUXO (Fortran) and \trixi (Julia).}
+           in FLUXO (Fortran) and Trixi.jl (Julia).}
   \label{fig:PID-Euler}
 \end{figure}
 
