@@ -1,0 +1,4 @@
+tikz/runtime_mhd_absolute.pdf: ../pid_data/pids_mhd_weak.dat
+tikz/runtime_mhd_absolute.pdf: ../pid_data/pids_mhd_weak.dat
+tikz/runtime_mhd_absolute.pdf: ../pid_data/pids_mhd_flogor.dat
+tikz/runtime_mhd_absolute.pdf: ../pid_data/pids_mhd_flogor.dat

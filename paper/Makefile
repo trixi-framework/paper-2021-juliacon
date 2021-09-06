@@ -18,5 +18,6 @@ clean:
 	rm -f $(TARGET).vrb
 	rm -f $(TARGET).pdf
 	rm -f $(TARGET).synctex.gz
+	rm -f tikz/*.log
 
 .PHONY: all clean

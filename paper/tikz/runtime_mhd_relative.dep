@@ -1,0 +1,4 @@
+tikz/runtime_mhd_relative.pdf: ../pid_data/pids_mhd_weak_relative.dat
+tikz/runtime_mhd_relative.pdf: ../pid_data/pids_mhd_weak_relative.dat
+tikz/runtime_mhd_relative.pdf: ../pid_data/pids_mhd_flogor_relative.dat
+tikz/runtime_mhd_relative.pdf: ../pid_data/pids_mhd_flogor_relative.dat

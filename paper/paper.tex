@@ -19,13 +19,23 @@
 % Use multiple images in a single environment
 \usepackage{subcaption}
 
+% Allow external generation of images to speed up compilation
+\usepackage{tikz}
+\usetikzlibrary{external}
+\tikzexternalize[prefix=tikz/]
+
+% Work around the fact that openjournal's whedon does not provide the pgfplots package
+% Xref: https://github.com/JuliaCon/proceedings-review/issues/76#issuecomment-913454361
+\newif\ifregenerateplots
+% \regenerateplotstrue  % Enable this if plots need to be regenerated
+\regenerateplotsfalse % Enable this to build PDF with whedon
+
+\ifregenerateplots
 % Plotting in tikz images
 \usepackage{pgfplots}
 % Silence warnings
 \pgfplotsset{compat=1.16}
-% Allow external generation of images to speed up compilation
-% \usetikzlibrary{external}
-% \tikzexternalize[prefix=../figures/tikz/]
+\fi
 
 % Macros
 \usepackage{xspace}
@@ -498,6 +508,7 @@ better.
 \begin{figure}[!ht]
 \centering
   \begin{subfigure}{\linewidth}
+    \tikzsetnextfilename{runtime_euler_absolute}
     \begin{tikzpicture}[
       font=\footnotesize
       ]
@@ -535,6 +546,7 @@ better.
   \end{subfigure}%
   \\
   \begin{subfigure}{\linewidth}
+    \tikzsetnextfilename{runtime_euler_relative}
     \begin{tikzpicture}[
       font=\footnotesize
       ]
@@ -575,6 +587,7 @@ better.
 \begin{figure}[!ht]
 \centering
   \begin{subfigure}{\linewidth}
+    \tikzsetnextfilename{runtime_mhd_absolute}
     \begin{tikzpicture}[
       font=\footnotesize
       ]
@@ -613,6 +626,7 @@ better.
   \end{subfigure}%
   \\
   \begin{subfigure}{\linewidth}
+    \tikzsetnextfilename{runtime_mhd_relative}
     \begin{tikzpicture}[
       font=\footnotesize
       ]

@@ -1,0 +1,4 @@
+tikz/runtime_euler_relative.pdf: ../pid_data/pids_euler_weak_relative.dat
+tikz/runtime_euler_relative.pdf: ../pid_data/pids_euler_weak_relative.dat
+tikz/runtime_euler_relative.pdf: ../pid_data/pids_euler_ranocha_relative.dat
+tikz/runtime_euler_relative.pdf: ../pid_data/pids_euler_ranocha_relative.dat
