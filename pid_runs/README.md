@@ -74,6 +74,16 @@ To reproduce the Trixi.jl numerical PID experiments, proceed as follows.
   #               volume_integral=VolumeIntegralFluxDifferencing(volume_flux))
   ```
 
+To visualize the initial condition and the (curved) mesh, execute
+```bash
+julia --project=. elixir_euler_plot.jl
+```
+This will produce the necessary `*.vtu` plot files in the `out` directory that
+can be opened with ParaView to visualize the initial condition and the mesh.
+You can make use of the ParaView state file `elixir_euler_plot.pvsm` generated
+with ParaView 5.10.0.
+
+
 ## FLUXO configuration, compilation, and run instructions
 
 The files necessary to reproduce the FLUXO simulations for the PID comparison are also included.

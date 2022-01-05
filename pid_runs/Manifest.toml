@@ -300,6 +300,11 @@ uuid = "9fa8497b-333b-5362-9e8d-4d0656e87820"
 deps = ["Artifacts", "Libdl"]
 uuid = "781609d7-10c4-51f6-84f2-b8444358ff6d"
 
+[[Glob]]
+git-tree-sha1 = "4df9f7e06108728ebf00a0a11edee4b29a482bb2"
+uuid = "c27321d9-0574-5035-807b-f59d2c89b15c"
+version = "1.3.0"
+
 [[HDF5]]
 deps = ["Blosc", "Compat", "HDF5_jll", "Libdl", "Mmap", "Random", "Requires"]
 git-tree-sha1 = "83173193dc242ce4b037f0263a7cc45afb5a0b85"
@@ -407,11 +412,23 @@ uuid = "29816b5a-b9ab-546f-933c-edad1886dfa8"
 [[Libdl]]
 uuid = "8f399da3-3557-5675-b5ff-fb832c97cbdb"
 
+[[Libiconv_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
+git-tree-sha1 = "42b62845d70a619f063a7da093d995ec8e15e778"
+uuid = "94ce4f54-9a6c-5748-9c1c-f9c7231a4531"
+version = "1.16.1+1"
+
 [[LightGraphs]]
 deps = ["ArnoldiMethod", "DataStructures", "Distributed", "Inflate", "LinearAlgebra", "Random", "SharedArrays", "SimpleTraits", "SparseArrays", "Statistics"]
 git-tree-sha1 = "432428df5f360964040ed60418dd5601ecd240b6"
 uuid = "093fc24a-ae57-5d10-9952-331d41423f4d"
 version = "1.3.5"
+
+[[LightXML]]
+deps = ["Libdl", "XML2_jll"]
+git-tree-sha1 = "e129d9391168c677cd4800f5c0abb1ed8cb3794f"
+uuid = "9c8b4983-aa76-5018-a973-4c85ecc9e179"
+version = "0.9.0"
 
 [[LineSearches]]
 deps = ["LinearAlgebra", "NLSolversBase", "NaNMath", "Parameters", "Printf"]
@@ -458,9 +475,9 @@ version = "0.10.1"
 
 [[MKL_jll]]
 deps = ["Artifacts", "IntelOpenMP_jll", "JLLWrappers", "LazyArtifacts", "Libdl", "Pkg"]
-git-tree-sha1 = "c253236b0ed414624b083e6b72bfe891fbd2c7af"
+git-tree-sha1 = "5455aef09b40e5020e1520f551fa3135040d4ed0"
 uuid = "856f044c-d86e-5d09-b602-aeab76dc8ba7"
-version = "2021.1.1+1"
+version = "2021.1.1+2"
 
 [[MPFR_jll]]
 deps = ["Artifacts", "GMP_jll", "Libdl"]
@@ -474,9 +491,9 @@ version = "0.18.2"
 
 [[MPICH_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "c6cafe3f9747c0a0740611e2dffc4d37248fb691"
+git-tree-sha1 = "480a8be51647c9dec19ff2211e26c9f30787840b"
 uuid = "7cb0a576-ebde-5e09-9194-50597f1243b4"
-version = "3.4.2+0"
+version = "3.4.2+2"
 
 [[MacroTools]]
 deps = ["Markdown", "Random"]
@@ -505,9 +522,9 @@ uuid = "c8ffd9c3-330d-5841-b78e-0817d7145fa1"
 
 [[MicrosoftMPI_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "e5c90234b3967684c9c6f87b4a54549b4ce21836"
+git-tree-sha1 = "a16aa086d335ed7e0170c5265247db29172af2f9"
 uuid = "9237b28f-5490-5468-be7b-bb81f5f5e6cf"
-version = "10.1.3+0"
+version = "10.1.3+2"
 
 [[Missings]]
 deps = ["DataAPI"]
@@ -582,9 +599,9 @@ uuid = "4536629a-c528-5b80-bd46-f80d51c5b363"
 
 [[OpenMPI_jll]]
 deps = ["Artifacts", "CompilerSupportLibraries_jll", "JLLWrappers", "Libdl", "Pkg"]
-git-tree-sha1 = "a784e5133fc7e204c900f2cf38ed37a92ff9248d"
+git-tree-sha1 = "08334c7cd6cb033274bc90918ece2174b5f84cc7"
 uuid = "fe0851c0-eecd-5654-98d4-656369965a5c"
-version = "4.1.1+2"
+version = "4.1.1+5"
 
 [[OpenSSL_jll]]
 deps = ["Artifacts", "JLLWrappers", "Libdl", "Pkg"]
@@ -670,6 +687,12 @@ version = "1.2.2"
 [[Printf]]
 deps = ["Unicode"]
 uuid = "de0858da-6303-5e67-8744-51eddeeeb8d7"
+
+[[ProgressMeter]]
+deps = ["Distributed", "Printf"]
+git-tree-sha1 = "afadeba63d90ff223a6a48d2009434ecee2ec9e8"
+uuid = "92933f4c-e287-5a05-a399-4b506db050ca"
+version = "1.7.1"
 
 [[QuadGK]]
 deps = ["DataStructures", "LinearAlgebra"]
@@ -929,6 +952,12 @@ git-tree-sha1 = "ddcd1802bd9edf50fc81e3bae0807f019707c49e"
 uuid = "a7f1ee26-1774-49b1-8366-f1abc58fbfcb"
 version = "0.3.55"
 
+[[Trixi2Vtk]]
+deps = ["Glob", "HDF5", "ProgressMeter", "StaticArrays", "TimerOutputs", "Trixi", "WriteVTK"]
+git-tree-sha1 = "f75009874d0cf512c5c8a36d04e15e24b1119e0e"
+uuid = "bc1476a1-1ca6-4cc3-950b-c312b255ff95"
+version = "0.3.7"
+
 [[UUIDs]]
 deps = ["Random", "SHA"]
 uuid = "cf7118a7-6976-5b1a-9a39-7adc72f591a4"
@@ -964,6 +993,18 @@ deps = ["LightGraphs"]
 git-tree-sha1 = "b9b450c99a3ca1cc1c6836f560d8d887bcbe356e"
 uuid = "19fa3120-7c27-5ec5-8db8-b0b0aa330d6f"
 version = "0.1.2"
+
+[[WriteVTK]]
+deps = ["Base64", "CodecZlib", "FillArrays", "LightXML", "TranscodingStreams"]
+git-tree-sha1 = "4642a7b953ed9f7f043bfba58b17d6c9722d09b2"
+uuid = "64499a7a-5c06-52f2-abe2-ccb03c286192"
+version = "1.12.2"
+
+[[XML2_jll]]
+deps = ["Artifacts", "JLLWrappers", "Libdl", "Libiconv_jll", "Pkg", "Zlib_jll"]
+git-tree-sha1 = "1acf5bdf07aa0907e0a37d3718bb88d4b687b74a"
+uuid = "02c8fc9c-b97f-50b9-bbe4-9be30ff0a78a"
+version = "2.9.12+0"
 
 [[Zlib_jll]]
 deps = ["Libdl"]
