@@ -169,6 +169,10 @@ following features:
   \end{itemize}
 \end{itemize}
 
+Currently, \trixi provides shared-memory parallelization via multithreading.
+Distributed-memory parallelization with MPI is available for some mesh types
+but still work in progress.
+
 Some of the main features of \trixi are demonstrated in the following figures.
 The detailed physical setups and numerical parameters as well as all code
 necessary to reproduce these figures are available in the reproducibility
@@ -178,6 +182,7 @@ Figure~\ref{fig:jet} demonstrates sub-cell entropy-dissipative shock-capturing
 methods with sub-cell positivity-preserving limiters and adaptive mesh refinement applied
 to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillation}.
 \begin{figure}[!h]
+\vspace{-0.5em}
   \begin{subfigure}{0.53\linewidth}
     \includegraphics[width=\textwidth]{../figures/jet_density}
     \caption{Density at time $t = 10^{-3}$.}
