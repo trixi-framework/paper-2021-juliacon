@@ -287,7 +287,7 @@ in \trixi can be converted into an ODE problem, which can be solved by methods
 from OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
 allows us to provide extended functionality for \trixi without modifying any
 main loop. In particular, various tasks such as input/output operations, adaptive
-mesh refinement (AMR), and positivity preserving limiting are implemented using
+mesh refinement (AMR), and positivity-preserving limiting are implemented using
 callbacks. In case full control over the time step loop is required, e.g., to experiment with new
 features that are not easily realized with the existing API, \trixi also implements its own time
 integration schemes that mimic the interface of OrdinaryDiffEq.jl and that can be used as drop-in
@@ -413,8 +413,8 @@ nature, multiple dispatch, and just-ahead-of-time compilation allow us to implem
 that are strictly necessary. For example, if a user wants to simulate a new
 physics model only on Cartesian grids with smooth solutions, there is no need
 to implement anything for curvilinear coordinates or shock-capturing approaches.
-In addition, it allows a user to extend \trixi step by step with new capabilities.
-For example, there are ongoing efforts to incorporate summation by parts finite
+In addition, it allows a user to extend \trixi step-by-step with new capabilities.
+For example, there are ongoing efforts to incorporate summation-by-parts finite
 difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
 discontinuous Galerkin methods on simplex elements via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi.
 This is feasible because the modular design of \trixi gives users the flexibility to pick
