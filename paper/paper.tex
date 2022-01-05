@@ -672,14 +672,15 @@ and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUX
 It is also possible to see the additional computational effort for the entropy-conservative flux
 differencing DG methods for both physical systems. This is because the numerical fluxes are more
 expensive in
-terms of computational cost, and require special care to optimize their performance~\cite{hendrik_blog}.
+terms of computational cost, and require special care to optimize their performance~\cite{hendrik_blog,ranocha2021efficient}.
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
 While our Julia code is faster than the mature HPC Fortran code FLUXO for this non-trivial
 example, we do not claim that Julia is generally faster than Fortran, C, or C++.
-Instead, we would like to emphasize that Julia code can be \emph{at least
-as fast} as code written in these traditional scientific computing languages.
+Instead, we would like to emphasize that well-written Julia code can be \emph{at least
+as fast} as code written in these traditional scientific computing languages,
+as demonstrated also by several microbenchmarks \cite{bezanson2017julia}.
 Further, we expect to be able to achieve similar performance with either language
 by spending enough time and effort to optimize the respective codes.
 \trixi owes its performance optimizations in part to the code introspection and
