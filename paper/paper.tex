@@ -455,8 +455,8 @@ spatial direction. This results in $64 (\text{\lstinline{polydeg}}+1)^3$ degrees
 of freedom (DG nodes) per equation when polynomials of degree \lstinline{polydeg} are used.
 To make the mesh curvilinear, the interior of the box is heavily warped by
 a mapping adapted from \cite{chan2019efficient}.
-Specifically, we map Cartesian reference coordinates $(\xi, \eta, \zeta)$ to
-physical coordinates $(x, y, z)$ via the transformation
+Specifically, we map Cartesian reference coordinates $(\xi, \eta, \zeta) \in [-1, 1]^3$
+to physical coordinates $(x, y, z)$ via the transformation
 \begin{equation}
 \begin{aligned}
   y &= \eta  + 0.15 \bigl( \cos(1.5 \pi \xi) \cos(0.5 \pi \eta) \cos(0.5 \pi \zeta) \bigr),
