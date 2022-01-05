@@ -444,7 +444,9 @@ Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
-spatial direction. To make the mesh curvilinear, the interior of the box is heavily warped
+spatial direction. This results in $64 (\text{\lstinline{polydeg}}+1)^3$ degrees
+of freedom (DG nodes) when polynomials of degree \lstinline{polydeg} are used.
+To make the mesh curvilinear, the interior of the box is heavily warped
 by a combination of sine and cosine functions~\cite{chan2019efficient}. To integrate up to the
 final time $T=1.0$, both codes use the five-stage, fourth-order low-storage explicit
 Runge-Kutta method of Carpenter and Kennedy~\cite{CarpenterKennedy1994}.
