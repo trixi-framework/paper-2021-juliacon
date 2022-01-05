@@ -170,8 +170,8 @@ following features:
 \end{itemize}
 
 Currently, \trixi provides shared-memory parallelization via multithreading.
-Distributed-memory parallelization with MPI is available for some mesh types
-but still work in progress.
+Distributed-memory parallelization with MPI is available for some mesh types;
+increasing the capability of this feature is subject to ongoing work.
 
 Some of the main features of \trixi are demonstrated in the following figures.
 The detailed physical setups and numerical parameters as well as all code
@@ -450,7 +450,7 @@ hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
 spatial direction. This results in $64 (\text{\lstinline{polydeg}}+1)^3$ degrees
-of freedom (DG nodes) when polynomials of degree \lstinline{polydeg} are used.
+of freedom (DG nodes) per equation when polynomials of degree \lstinline{polydeg} are used.
 To make the mesh curvilinear, the interior of the box is heavily warped by
 a mapping adapted from \cite{chan2019efficient}.
 Specifically, we map Cartesian reference coordinates $(\xi, \eta, \zeta)$ to
