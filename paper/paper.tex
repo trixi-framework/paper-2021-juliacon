@@ -169,6 +169,10 @@ following features:
   \end{itemize}
 \end{itemize}
 
+Currently, \trixi provides shared-memory parallelization via multithreading.
+Distributed-memory parallelization with MPI is available for some mesh types;
+increasing the capability of this feature is subject to ongoing work.
+
 Some of the main features of \trixi are demonstrated in the following figures.
 The detailed physical setups and numerical parameters as well as all code
 necessary to reproduce these figures are available in the reproducibility
@@ -178,6 +182,7 @@ Figure~\ref{fig:jet} demonstrates sub-cell entropy-dissipative shock-capturing
 methods with sub-cell positivity-preserving limiters and adaptive mesh refinement applied
 to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillation}.
 \begin{figure}[!h]
+\vspace{-0.5em}
   \begin{subfigure}{0.53\linewidth}
     \includegraphics[width=\textwidth]{../figures/jet_density}
     \caption{Density at time $t = 10^{-3}$.}
@@ -287,7 +292,7 @@ in \trixi can be converted into an ODE problem, which can be solved by methods
 from OrdinaryDiffEq.jl. The flexible callback infrastructure of this ODE library
 allows us to provide extended functionality for \trixi without modifying any
 main loop. In particular, various tasks such as input/output operations, adaptive
-mesh refinement (AMR), and positivity preserving limiting are implemented using
+mesh refinement (AMR), and positivity-preserving limiting are implemented using
 callbacks. In case full control over the time step loop is required, e.g., to experiment with new
 features that are not easily realized with the existing API, \trixi also implements its own time
 integration schemes that mimic the interface of OrdinaryDiffEq.jl and that can be used as drop-in
@@ -413,8 +418,8 @@ nature, multiple dispatch, and just-ahead-of-time compilation allow us to implem
 that are strictly necessary. For example, if a user wants to simulate a new
 physics model only on Cartesian grids with smooth solutions, there is no need
 to implement anything for curvilinear coordinates or shock-capturing approaches.
-In addition, it allows a user to extend \trixi step by step with new capabilities.
-For example, there are ongoing efforts to incorporate summation by parts finite
+In addition, it allows a user to extend \trixi step-by-step with new capabilities.
+For example, there are ongoing efforts to incorporate summation-by-parts finite
 difference methods via SummationByPartsOperators.jl \cite{ranocha2021sbp} and
 discontinuous Galerkin methods on simplex elements via StartUpDG.jl\footnote{\url{https://github.com/jlchan/StartUpDG.jl}} in \trixi.
 This is feasible because the modular design of \trixi gives users the flexibility to pick
@@ -444,8 +449,22 @@ Here, we compare the serial performance of \trixi and FLUXO when solving a
 hyperbolic PDE in three space dimensions on curvilinear hexahedral meshes.
 
 For the problem setup we consider a periodic box of the domain $[-1,1]^3$ with four elements in each
-spatial direction. To make the mesh curvilinear, the interior of the box is heavily warped
-by a combination of sine and cosine functions~\cite{chan2019efficient}. To integrate up to the
+spatial direction. This results in $64 (\text{\lstinline{polydeg}}+1)^3$ degrees
+of freedom (DG nodes) per equation when polynomials of degree \lstinline{polydeg} are used.
+To make the mesh curvilinear, the interior of the box is heavily warped by
+a mapping adapted from \cite{chan2019efficient}.
+Specifically, we map Cartesian reference coordinates $(\xi, \eta, \zeta)$ to
+physical coordinates $(x, y, z)$ via the transformation
+\begin{equation}
+\begin{aligned}
+  y &= \eta  + 0.15 \bigl( \cos(1.5 \pi \xi) \cos(0.5 \pi \eta) \cos(0.5 \pi \zeta) \bigr),
+  \\
+  x &= \xi   + 0.15 \bigl( \cos(0.5 \pi \xi) \cos(2 \pi y) \cos(0.5 \pi \zeta) \bigr),
+  \\
+  z &= \zeta + 0.15 \bigl( \cos(0.5 \pi x) \cos(\pi y) \cos(0.5 \pi \zeta) \bigr).
+\end{aligned}
+\end{equation}
+To integrate up to the
 final time $T=1.0$, both codes use the five-stage, fourth-order low-storage explicit
 Runge-Kutta method of Carpenter and Kennedy~\cite{CarpenterKennedy1994}.
 A stable explicit time step is adaptively computed according to the local maximum wave
@@ -458,6 +477,15 @@ a manufactured solution for the 3D compressible Euler equations and Alfv\'{e}n w
 the 3D ideal magnetohydrodynamics (MHD) equations~\cite{gassner2009,altmann2012}. These initial conditions, available in FLUXO and
 \trixi, are typically used to demonstrate the high-order accuracy and convergence properties
 of the frameworks.
+The curved mesh and the initial density for the compressible Euler problem are
+visualized in Figure~\ref{fig:pid_euler_mesh}.
+
+\begin{figure}[!h]
+  \includegraphics[width=\linewidth]{../figures/pid_euler_mesh}
+  \caption{Initial density of the compressible Euler problem on a slice of the
+           periodic, curved mesh used for the performance benchmarks.}
+  \label{fig:pid_euler_mesh}
+\end{figure}
 
 For these comparisons we examine the performance of FLUXO and \trixi for the weak
 form as well as flux differencing implementations of the DG solver. For the weak form simulations we compute
@@ -670,14 +698,15 @@ and more than 1.5x faster for the ideal MHD equations than the Fortran code FLUX
 It is also possible to see the additional computational effort for the entropy-conservative flux
 differencing DG methods for both physical systems. This is because the numerical fluxes are more
 expensive in
-terms of computational cost, and require special care to optimize their performance~\cite{hendrik_blog}.
+terms of computational cost, and require special care to optimize their performance~\cite{hendrik_blog,ranocha2021efficient}.
 We reiterate that both codes implement the same numerical nodal DG methods on curvilinear meshes used in these tests.
 This demonstrates the suitability of Julia for this kind of simulation-focused scientific computing.
 
 While our Julia code is faster than the mature HPC Fortran code FLUXO for this non-trivial
 example, we do not claim that Julia is generally faster than Fortran, C, or C++.
-Instead, we would like to emphasize that Julia code can be \emph{at least
-as fast} as code written in these traditional scientific computing languages.
+Instead, we would like to emphasize that well-written Julia code can be \emph{at least
+as fast} as code written in these traditional scientific computing languages,
+as demonstrated also by several microbenchmarks \cite{bezanson2017julia}.
 Further, we expect to be able to achieve similar performance with either language
 by spending enough time and effort to optimize the respective codes.
 \trixi owes its performance optimizations in part to the code introspection and
