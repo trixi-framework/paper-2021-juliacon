@@ -182,8 +182,7 @@ repository for this article \cite{ranocha2021adaptiveRepro}.
 Figure~\ref{fig:jet} demonstrates sub-cell entropy-dissipative shock-capturing
 methods with sub-cell positivity-preserving limiters and adaptive mesh refinement applied
 to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillation}.
-\begin{figure}[!h]
-\vspace{-0.7em}
+\begin{figure}[!hb]
   \begin{subfigure}{0.53\linewidth}
     \includegraphics[width=\textwidth]{../figures/jet_density}
     \caption{Density at time $t = 10^{-3}$.}
@@ -193,17 +192,17 @@ to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillatio
     \includegraphics[width=\textwidth]{../figures/jet_mesh}
     \caption{Mesh at time $t = 10^{-3}$.}
   \end{subfigure}%
+  \setlength{\belowcaptionskip}{-1em}
   \caption{Numerical solutions of a supersonic jet with Mach number 2000 using
            sub-cell entropy-dissipative shock-capturing methods with sub-cell positivity-preserving
            limiters and adaptive mesh refinement for the compressible Euler equations.}
   \label{fig:jet}
-\vspace{-0.7em}
 \end{figure}
 
 Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
-\begin{figure}[!h]
+\begin{figure}[!ht]
   \begin{subfigure}{0.53\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
     \caption{Density at time $t = 2$.}
@@ -223,11 +222,11 @@ classical Kelvin-Helmholtz flow instability problem.
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t3}
     \caption{Mesh at time $t = 3$.}
   \end{subfigure}%
+  \setlength{\belowcaptionskip}{-1em}
   \caption{Numerical solutions of a Kelvin-Helmholtz instability using
            entropy-stable methods and adaptive mesh refinement for the
            compressible Euler equations.}
   \label{fig:kelvin_helmholtzs}
-\vspace{-0.7em}
 \end{figure}
 
 Figure~\ref{fig:pressure_waves} shows the approximation
@@ -235,8 +234,7 @@ of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
 curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
 (Figure~\ref{fig:ginger_mesh}) was generated with
 HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
-\begin{figure}[!h]
-\vspace{-0.7em}
+\begin{figure}[!hb]
   \begin{subfigure}{0.475\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_00}
     \caption{Acoustic pressure at time $t = 0$.}
@@ -257,6 +255,7 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
     \caption{Unstructured quad mesh.}
     \label{fig:ginger_mesh}
   \end{subfigure}%
+  \setlength{\belowcaptionskip}{-1em}
   \caption{Numerical solutions of pressure wave scattering for the acoustic
                 perturbation equations at three points in time as well as the unstructured,
                 curvilinear quadrilateral mesh.}
