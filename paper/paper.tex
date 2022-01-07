@@ -119,8 +119,9 @@ quantities are denoted as $u$, \eg, mass, momentum, and energy for the compressi
 Euler equations of an ideal gas.
 The physical system is specified by the fluxes $f^j$ and the source term $s$.
 In addition, suitable initial and boundary conditions (ICs, BCs) are required.
-\trixi also handles non-conservative PDE terms as in the shallow water equations or magnetohydrodynamics equations
-with divergence cleaning.
+\trixi also handles non-conservative PDE terms as in the shallow water equations
+or magnetohydrodynamics equations with divergence cleaning, where source terms
+can depend on derivatives of~$u$.
 
 
 \subsection{Main features of Trixi.jl}
