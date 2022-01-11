@@ -715,7 +715,15 @@ Further, we expect to be able to achieve similar performance with either languag
 by spending enough time and effort to optimize the respective codes.
 \trixi owes its performance optimizations in part to the code introspection and
 profiling tools available in Julia. Similar tools used to optimize the performance in other
-languages are often not as easy to use as their Julia counterparts.
+languages are often not as easy to use as their Julia counterparts. Therefore,
+we developed some additional performance improvements in \trixi and ported them
+to FLUXO later \cite{ranocha2021efficient}. Moreover, \trixi uses slightly
+different implementations of computationally intensive kernels and stores a bit
+less information in RAM, recomputing some terms instead. Additionally, the
+manufactured solution of the compressible Euler equations uses source terms
+containing sine and cosine terms, which are computed together by \lstinline{sincos}
+in \trixi but require individual calls to \lstinline{sin} and \lstinline{cos} in
+FLUXO.
 
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
