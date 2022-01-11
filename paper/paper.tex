@@ -720,8 +720,8 @@ profiling tools available in Julia. Similar tools used to optimize the performan
 languages are often not as easy to use as their Julia counterparts. Therefore,
 we developed some additional performance improvements in \trixi and ported them
 to FLUXO later \cite{ranocha2021efficient}. Moreover, \trixi uses slightly
-different implementations of computationally intensive kernels and stores a bit
-less information in RAM, recomputing some terms instead. Additionally, the
+different implementations of computationally intensive kernels and stores marginally
+less information in memory, recomputing some terms instead. Additionally, the
 manufactured solution of the compressible Euler equations uses source terms
 containing sine and cosine terms, which are computed together by \lstinline{sincos}
 in \trixi but require individual calls to \lstinline{sin} and \lstinline{cos} in
@@ -1029,19 +1029,19 @@ Research Council through grant agreement no. 2018-05973.
 
 \appendix
 
-Julia does not perform automatic fused multiply-add (FMA) contraction, that is
+Julia does not perform automatic fused multiply-add (FMA) contraction, i.e.,
 replacing a multiplication followed by an addition with a single FMA instruction,
 as it is inconsistent with its strict floating point semantics.
-In other compilers, this optimization is controlled by a global compiler option
-(\lstinline{-ffp-contract} in GCC and Clang) and often enabled at reasonable
+In other compilers, this optimization can be controlled by a global compiler option
+(\lstinline{-ffp-contract} in GCC and Clang) and is often enabled at reasonable
 optimization levels such as \lstinline{-O2} for GCC and Intel compilers\footnote{%
 An interesting coincidence is that not only Julia but most LLVM-based frontends
 tend not to enable FMA contraction by default.}.
 In Julia, FMA contraction is controlled more locally: the
-\lstinline{muladd}%\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
+\lstinline{muladd} %\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
 intrinsic function allows the compiler to evaluate a multiply-add using the most
 efficient method. Relying on Julia's code manipulation techniques, the
-\lstinline{@muladd}%\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
+\lstinline{@muladd} %\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
 macro makes it convenient to use the \lstinline{muladd} function by
 syntactically rewriting expressions to insert \lstinline{muladd} in appropriate
 locations.
