@@ -759,11 +759,12 @@ in classical programming languages such as C and Fortran are still dominant
 
 As demonstrated in Section~\ref{sec:performance-comparison},
 Julia is not generically slower than traditional high-performance programming
-languages like C, C++, and Fortran. A minor exception is due to
-Julia being built on top of LLVM, which does not perform the same optimizations as other
-C/C++/Fortran compilers. In particular, most LLVM frontends (including Julia) do
-not enable fused multiply-add (FMA) contraction by default, while GCC and Intel
-compilers do. Thus, one must opt-in to these optimizations explicitly.
+languages like C, C++, and Fortran. A minor exception in the context of scientific
+computing relying on floating point operations is that Julia does not enable
+fused multiply-add (FMA) contraction by default, while GCC and Intel compilers
+do\footnote{An interesting coincidence is that not only Julia but most LLVM-based
+frontends tend not to enable FMA contraction by default.}.
+Thus, one must opt-in to these optimizations explicitly.
 Relying on Julia's code manipulation techniques, this can be achieved with the macro
 \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}},
 which makes it convenient to use Julia's function \lstinline{muladd}\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}.
