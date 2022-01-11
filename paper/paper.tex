@@ -184,12 +184,12 @@ methods with sub-cell positivity-preserving limiters and adaptive mesh refinemen
 to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillation}.
 \begin{figure}[!h]
 \vspace{-0.7em}
-  \begin{subfigure}{0.53\linewidth}
+  \begin{subfigure}{0.52\linewidth}
     \includegraphics[width=\textwidth]{../figures/jet_density}
     \caption{Density at time $t = 10^{-3}$.}
   \end{subfigure}%
   \hspace*{\fill}
-  \begin{subfigure}{0.47\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/jet_mesh}
     \caption{Mesh at time $t = 10^{-3}$.}
   \end{subfigure}%
@@ -204,22 +204,22 @@ Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
 \begin{figure}[!h]
-  \begin{subfigure}{0.53\linewidth}
+  \begin{subfigure}{0.52\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
     \caption{Density at time $t = 2$.}
   \end{subfigure}%
   \hspace*{\fill}
-  \begin{subfigure}{0.47\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t2}
     \caption{Mesh at time $t = 2$.}
   \end{subfigure}%
   \\
-  \begin{subfigure}{0.53\linewidth}
+  \begin{subfigure}{0.52\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t3}
     \caption{Density at time $t = 3$.}
   \end{subfigure}%
   \hspace*{\fill}
-  \begin{subfigure}{0.47\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_mesh_t3}
     \caption{Mesh at time $t = 3$.}
   \end{subfigure}%
@@ -237,22 +237,22 @@ curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simul
 HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
 \begin{figure}[!h]
 \vspace{-0.7em}
-  \begin{subfigure}{0.475\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_00}
     \caption{Acoustic pressure at time $t = 0$.}
   \end{subfigure}%
   \hspace*{\fill}
-  \begin{subfigure}{0.475\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_08}
     \caption{Acoustic pressure at time $t = 8$.}
   \end{subfigure}%
   \\
-  \begin{subfigure}{0.475\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_16}
     \caption{Acoustic pressure at time $t = 16$.}
   \end{subfigure}%
   \hspace*{\fill}
-  \begin{subfigure}{0.475\linewidth}
+  \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_mesh}
     \caption{Unstructured quad mesh.}
     \label{fig:ginger_mesh}
@@ -274,7 +274,8 @@ and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, which is p
 of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
 
 \begin{figure*}[htbp]
-  \includegraphics[width=\linewidth]{../figures/trixi_global_overview}
+\centering
+  \includegraphics[width=0.9\linewidth]{../figures/trixi_global_overview}
   \caption{Schematic overview of the basic components in \trixi and how they
            interact.}
   \label{fig:trixi_global_overview}
@@ -485,7 +486,8 @@ The curved mesh and the initial density for the compressible Euler problem are
 visualized in Figure~\ref{fig:pid_euler_mesh}.
 
 \begin{figure}[!h]
-  \includegraphics[width=\linewidth]{../figures/pid_euler_mesh}
+\centering
+  \includegraphics[width=0.9\linewidth]{../figures/pid_euler_mesh}
   \caption{Initial density of the compressible Euler problem on a slice of the
            periodic, curved mesh used for the performance benchmarks.}
   \label{fig:pid_euler_mesh}
@@ -715,7 +717,15 @@ Further, we expect to be able to achieve similar performance with either languag
 by spending enough time and effort to optimize the respective codes.
 \trixi owes its performance optimizations in part to the code introspection and
 profiling tools available in Julia. Similar tools used to optimize the performance in other
-languages are often not as easy to use as their Julia counterparts.
+languages are often not as easy to use as their Julia counterparts. Therefore,
+we developed some additional performance improvements in \trixi and ported them
+to FLUXO later \cite{ranocha2021efficient}. Moreover, \trixi uses slightly
+different implementations of computationally intensive kernels and stores marginally
+less information in memory, recomputing some terms instead. Additionally, the
+manufactured solution of the compressible Euler equations uses source terms
+containing sine and cosine terms, which are computed together by \lstinline{sincos}
+in \trixi but require individual calls to \lstinline{sin} and \lstinline{cos} in
+FLUXO.
 
 Finally, the different mesh types available in \trixi allow further optimizations.
 For example, if the computational domain is essentially a cube (or square, line)
@@ -751,13 +761,14 @@ in classical programming languages such as C and Fortran are still dominant
 
 As demonstrated in Section~\ref{sec:performance-comparison},
 Julia is not generically slower than traditional high-performance programming
-languages like C, C++, and Fortran. A minor exception is due to
-Julia being built on top of LLVM, which does not perform the same optimizations as other
-C/C++/Fortran compilers. In particular, LLVM does
-not use fused multiply-add (FMA) instructions by default, while GCC and Intel
-compilers do. Thus, one must opt-in to these optimizations explicitly.
-Relying on Julia's code manipulation techniques, this can be achieved with the macro
-\lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}.
+languages like C, C++, and Fortran. A minor exception in the context of scientific
+computing relying on floating point operations is that Julia does not perform
+automatic fused multiply-add (FMA) contraction, which can be remedied by
+explicitly using the
+\lstinline{muladd}\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
+function or the more convenient
+\lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
+macro (for more details see the appendix).
 
 \subsubsection{Julia encourages good software development practices}
 
@@ -1014,6 +1025,26 @@ Research Council through grant agreement no. 2018-05973.
 
 % References
 \input{bib.tex}
+
+
+\appendix
+
+Julia does not perform automatic fused multiply-add (FMA) contraction, i.e.,
+replacing a multiplication followed by an addition with a single FMA instruction,
+as it is inconsistent with its strict floating point semantics.
+In other compilers, this optimization can be controlled by a global compiler option
+(\lstinline{-ffp-contract} in GCC and Clang) and is often enabled at reasonable
+optimization levels such as \lstinline{-O2} for GCC and Intel compilers\footnote{%
+An interesting coincidence is that not only Julia but most LLVM-based frontends
+tend not to enable FMA contraction by default.}.
+In Julia, FMA contraction is controlled more locally: the
+\lstinline{muladd} %\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
+intrinsic function allows the compiler to evaluate a multiply-add using the most
+efficient method. Relying on Julia's code manipulation techniques, the
+\lstinline{@muladd} %\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
+macro makes it convenient to use the \lstinline{muladd} function by
+syntactically rewriting expressions to insert \lstinline{muladd} in appropriate
+locations.
 
 
 \end{document}
