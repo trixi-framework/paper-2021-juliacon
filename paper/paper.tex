@@ -763,21 +763,12 @@ As demonstrated in Section~\ref{sec:performance-comparison},
 Julia is not generically slower than traditional high-performance programming
 languages like C, C++, and Fortran. A minor exception in the context of scientific
 computing relying on floating point operations is that Julia does not perform
-automatic fused multiply-add (FMA) contraction, that is replacing a multiplication
-followed by an addition with a single FMA instruction, as it is inconsistent
-with its strict floating point semantics. In other compilers, this optimization
-is controlled by a global compiler option (\lstinline{-ffp-contract} in GCC and
-Clang) and often enabled at reasonable optimization levels such as \lstinline{-O2}
-for GCC and Intel compilers\footnote{An interesting coincidence is that not only
-Julia but most LLVM-based frontends tend not to enable FMA contraction by default.}.
-In Julia, FMA contraction is controlled more locally: the
+automatic fused multiply-add (FMA) contraction, which can be remedied by
+explicitly using the
 \lstinline{muladd}\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
-intrinsic function allows the compiler to evaluate a multiply-add using the most
-efficient method. Relying on Julia's code manipulation techniques, the
+function or the more convenient
 \lstinline{@muladd}\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
-macro makes it convenient to use the \lstinline{muladd} function by
-syntactically rewriting expressions to insert \lstinline{muladd} in appropriate
-locations.
+macro (for more details see the appendix).
 
 \subsubsection{Julia encourages good software development practices}
 
@@ -1034,6 +1025,26 @@ Research Council through grant agreement no. 2018-05973.
 
 % References
 \input{bib.tex}
+
+
+\appendix
+
+Julia does not perform automatic fused multiply-add (FMA) contraction, that is
+replacing a multiplication followed by an addition with a single FMA instruction,
+as it is inconsistent with its strict floating point semantics.
+In other compilers, this optimization is controlled by a global compiler option
+(\lstinline{-ffp-contract} in GCC and Clang) and often enabled at reasonable
+optimization levels such as \lstinline{-O2} for GCC and Intel compilers\footnote{%
+An interesting coincidence is that not only Julia but most LLVM-based frontends
+tend not to enable FMA contraction by default.}.
+In Julia, FMA contraction is controlled more locally: the
+\lstinline{muladd}%\footnote{\url{https://docs.julialang.org/en/v1/base/math/\#Base.muladd}}
+intrinsic function allows the compiler to evaluate a multiply-add using the most
+efficient method. Relying on Julia's code manipulation techniques, the
+\lstinline{@muladd}%\footnote{\url{https://github.com/SciML/MuladdMacro.jl}}
+macro makes it convenient to use the \lstinline{muladd} function by
+syntactically rewriting expressions to insert \lstinline{muladd} in appropriate
+locations.
 
 
 \end{document}
