@@ -17,7 +17,8 @@
 % \sisetup{tight-spacing=true}
 
 % Use multiple images in a single environment
-\usepackage{subcaption}
+\usepackage[font=scriptsize]{subcaption} % required for the old LaTeX installation of whedon
+% \usepackage{subcaption} % required for newer LaTeX installations
 
 % Allow external generation of images to speed up compilation
 \usepackage{tikz}
@@ -203,7 +204,14 @@ to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillatio
 Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
-\begin{figure}[!h]
+
+Figure~\ref{fig:pressure_waves} shows the approximation
+of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
+curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
+(Figure~\ref{fig:ginger_mesh}) was generated with
+HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
+
+\begin{figure}[!ht]
   \begin{subfigure}{0.52\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
     \caption{Density at time $t = 2$.}
@@ -229,13 +237,8 @@ classical Kelvin-Helmholtz flow instability problem.
   \label{fig:kelvin_helmholtzs}
 \vspace{-0.7em}
 \end{figure}
-
-Figure~\ref{fig:pressure_waves} shows the approximation
-of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
-curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
-(Figure~\ref{fig:ginger_mesh}) was generated with
-HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
-\begin{figure}[!h]
+%
+\begin{figure}[!ht]
 \vspace{-0.7em}
   \begin{subfigure}{0.46\linewidth}
     \includegraphics[width=\textwidth]{../figures/ginger_time_00}
@@ -258,9 +261,10 @@ HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}
     \label{fig:ginger_mesh}
   \end{subfigure}%
   \caption{Numerical solutions of pressure wave scattering for the acoustic
-                perturbation equations at three points in time as well as the unstructured,
-                curvilinear quadrilateral mesh.}
+                perturbation equations at three points in time as well as
+                the unstructured, curvilinear quadrilateral mesh.}
   \label{fig:pressure_waves}
+\vspace{-0.7em}
 \end{figure}
 
 
@@ -273,12 +277,13 @@ integration method. Currently, \trixi focuses on the spatial semidiscretization
 and uses mostly Runge-Kutta methods implemented in OrdinaryDiffEq.jl, which is part
 of DifferentialEquations.jl \cite{rackauckas2017differentialequations}.
 
-\begin{figure*}[htbp]
+\begin{figure*}[th]
 \centering
   \includegraphics[width=0.9\linewidth]{../figures/trixi_global_overview}
   \caption{Schematic overview of the basic components in \trixi and how they
            interact.}
   \label{fig:trixi_global_overview}
+\vspace{-0.7em}
 \end{figure*}
 
 Figure~\ref{fig:trixi_global_overview} presents an overview of the basic
