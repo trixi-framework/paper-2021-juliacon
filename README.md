@@ -2,6 +2,7 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-success.svg)](https://opensource.org/licenses/MIT)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5201484.svg)](https://doi.org/10.5281/zenodo.5201484)
+[![status](https://proceedings.juliacon.org/papers/e0a710cb74904fbd77e6528d4b55c7ce/status.svg)](https://proceedings.juliacon.org/papers/e0a710cb74904fbd77e6528d4b55c7ce)
 
 This repository contains the source files of the paper on
 [Trixi.jl](https://github.com/trixi-framework/Trixi.jl) to be submitted
