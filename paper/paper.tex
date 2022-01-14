@@ -203,6 +203,13 @@ to an astrophysical supersonic jet with Mach number 2000 \cite{liu2021oscillatio
 Figure~\ref{fig:kelvin_helmholtzs} demonstrates nonlinear stability
 obtained with entropy-stable methods and adaptive mesh refinement applied to a
 classical Kelvin-Helmholtz flow instability problem.
+
+Figure~\ref{fig:pressure_waves} shows the approximation
+of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
+curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
+(Figure~\ref{fig:ginger_mesh}) was generated with
+HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
+%
 \begin{figure}[!h]
   \begin{subfigure}{0.52\linewidth}
     \includegraphics[width=\textwidth]{../figures/kelvin_helmholtz_density_t2}
@@ -229,12 +236,7 @@ classical Kelvin-Helmholtz flow instability problem.
   \label{fig:kelvin_helmholtzs}
 \vspace{-0.7em}
 \end{figure}
-
-Figure~\ref{fig:pressure_waves} shows the approximation
-of acoustic perturbation equations~\cite{ewert2003acoustic} wave scattering on a
-curvilinear and unstructured domain. The 2D quadrilateral mesh used in the simulation
-(Figure~\ref{fig:ginger_mesh}) was generated with
-HOHQMesh.jl\xspace\footnote{\url{https://github.com/trixi-framework/HOHQMesh.jl}}.
+%
 \begin{figure}[!h]
 \vspace{-0.7em}
   \begin{subfigure}{0.46\linewidth}
